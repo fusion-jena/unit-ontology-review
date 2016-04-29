@@ -4,18 +4,24 @@ The included scripts enable an evaluation of ontologies in the field of measurem
 They implement the approach described in a paper currently under review.
 For an general overview please refer to the Structure of files.
 
-# Dependencies and Setup
+# Dependencies
 
-For execution at NodeJS in at least version 5 is required.
-JavaScript dependencies are listed in the packages.json file and can be installed using 
-`npm install`
+* [NodeJS](https://nodejs.org/) at least version 5
 
+If individuals should be extracted or new ontologies are to be added:
+* [Sesame](http://rdf4j.org/)
 
-If individuals should be extracted or new ontologies are to be added, an installtion of Sesame with at least one accessible repository of type `Nativ Java Store RDF Schema` is needed.
-The store to be used, has to be configured in `/analysis/config/config.js`
+# Installation
+
+* Install JavaScript dependencies listed in `/analysis/packages.json` using `npm install`.
+
+If individuals should be extracted or new ontologies are to be added:
+
+* Create a `Nativ Java Store RDF Schema` repository (default name: `units`) in Sesame.
+* Create a configuration file `/analysis/config/config.js` (copy `/analysis/config/config.default.js`) and set the URL of the Sesame SPARQL endpoint.
+
 Alternativly, one can use the already extracted set of individuals listed under Precomputed Results.
-The provided files and folders should then be placed in a subfolder /res
-
+The provided files and folders should then be placed in a subfolder `/res`.
 
 # Running
 
