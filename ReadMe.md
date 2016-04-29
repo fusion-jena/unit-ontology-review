@@ -1,3 +1,5 @@
+Note: License and DOI will be provided very soon.
+
 The included scripts enable an evaluation of ontologies in the field of measurement units.
 They implement the approach described in a paper currently under review.
 For an general overview please refer to the Structure of files.
