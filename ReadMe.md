@@ -19,7 +19,7 @@ The provided files and folders should then be placed in a subfolder /res
 
 To actually run the scripts, there are a few different options:
 
-1. Each file can be run individually. Note, that in this case the results of all dependencies have to be present in the /res folder.
+1. Each file can be run individually. Note, that in this case the results of all dependencies have to be present in the `/res` folder.
 2. `0000 runAllScripts.js` will run all the scripts in their required order. As this included the extraction of individuals, please make sure a Sesame store is available and configured in `/analysis/config/config.default.js `
 3. If a certain number of scripts at the start should be skipped, please use `0010 runFromScript.js` and as a parameter add the (number of the) first script to run.
 To skip just the extraction of indivuals, please use
@@ -71,8 +71,8 @@ For reasons of licencing we can only provide the SPARQL queries used to extract 
 
 We provide precomputed results in two ways, which can be found using the following links:
 
-* Result files of individual extraction
-* Result files of analysis
+* Result files of individual extraction: *link will be added very soon*
+* Result files of analysis: *link will be added very soon*
 
 # Citation
 
