@@ -2,7 +2,7 @@ Note: License and DOI will be provided very soon.
 
 The included scripts enable an evaluation of ontologies in the field of measurement units.
 They implement the approach described in a paper currently under review.
-For an general overview please refer to the Structure of files.
+For an general overview please refer to File and Folder Structure.
 
 # Dependencies
 
@@ -17,10 +17,10 @@ If individuals should be extracted or new ontologies are to be added:
 
 If individuals should be extracted or new ontologies are to be added:
 
-* Create a `Nativ Java Store RDF Schema` repository (default name: `units`) in Sesame.
+* Create a `Native Java Store RDF Schema` repository (default name: `units`) in Sesame.
 * Create a configuration file `/analysis/config/config.js` (copy `/analysis/config/config.default.js`) and set the URL of the Sesame SPARQL endpoint.
 
-Alternativly, one can use the already extracted set of individuals listed under Precomputed Results.
+Alternatively, one can use the already extracted set of individuals listed under Precomputed Results.
 The provided files and folders should then be placed in a subfolder `/res`.
 
 # Running
@@ -28,9 +28,9 @@ The provided files and folders should then be placed in a subfolder `/res`.
 To actually run the scripts, there are a few different options:
 
 1. Each file can be run individually. Note, that in this case the results of all dependencies have to be present in the `/res` folder.
-2. `0000 runAllScripts.js` will run all the scripts in their required order. As this included the extraction of individuals, please make sure a Sesame store is available and configured in `/analysis/config/config.default.js `
+2. `0000 runAllScripts.js` will run all the scripts in their required order. As this included the extraction of individuals, please make sure a Sesame store is available and configured in `/analysis/config/config.js `
 3. If a certain number of scripts at the start should be skipped, please use `0010 runFromScript.js` and as a parameter add the (number of the) first script to run.
-To skip just the extraction of indivuals, please use
+To skip just the extraction of individuals, please use
 `node 0010 runFromScript.js 1000`
 4. If only a specific sequence of scripts should be run, use `0020 runScripts.js` and add as parameters the numbers for all scripts to be run. Note, that this will not check for any dependencies, so managing them is up to the user. An example refreshing the mapping units and their output to HTML might look like
 `node 0020 runScripts.js 4100 9100 9101`
@@ -50,8 +50,8 @@ Files are generally placed under the following subfolders:
 * `/templates`  HTML templates used for output generation
 
 The numbering of scripts roughly follows the approach given in the paper, but also adds some implementation specific sections.
-Furthermore, the number signales the execution order of scripts.
-For depenedencies of the scripts please run `0100 listFiles.js` and refer to the respective output.
+Furthermore, the number signals the execution order of scripts.
+For dependencies of the scripts please run `0100 listFiles.js` and refer to the respective output.
 
 * 0000 - 0499 administrative scripts, e.g., used to control execution of scripts 
 * 0500 - 0999 extraction of individuals
@@ -65,7 +65,7 @@ For depenedencies of the scripts please run `0100 listFiles.js` and refer to the
 
 # Obtaining Ontology files
 
-For reasons of licencing we can only provide the SPARQL queries used to extract the individuals, but not the ontology files themselves. Please refer to the respective ontologies to obtain the required files:
+For reasons of licensing we can only provide the SPARQL queries used to extract the individuals, but not the ontology files themselves. Please refer to the respective ontologies to obtain the required files:
 
 * MUO: http://idi.fundacionctic.org/muo/
 * OBOE: https://semtools.ecoinformatics.org/oboe
