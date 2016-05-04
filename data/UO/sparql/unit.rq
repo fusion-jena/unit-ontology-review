@@ -1,0 +1,14 @@
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+prefix uo: <http://purl.obolibrary.org/obo/uo#>
+
+SELECT ?unit ?label ?symbol ?definition
+WHERE {
+  {?unit oboInOwl:inSubset uo:unit_slim.
+    FILTER (?unit NOT IN (obo:UO_0000180, obo:UO_0000237, obo:UO_0000238, obo:UO_0000260, obo:UO_0000310, obo:UO_0000312, obo:UO_0000313, obo:UO_0000314))}
+  UNION
+  {VALUES ?unit {obo:UO_0000316 obo:UO_0000317 obo:UO_0000318 obo:UO_0000320 obo:UO_0000322 obo:UO_0000323 obo:UO_0000324 obo:UO_0000328 obo:UO_0000331 obo:UO_0000332 obo:UO_0000277 obo:UO_0000278}}.
+  ?unit  rdfs:label ?label.
+  OPTIONAL {?unit obo:IAO_0000115 ?definition}
+}

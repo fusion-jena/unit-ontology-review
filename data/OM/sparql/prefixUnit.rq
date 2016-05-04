@@ -1,0 +1,28 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT DISTINCT
+        ?unit
+        ?prefix
+        ?baseUnit
+WHERE {
+
+# prefixed singular units
+  {
+    ?unit a                 om:Unit_of_measure ;
+          om:prefix         ?prefix ;
+          om:singular_unit  ?baseUnit .
+  }
+  UNION
+  
+# prefix compound units
+  {
+    ?unit a om:Unit_of_measure ;
+        (om:term_1|om:term_2|om:denominator|om:numerator|om:base)+     ?compound .
+  
+    FILTER EXISTS { 
+      ?compound om:prefix        ?cPrefix ; 
+                om:singular_unit ?cBase .
+    }
+    
+  }
+}

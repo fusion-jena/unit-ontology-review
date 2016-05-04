@@ -1,0 +1,31 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX oboe: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#>
+PREFIX oboeStandards: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl#>
+PREFIX oboe-core: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#>
+
+SELECT ?unit1 ?unit2 ?convFactor ?convOffset
+WHERE {
+  ?conversion rdfs:subClassOf oboe:UnitConversion.
+  OPTIONAL {
+    ?conversion rdfs:subClassOf ?hasSourceUnit.
+    ?hasSourceUnit owl:onProperty oboe:hasSourceUnit.
+    ?hasSourceUnit owl:allValuesFrom ?unit1.
+  }
+  OPTIONAL {
+    ?conversion rdfs:subClassOf ?hasTargetUnit.
+    ?hasTargetUnit owl:onProperty oboe:hasTargetUnit.
+    ?hasTargetUnit owl:allValuesFrom ?unit2.
+  }
+  OPTIONAL {
+    ?conversion rdfs:subClassOf ?hasMultiplier.
+    ?hasMultiplier owl:onProperty oboe:hasMultiplier.
+    ?hasMultiplier owl:hasValue ?convFactor.
+  }
+  OPTIONAL {
+    ?conversion rdfs:subClassOf ?hasOffset.
+    ?hasOffset owl:onProperty oboe:hasOffset.
+    ?hasOffset owl:hasValue ?convOffset.
+  }
+  FILTER (?conversion != oboe-core:UnitConversion)
+}

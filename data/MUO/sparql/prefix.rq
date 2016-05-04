@@ -1,0 +1,9 @@
+PREFIX muo: <http://purl.oclc.org/NET/muo/muo#>
+PREFIX ucum: <http://purl.oclc.org/NET/muo/ucum/>
+
+SELECT ?prefix ?label ?factor
+WHERE {
+  ?prefix a muo:Prefix;
+    rdfs:label ?label;
+    muo:factor ?factor.
+}

@@ -1,0 +1,21 @@
+PREFIX qudt:          <http://qudt.org/schema/qudt#>
+PREFIX qudt-quantity: <http://qudt.org/vocab/quantity#> 
+
+SELECT  ?unit1
+        ?unit2
+        ?convFactor
+        ?convOffset
+WHERE {
+
+  ?unit1 a qudt:Unit .
+  ?unit2 a qudt:BaseUnit .
+  
+  ?unit1 qudt:quantityKind ?dim .
+  ?unit2 qudt:quantityKind ?dim .
+  
+  ?unit1 qudt:conversionMultiplier  ?convFactor ;
+         qudt:conversionOffset      ?convOffset .
+         
+  FILTER NOT EXISTS { ?unit1 a qudt:PrefixUnit . }
+  FILTER ( ?unit1 != ?unit2 )
+}

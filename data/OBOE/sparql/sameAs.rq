@@ -1,0 +1,15 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT ?object ?sameAs WHERE {}
+
+# sameAs relations provided are wrong (if being precise) and thereby disrupt the mapping process
+#SELECT ?object ?sameAs
+#WHERE {
+#  {?object owl:equivalentClass ?sameAs.}
+#  UNION
+#  {?object owl:sameAs ?sameAs.}
+#  
+#  FILTER( !isBlank( ?object ) )
+#  FILTER( !isBlank( ?sameAs ) )
+#  
+#}

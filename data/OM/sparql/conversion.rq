@@ -1,0 +1,48 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT  ?unit1
+        ?unit2
+        ?convFactor
+        ?convOffset
+WHERE {
+
+  ?unit1 a om:Unit_of_measure .
+  ?unit2 a om:Unit_of_measure .
+  
+# conversion by prefix
+  {
+    ?unit1  om:singular_unit    ?unit2 .
+    ?unit1  om:prefix/om:factor ?convFactor .
+    BIND( 0 AS ?convOffset ) .
+  }
+
+  UNION
+  
+# direct conversion
+  {
+    ?unit1  om:definition   ?def .
+    ?def    om:unit_of_measure_or_measurement_scale ?unit2 ;
+            om:numerical_value                      ?convFactor .
+    BIND( 0 AS ?convOffset ) .
+    
+    FILTER NOT EXISTS {
+      ?scale a                   om:Measurement_scale ;
+             om:unit_of_measure  ?unit1 .
+    }
+  }
+
+  UNION 
+  
+# conversion by scale
+  {
+    ?scale1 a                   om:Measurement_scale ;
+            om:unit_of_measure  ?unit1 .
+    ?scale2 a                   om:Measurement_scale ;
+            om:unit_of_measure  ?unit2 .
+            
+    ?scale2 om:definition_factor      ?convFactor ;
+            om:definition_off-set     ?convOffset ;
+            om:definition_relative_to ?scale1 .
+  }
+
+}

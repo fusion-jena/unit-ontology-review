@@ -1,0 +1,9 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?system
+        ?label
+WHERE {
+  ?system a           qudt:SystemOfUnits ;
+        rdfs:label ?label .
+}

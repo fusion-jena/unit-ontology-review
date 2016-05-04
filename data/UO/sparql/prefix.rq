@@ -1,0 +1,9 @@
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix obo: <http://purl.obolibrary.org/obo/>
+
+SELECT ?prefix ?label ?factor
+WHERE {
+  ?prefix rdfs:subClassOf obo:UO_0000046. # "obo:UO_0000046" is the prefix class
+  ?prefix rdfs:label ?label.
+  FILTER (?prefix != obo:UO_0000046)
+}

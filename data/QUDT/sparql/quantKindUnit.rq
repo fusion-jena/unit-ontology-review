@@ -1,0 +1,15 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+
+SELECT  ?quantKind
+        ?unit
+WHERE {
+  ?baseQuantKind a                    qudt:QuantityKind ;
+                 qudt:generalization* ?quantKind .
+  
+  ?unit a                 qudt:Unit ;
+        qudt:quantityKind ?baseQuantKind .
+  
+  FILTER NOT EXISTS {
+    ?unit a qudt:PrefixUnit .
+  }
+}

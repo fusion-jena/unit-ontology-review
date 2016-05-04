@@ -1,0 +1,9 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT  ?dimension
+        ?unit
+WHERE {
+  ?dimension  a             om:Dimension .  
+  ?unit       a             om:Unit_of_measure ;
+              om:dimension  ?dimension .
+}

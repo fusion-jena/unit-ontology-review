@@ -1,0 +1,13 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX muo: <http://purl.oclc.org/NET/muo/muo#>
+PREFIX ucum: <http://purl.oclc.org/NET/muo/ucum/>
+
+SELECT DISTINCT ?unit ?label (IF(BOUND(?symbolA),?symbolA,IF(BOUND(?symbolB),?symbolB,IF(BOUND(?symbolC),?symbolC,?symbolD))) AS ?symbol)
+WHERE {
+  ?unit a/rdfs:subClassOf muo:UnitOfMeasurement.
+  OPTIONAL {?unit rdfs:label ?label.}
+  OPTIONAL {?unit ucum:code1 ?symbolA.}
+  OPTIONAL {?unit muo:prefSymbol ?symbolB.}
+  OPTIONAL {?unit ucum:code2 ?symbolC.}
+  OPTIONAL {?unit muo:altSymbol ?symbolD.}
+}

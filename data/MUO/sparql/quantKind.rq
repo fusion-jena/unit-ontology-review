@@ -1,0 +1,7 @@
+PREFIX muo: <http://purl.oclc.org/NET/muo/muo#>
+PREFIX ucum: <http://purl.oclc.org/NET/muo/ucum/>
+
+SELECT ?quantKind ?label
+WHERE {
+  ?quantKind a muo:PhysicalQuality.
+}

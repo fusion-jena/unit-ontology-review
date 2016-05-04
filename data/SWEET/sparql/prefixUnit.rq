@@ -1,0 +1,8 @@
+prefix sweetUnits: <http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#>
+prefix sweetSci: <http://sweet.jpl.nasa.gov/2.3/relaSci.owl#>
+
+SELECT ?unit ?prefix ?baseUnit
+WHERE {
+  ?unit sweetSci:hasPrefix ?prefix
+  OPTIONAL {?unit sweetSci:hasBaseUnit ?baseUnit}
+}

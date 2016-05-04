@@ -1,0 +1,74 @@
+PREFIX qudt:            <http://qudt.org/schema/qudt#>
+PREFIX qudt-quantity:   <http://qudt.org/vocab/quantity#>
+PREFIX qudt-quantity2:  <http://qudt.org/schema/quantity#>
+PREFIX rdfs:            <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?dimension
+        ?unit
+WHERE {
+
+  ?dimension a qudt:QuantityKind .
+  
+  ?unit a                 qudt:Unit ;
+        qudt:quantityKind ?dimension .
+  
+  FILTER NOT EXISTS {
+    ?unit a qudt:PrefixUnit .
+  }
+  
+  OPTIONAL {
+    ?dimension rdfs:label ?label .
+  }
+
+  OPTIONAL {
+
+    ?dimVector                            qudt:referenceQuantity  ?dimension .
+    qudt-quantity:SystemOfQuantities_SI   qudt:systemDimension    ?dimVector .
+    
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorLength .
+      ?dimVectorLength qudt:basisElement    qudt-quantity:Length ;
+                       qudt:vectorMagnitude ?dimLength .
+    }
+
+    
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorMass .
+      VALUES ?massEnities { qudt-quantity2:Mass qudt-quantity:Mass  }.
+      ?dimVectorMass   qudt:basisElement    ?massEnities ;
+                       qudt:vectorMagnitude ?dimMass .
+    }
+
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorTime .
+      ?dimVectorTime   qudt:basisElement    qudt-quantity:Time ;
+                       qudt:vectorMagnitude ?dimTime .
+    }
+
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorElec .
+      ?dimVectorElec   qudt:basisElement    qudt-quantity:ElectricCurrent ;
+                       qudt:vectorMagnitude ?dimElec .
+    }
+
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorThermo .
+      ?dimVectorThermo qudt:basisElement    qudt-quantity:ThermodynamicTemperature ;
+                       qudt:vectorMagnitude ?dimThermo .
+    } 
+
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorAmount .
+      ?dimVectorAmount qudt:basisElement    qudt-quantity:AmountOfSubstance ;
+                       qudt:vectorMagnitude ?dimAmount .
+    }
+
+    OPTIONAL {
+      ?dimVector qudt:dimensionVector ?dimVectorLum .
+      ?dimVectorLum   qudt:basisElement     qudt-quantity:LuminousIntensity ;
+                      qudt:vectorMagnitude ?dimLum .
+    }
+  }
+  
+  FILTER( BOUND( ?dimAmount ) || BOUND( ?dimElec ) || BOUND( ?dimLength ) || BOUND( ?dimLum ) || BOUND( ?dimThermo ) || BOUND( ?dimTime ) || BOUND( ?dimMass ) )
+}

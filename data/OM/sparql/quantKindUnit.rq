@@ -1,0 +1,11 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?quantKind
+        ?unit
+WHERE {
+
+  ?quantKind rdfs:subClassOf    om:Quantity ;
+             om:unit_of_measure ?unit .
+  
+}

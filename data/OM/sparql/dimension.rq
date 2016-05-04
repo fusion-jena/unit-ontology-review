@@ -1,0 +1,24 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT  ?dimension
+        ?label
+        ?dimLength
+        ?dimMass
+        ?dimTime
+        ?dimElec
+        ?dimThermo
+        ?dimAmount
+        ?dimLum
+WHERE {
+  ?dimension a                                                  om:Dimension ;
+             rdfs:label                                         ?label ;
+             om:SI_length_dimension_exponent                    ?dimLength ;
+             om:SI_mass_dimension_exponent                      ?dimMass ;
+             om:SI_time_dimension_exponent                      ?dimTime ;
+             om:SI_electric_current_dimension_exponent          ?dimElec ;
+             om:SI_thermodynamic_temperature_dimension_exponent ?dimThermo ;
+             om:SI_amount_of_substance_dimension_exponent       ?dimAmount ;
+             om:SI_luminous_intensity_dimension_exponent        ?dimLum ;
+             
+  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+}

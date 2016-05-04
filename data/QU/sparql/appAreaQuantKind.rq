@@ -1,0 +1,6 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?appArea ?quantKind
+WHERE {
+  ?quantKind skos:inScheme ?appArea.
+}
