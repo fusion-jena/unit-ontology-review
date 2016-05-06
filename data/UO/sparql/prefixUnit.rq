@@ -1,0 +1,21 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?unit ?prefix ?baseUnit
+{
+  ?unit rdfs:subClassOf obo:UO_0000000; #class 'unit'
+    rdfs:label ?unitName.
+  FILTER (!STRENDS(?unitName,"unit"))
+  ?unit owl:equivalentClass/owl:intersectionOf/rdf:rest/rdf:first ?hasPrefix.
+  ?hasPrefix owl:onProperty obo:has_prefix;
+    owl:someValuesFrom ?prefix.
+  ?unit owl:equivalentClass/owl:intersectionOf/rdf:first ?basedUnitClass.
+  ?basedUnitClass rdfs:label ?basedUnitClassName.
+  ?basedUnitClassAncestor rdfs:subClassOf ?basedUnitClass.
+  ?basedUnitClassAncestor rdfs:subClassOf ?baseUnit.
+  ?baseUnit rdfs:label ?baseUnitName.
+  FILTER (?basedUnitClassName = CONCAT(?baseUnitName," based unit"))
+}
+ORDER BY ?unit ?baseUnitName

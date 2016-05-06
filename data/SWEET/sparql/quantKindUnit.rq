@@ -1,0 +1,18 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX relaSci: <http://sweet.jpl.nasa.gov/2.3/relaSci.owl#>
+PREFIX prop: <http://sweet.jpl.nasa.gov/2.3/prop.owl#>
+
+SELECT DISTINCT ?quantKind ?unit
+WHERE {
+  {?assignment owl:onProperty relaSci:hasDefaultUnit.}
+  UNION
+  {?assignment owl:onProperty relaSci:hasUnit.}
+  ?assignment  owl:hasValue ?unit.
+  ?relatedQuantKind rdfs:subClassOf ?assignment.
+  FILTER (?relatedQuantKind != ?assignment)
+  {?quantKind rdfs:subClassOf ?relatedQuantKind}
+  UNION
+  {?relatedQuantKind rdfs:subClassOf ?quantKind}
+  ?quantKind rdfs:subClassOf prop:Property.
+}

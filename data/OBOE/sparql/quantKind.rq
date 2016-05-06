@@ -1,0 +1,17 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX oboe: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#>
+
+SELECT ?quantKind ?label ?parent
+WHERE {
+  ?quantKind rdfs:subClassOf oboe:PhysicalCharacteristic.
+  OPTIONAL {?quantKind rdfs:subClassOf ?parent.
+    ?parent rdfs:subClassOf oboe:PhysicalCharacteristic.
+	FILTER NOT EXISTS {
+      ?sub rdfs:subClassOf ?parent.
+      ?quantKind rdfs:subClassOf ?sub.
+      FILTER (?quantKind != ?sub && ?sub != ?parent)
+    }
+    FILTER (?quantKind != ?parent && ?parent != oboe:PhysicalCharacteristic)
+  }
+  FILTER (?quantKind != oboe:PhysicalCharacteristic)
+}

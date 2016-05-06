@@ -1,0 +1,16 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
+PREFIX quUnit: <http://purl.oclc.org/NET/ssnx/qu/unit#>
+
+SELECT DISTINCT ?unit1 ?unit2 ?convFactor ?convOffset
+WHERE {
+  {
+	?unit1 quSchema:conversionFactor ?convFactor
+	OPTIONAL {?unit1 quSchema:conversionOffset ?convOffset}
+	OPTIONAL {?unit1 quSchema:referenceUnit ?unit2}
+  } UNION {
+	?unit1 quSchema:conversionOffset ?convOffset
+	OPTIONAL {?unit1 quSchema:conversionFactor ?convFactor}
+	OPTIONAL {?unit1 quSchema:referenceUnit ?unit2}
+  }
+}

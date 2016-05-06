@@ -1,0 +1,7 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
+
+SELECT ?quantKind ?unit
+WHERE {
+  ?unit quSchema:quantityKind ?quantKind.
+}

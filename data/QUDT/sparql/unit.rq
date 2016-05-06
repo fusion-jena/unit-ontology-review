@@ -1,0 +1,26 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vaem: <http://www.linkedmodel.org/schema/vaem#>
+
+SELECT DISTINCT
+        ?unit
+        ?label
+        ?symbol
+        ?definition
+WHERE {
+  ?unit a           qudt:Unit ;
+        rdfs:label  ?label .
+        
+  OPTIONAL { ?unit qudt:symbol ?symbol } .
+      
+  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  FILTER NOT EXISTS {
+    ?unit a qudt:PrefixUnit .
+  } .
+  
+  OPTIONAL {
+    {?unit qudt:description ?definition}
+    UNION
+    {?unit vaem:description ?definition}
+  }
+}

@@ -1,0 +1,9 @@
+PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
+PREFIX quUnit: <http://purl.oclc.org/NET/ssnx/qu/unit#>
+PREFIX quPrefix: <http://purl.oclc.org/NET/ssnx/qu/prefix#>
+
+SELECT ?unit ?prefix ?baseUnit
+WHERE {
+  ?unit quSchema:prefix ?prefix
+  OPTIONAL {?unit quSchema:referenceUnit ?baseUnit}
+}

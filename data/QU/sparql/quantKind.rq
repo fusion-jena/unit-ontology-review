@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
+PREFIX quDim: <http://purl.oclc.org/NET/ssnx/qu/dim#>
+
+SELECT ?quantKind ?label ?parent
+WHERE {
+  ?quantKind rdf:type/rdfs:subClassOf quSchema:QuantityKind;
+    rdfs:label ?label.
+}

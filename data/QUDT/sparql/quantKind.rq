@@ -1,0 +1,21 @@
+PREFIX qudt:            <http://qudt.org/schema/qudt#>
+PREFIX qudt-quantity:   <http://qudt.org/vocab/quantity#>
+PREFIX qudt-quantity2:  <http://qudt.org/schema/quantity#>
+PREFIX rdfs:            <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?quantKind
+        ?label
+      ?parent
+WHERE {
+
+  ?quantKind a qudt:QuantityKind .
+  OPTIONAL {
+    ?quantKind qudt:generalization ?parent .
+    ?parent    a                   qudt:QuantityKind .
+  }
+  
+  OPTIONAL {
+    ?quantKind rdfs:label ?label .
+  }
+
+}

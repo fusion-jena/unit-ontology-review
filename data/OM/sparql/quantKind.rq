@@ -1,0 +1,21 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?quantKind
+        ?label
+        ?parent
+WHERE {
+
+  ?quantKind rdfs:subClassOf om:Quantity ;
+             rdfs:label      ?label .
+  OPTIONAL { 
+    ?parent    rdfs:subClassOf om:Quantity .
+    ?quantKind rdfs:subClassOf ?parent .
+    FILTER( ?parent != om:Quantity )
+    FILTER( ?quantKind != ?parent )
+  }
+  
+  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  FILTER( ?quantKind != om:Quantity )
+  
+}

@@ -1,0 +1,21 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?system
+       ?unit
+        
+WHERE {
+  ?unit a qudt:Unit .
+
+  ?system a           qudt:SystemOfUnits ;
+          rdfs:label  ?label ;
+          ?memberProp ?unit .
+  
+  FILTER NOT EXISTS {
+    ?unit a qudt:PrefixUnit .
+  } .
+  
+  VALUES ?memberProp { qudt:systemAllowedUnit qudt:systemUnitweb qudt:systemDefinedUnit qudt:systemCoherentUnit qudt:systemBaseUnitweb qudt:systemDerivedUnit qudt:systemCoherentDerivedUnit qudt:systemPrefixUnit }
+  
+  ?system ?prop ?unit .
+}

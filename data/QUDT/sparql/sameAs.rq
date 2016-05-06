@@ -1,0 +1,12 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT  ?object
+        ?sameAs
+WHERE {
+  ?object a       qudt:Unit .
+  ?object (skos:exactMatch|skos:closeMatch) ?sameAs .
+
+  FILTER( !isBlank( ?object ) )
+  FILTER( !isBlank( ?sameAs ) )
+}

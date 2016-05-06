@@ -1,0 +1,21 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT
+        ?unit
+        ?label
+        ?symbol
+        ?definition
+WHERE {
+
+  ?unit a om:Unit_of_measure ;
+  
+  OPTIONAL { 
+    ?unit rdfs:label  ?label 
+    FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  }
+
+  OPTIONAL { ?unit om:symbol ?symbol }
+  OPTIONAL { ?unit rdfs:comment ?definition }
+
+}

@@ -1,0 +1,12 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?system
+        ?unit
+WHERE {
+  
+  ?unit   a          om:Unit_of_measure .
+  ?system a          om:System_of_units ;
+         (om:base_unit|om:derived_unit) ?unit .
+
+}

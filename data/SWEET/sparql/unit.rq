@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX units: <http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#>
+PREFIX relaSci: <http://sweet.jpl.nasa.gov/2.3/relaSci.owl#>
+
+SELECT DISTINCT ?unit ?label ?symbol
+WHERE {
+  ?unit a/rdfs:subClassOf units:Unit.
+	OPTIONAL {?unit relaSci:hasSymbol ?symbol.}
+}

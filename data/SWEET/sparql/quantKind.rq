@@ -1,0 +1,15 @@
+PREFIX prop: <http://sweet.jpl.nasa.gov/2.3/prop.owl#>
+
+SELECT ?quantKind ?label ?parent
+WHERE {
+	?quantKind rdfs:subClassOf prop:Property.
+	OPTIONAL {?quantKind rdfs:subClassOf ?parent.
+    ?parent rdfs:subClassOf prop:Property.
+	FILTER NOT EXISTS {
+      ?sub rdfs:subClassOf ?parent.
+      ?quantKind rdfs:subClassOf ?sub.
+      FILTER (?quantKind != ?sub && ?sub != ?parent)
+    }
+    FILTER (?quantKind != ?parent)
+  }
+}

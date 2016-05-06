@@ -1,0 +1,10 @@
+PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
+PREFIX quUnit: <http://purl.oclc.org/NET/ssnx/qu/unit#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?unit ?label ?symbol
+WHERE {
+	?unit a/rdfs:subClassOf* quSchema:Unit.
+	OPTIONAL {?unit rdfs:label ?label.}
+	OPTIONAL {?unit quSchema:symbol ?symbol.}
+}

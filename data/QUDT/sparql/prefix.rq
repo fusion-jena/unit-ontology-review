@@ -1,0 +1,13 @@
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?prefix
+                ?factor
+                ?label
+WHERE {
+  ?prefix a                         qudt:PrefixUnit ;
+          qudt:conversionMultiplier ?factor ;
+          rdfs:label                ?label .
+  
+  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+}
