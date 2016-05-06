@@ -1,18 +1,21 @@
 {
-  "name": "analysis",
+  "name": "unit-ontology-review",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "The included scripts enable an evaluation of ontologies in the field of measurement units.",
+  "main": "0000 runAllScripts.js",
+  "contributors": [
+    { "name": "Jan Martin Keil", "email": "jan-martin.keil@uni-jena.de", "url": "http://orcid.org/0000-0002-7733-0193" },
+    { "name": "Sirko Schindler", "email": "sirko.schindler@uni-jena.de", "url": "http://orcid.org/0000-0002-0964-4457" }
+  ],
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/fusion-jena/unit-ontology-review.git"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "mathjs": "^2.7.0",
     "mkdirp": "^0.5.1",
     "q": "^1.4.1",
-    "rdfstore": "^0.9.7",
     "request": "^2.67.0"
   }
 }

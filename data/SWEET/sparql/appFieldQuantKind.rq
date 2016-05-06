@@ -1,0 +1,13 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX hrela: <http://sweet.jpl.nasa.gov/2.3/relaHuman.owl#>
+
+SELECT DISTINCT ?appField ?quantKind
+WHERE {
+  ?assignment owl:onProperty hrela:studyOf.
+  {?assignment  owl:allValuesFrom ?appField.}
+  UNION
+  {?assignment  owl:someValuesFrom ?appField.}
+  ?quantKind rdfs:subClassOf ?assignment.
+  FILTER (?quantKind != ?assignment)
+}

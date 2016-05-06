@@ -1,9 +1,12 @@
 "use strict";
 /**
  * check, whether all referenced units and quantity kinds of quantKindUnit exist in the respective datasets
+ *
+ * output:
+ * "completeness - quantKindUnit" ... list per ontology of missing units and quantity kinds
  */
 
-//includes
+// includes
 var Q        = require( 'q' ),
     Log      = require( './util/log.js' ),
     OntoStore= require( './util/OntoStore' ),
@@ -11,25 +14,26 @@ var Q        = require( 'q' ),
 
 // local settings
 var localCfg = {
-      moduleName: 'validateQuantKindUnit',
+      moduleName: 'completeness - quantKindUnit',
       moduleKey:  '1505'
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
     };
 
-function validateQuantKindUnit() {
-  
+function completenessQuantKindUnit() {
+
   log( 'checking completeness of quantKindUnit wrt to quantKind and unit' );
-  
+
   // prepare results
   var resultsPerOntology = {};
- 
+
   // get list of ontologies to check
   var ontos = OntoStore.getOntologies();
 
+  // check for each ontology
   for( var onto of ontos ) {
-    
+
     // load data
     var quantKind     = OntoStore.getData( onto, 'quantKind' ),
         unit          = OntoStore.getData( onto, 'unit' ),
@@ -39,14 +43,14 @@ function validateQuantKindUnit() {
     var missingQk     = checkPresence( quantKindUnit, quantKind, 'quantKind', 'quantKind' ),
         missingUnit   = checkPresence( quantKindUnit, unit,      'unit',      'unit' ),
         missingParent = checkPresence( quantKindUnit, quantKind, 'parent',    'quantKind' );
-    
+
     // add to result
     resultsPerOntology[ onto ] = {
         quantKind:  missingQk,
         unit:       missingUnit,
         parent:     missingParent
     };
-    
+
     // logging
     log( '   ' + onto + ' - total: ' + quantKindUnit.length );
     log( '      quantKind: ' + missingQk.length,     missingQk.length     > 0 ? Log.WARNING : Log.MESSAGE );
@@ -54,11 +58,11 @@ function validateQuantKindUnit() {
     log( '      parent: '    + missingParent.length, missingParent.length > 0 ? Log.WARNING : Log.MESSAGE );
 
   }
-  
+
   // persist results
   OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName, resultsPerOntology );
 
-  return Q( true );    
+  return Q( true );
 
 }
 
@@ -66,7 +70,7 @@ function validateQuantKindUnit() {
 
 // if called directly, execute, else export
 if(require.main === module) {
-  validateQuantKindUnit().done(); 
-} else { 
-  module.exports = validateQuantKindUnit; 
+  completenessQuantKindUnit().done();
+} else {
+  module.exports = completenessQuantKindUnit;
 }

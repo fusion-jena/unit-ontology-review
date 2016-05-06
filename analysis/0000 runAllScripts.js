@@ -3,7 +3,7 @@
  * run all analysis scripts in order of their numbering
  *
  * optional parameter is the prefix of the first script to execute
- * 
+ *
  * (a script always has to start with 4 digits and end in .js)
  */
 
@@ -13,7 +13,7 @@ var Fs          = require( 'fs' ),
     Log         = require( './util/log.js' ),
     runScripts  = require( './util/runScripts' ),
     Cfg         = require( './config/config' );
-    
+
 // local settings
 var localCfg = {
       moduleName: 'runAllScripts',
@@ -21,8 +21,8 @@ var localCfg = {
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
-    };  
-    
+    };
+
 // set up the script run
 var scripts;
 
@@ -31,7 +31,7 @@ if( process.argv.length > 2 ) {
 
   // script name (prefix is enough)
   var startscript = process.argv[2];
-  
+
   scripts = runScripts({
     filterAll: (scripts) => {
 
@@ -42,26 +42,29 @@ if( process.argv.length > 2 ) {
           return scripts.slice( i );
         }
       }
-      
+
       // start script not found, so run all
       log( '  didn\'t find script to start with; running all', Log.WARNING );
       return scripts;
     }
   });
-  
+
 }
 
 // if no startscript has been set, we execute all
 // but before, we clean the old results
 if( process.argv.length < 3 ) {
-  
-  // clear the result directory
+
+  // clear the result directory, but leave .gitignore in place
   // https://gist.github.com/liangzan/807712#gistcomment-1350457
   var rmDir = function(dirPath, removeSelf) {
 
     if (removeSelf === undefined)
       removeSelf = true;
-    var files = Fs.readdirSync(dirPath);
+    var files = Fs.readdirSync(dirPath)
+                  .filter( (file) => {
+                    return file.charAt( 0 ) != '.';
+                  });
 
     if (files.length > 0)
       for (var i = 0; i < files.length; i++) {
@@ -76,7 +79,7 @@ if( process.argv.length < 3 ) {
   };
   rmDir( Cfg.targetPath, false );
   log( '   removed all result files' );
-  
+
   // run all scripts
   scripts = runScripts();
 

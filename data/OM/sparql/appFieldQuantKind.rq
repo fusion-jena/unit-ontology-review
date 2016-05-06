@@ -1,0 +1,10 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT ?appField
+       ?quantKind
+WHERE {
+  ?appField   a om:Application_area .
+  ?quantKind a om:Quantity .
+  
+  ?appField om:quantity ?quantKind .
+}

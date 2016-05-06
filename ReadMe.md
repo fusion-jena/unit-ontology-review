@@ -1,27 +1,16 @@
-Note: License and DOI will be provided very soon.
-
 The included scripts enable an evaluation of ontologies in the field of measurement units.
-They implement the approach described in a paper currently under review.
 For an general overview please refer to File and Folder Structure.
 
 # Dependencies
 
 * [NodeJS](https://nodejs.org/) at least version 5
-
-If individuals should be extracted or new ontologies are to be added:
 * [Sesame](http://rdf4j.org/)
 
 # Installation
 
 * Install JavaScript dependencies listed in `/analysis/packages.json` using `npm install`.
-
-If individuals should be extracted or new ontologies are to be added:
-
 * Create a `Native Java Store RDF Schema` repository (default name: `units`) in Sesame.
 * Create a configuration file `/analysis/config/config.js` (copy `/analysis/config/config.default.js`) and set the URL of the Sesame SPARQL endpoint.
-
-Alternatively, one can use the already extracted set of individuals listed under Precomputed Results.
-The provided files and folders should then be placed in a subfolder `/res`.
 
 # Running
 
@@ -41,13 +30,13 @@ Files are generally placed under the following subfolders:
 
 * `/analysis` Actual analysis scripts
 * `/analysis/config` Configuration files
+* `/analysis/templates`  HTML templates used for output generation
 * `/data` Input data for the scripts to use. This includes the manual mapping files given as CSV.
 * `/data/[Ontology]`  Input data for a specific ontology
 * `/data/[Ontology]/src`  OWL definition files for the respective ontology
 * `/data/[Ontology]/sparql` SPARQL queries for extraction of individuals. Each in a seperate file named after the respective concept or relation.
 * `/data/[Ontology]/js` Some ontologies needed specific treatment, which is encoded in JS, that are used as hooks. Currently there is just one hook available "unit_beforeAddLabel", which is applied, before attaching a label to any object (refer to the example given in `/data/MUO/js`).
 * `/res`  Output folder for all intermediate and result files.
-* `/templates`  HTML templates used for output generation
 
 The numbering of scripts roughly follows the approach given in the paper, but also adds some implementation specific sections.
 Furthermore, the number signals the execution order of scripts.
@@ -75,13 +64,6 @@ For reasons of licensing we can only provide the SPARQL queries used to extract 
 * SWEET: http://sweet.jpl.nasa.gov/
 * UO + PATO: http://purl.obolibrary.org/obo/uo.owl + http://purl.obolibrary.org/obo/pato.owl
 
-# Precomputed Results
+# Acknowledgments
 
-We provide precomputed results in two ways, which can be found using the following links:
-
-* Result files of individual extraction: *link will be added very soon*
-* Result files of analysis: *link will be added very soon*
-
-# Citation
-
-*Will be added after peer review.*
+Part of this work was funded by DFG in the scope of the LakeBase project within the Scientific Library Services and Information Systems (LIS) program.

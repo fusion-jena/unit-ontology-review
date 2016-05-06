@@ -1,0 +1,7 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX doma: <http://sweet.jpl.nasa.gov/2.3/humanKnowledgeDomain.owl#>
+
+SELECT ?appField ?label
+WHERE {
+	?appField rdfs:subClassOf doma:KnowledgeDomain
+}

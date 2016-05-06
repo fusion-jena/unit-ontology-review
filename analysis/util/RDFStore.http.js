@@ -1,6 +1,6 @@
 "use strict";
 /**
- * implementing the RDFStore interface by using an HTTP connection ro a remote server
+ * implementing the RDFStore interface by using an HTTP connection or a remote server
  */
 
 // includes

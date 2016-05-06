@@ -6,18 +6,18 @@
  */
 module.exports = {
     
-    'appArea': {
-      'appArea': null,
+    'appField': {
+      'appField': null,
       'label': null
     }, 
     
-    'appAreaQuantKind': {
-      'appArea': null, 
+    'appFieldQuantKind': {
+      'appField': null, 
       'quantKind': null
     },
     
-    'appAreaUnit': {
-      'appArea': null, 
+    'appFieldUnit': {
+      'appField': null, 
       'unit': null
     },
     

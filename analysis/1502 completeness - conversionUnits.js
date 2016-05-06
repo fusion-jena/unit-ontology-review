@@ -1,9 +1,9 @@
 "use strict";
 /**
- * check, whether all referenced units and prefixes of prefixUnit exist in the respective datasets
+ * check, whether all referenced units of conversion exist in the unit dataset
  *
  * output:
- * "completeness - prefixUnit" ... list per ontology of missing units and prefixes
+ * "completeness - conversionUnits" ... list per ontology of missing units
  */
 
 // includes
@@ -14,17 +14,17 @@ var Q        = require( 'q' ),
 
 // local settings
 var localCfg = {
-      moduleName: 'completeness - prefixUnit',
-      moduleKey:  '1501'
+      moduleName: 'completeness - conversionUnits',
+      moduleKey:  '1502'
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
     };
 
 
-function completenessPrefixUnit() {
+function completenessConversionUnits() {
 
-  log( 'checking completeness of prefixUnit wrt to unit and prefix' );
+  log( 'checking completeness of conversion wrt to unit' );
 
   // prepare results
   var resultsPerOntology = {};
@@ -37,23 +37,21 @@ function completenessPrefixUnit() {
 
     // load data
     var unit        = OntoStore.getData( onto, 'unit' ),
-        prefix      = OntoStore.getData( onto, 'prefix' ),
-        prefixUnit  = OntoStore.getData( onto, 'prefixUnit' );
+        conversion  = OntoStore.getData( onto, 'conversion' );
 
     // get missing
-    var missingUnit   = checkPresence( prefixUnit, unit,    'unit', 'unit' ),
-        missingPrefix = checkPresence( prefixUnit, prefix,  'prefix', 'prefix' );
+    var missingUnit1 = checkPresence( conversion, unit, 'unit1', 'unit' ),
+        missingUnit2 = checkPresence( conversion, unit, 'unit2', 'unit' ),
+        missingUnit = missingUnit1.concat( missingUnit2 );
 
     // add to result
     resultsPerOntology[ onto ] = {
-        unit:   missingUnit,
-        prefix: missingPrefix
+        unit:   missingUnit
     };
 
     // logging
-    log( '   ' + onto + ' - total: ' + prefixUnit.length );
+    log( '   ' + onto + ' - total: ' + conversion.length );
     log( '      units: '    + missingUnit.length,   missingUnit.length   > 0 ? Log.WARNING : Log.MESSAGE );
-    log( '      prefixes: ' + missingPrefix.length, missingPrefix.length > 0 ? Log.WARNING : Log.MESSAGE );
 
   }
 
@@ -68,7 +66,7 @@ function completenessPrefixUnit() {
 
 // if called directly, execute, else export
 if(require.main === module) {
-  completenessPrefixUnit().done();
+  completenessConversionUnits().done();
 } else {
-  module.exports = completenessPrefixUnit;
+  module.exports = completenessConversionUnits;
 }

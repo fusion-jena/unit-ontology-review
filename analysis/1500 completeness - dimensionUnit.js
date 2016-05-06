@@ -1,9 +1,12 @@
 "use strict";
 /**
  * check, whether all referenced units and dimensions of dimensionUnit exist in the respective datasets
+ *
+ * output:
+ * "completeness - dimensionUnit" ... list per ontology of missing units and dimensions
  */
 
-//includes
+// includes
 var Q        = require( 'q' ),
     Log      = require( './util/log.js' ),
     OntoStore= require( './util/OntoStore' ),
@@ -11,7 +14,7 @@ var Q        = require( 'q' ),
 
 // local settings
 var localCfg = {
-      moduleName: 'validateDimensionUnit',
+      moduleName: 'completeness - dimensionUnit',
       moduleKey:  '1500'
     },
     log = function( msg, type ) {
@@ -19,18 +22,19 @@ var localCfg = {
     };
 
 
-function checkDimensionUnit() {
-  
+function completenessDimensionUnit() {
+
   log( 'checking completeness of dimensionUnit wrt to unit and dimension' );
-  
+
   // prepare results
   var resultsPerOntology = {};
- 
+
   // get list of ontologies to check
   var ontos = OntoStore.getOntologies();
 
+  // check for each ontology
   for( var onto of ontos ) {
-    
+
     // load data
     var unit    = OntoStore.getData( onto, 'unit' ),
         dim     = OntoStore.getData( onto, 'dimension' ),
@@ -39,24 +43,24 @@ function checkDimensionUnit() {
     // get missing
     var missingUnit = checkPresence( dimUnit, unit, 'unit',      'unit' ),
         missingDim  = checkPresence( dimUnit, dim,  'dimension', 'dimension' );
-    
+
     // add to result
     resultsPerOntology[ onto ] = {
         unit: missingUnit,
         dim: missingDim
     };
-    
+
     // logging
     log( '   ' + onto + ' - total: ' + dimUnit.length );
     log( '      units: '      + missingUnit.length, missingUnit.length > 0 ? Log.WARNING : Log.MESSAGE );
     log( '      dimension: '  + missingDim.length,  missingDim.length  > 0 ? Log.WARNING : Log.MESSAGE );
 
   }
-  
+
   // persist results
   OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName, resultsPerOntology );
 
-  return Q( true );    
+  return Q( true );
 
 }
 
@@ -64,7 +68,7 @@ function checkDimensionUnit() {
 
 // if called directly, execute, else export
 if(require.main === module) {
-  checkDimensionUnit().done(); 
-} else { 
-  module.exports = checkDimensionUnit; 
+  completenessDimensionUnit().done();
+} else {
+  module.exports = completenessDimensionUnit;
 }

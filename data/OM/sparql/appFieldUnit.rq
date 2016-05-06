@@ -1,0 +1,8 @@
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+
+SELECT  ?appField
+        ?unit
+WHERE {
+  ?appField a                  om:Application_area ;
+           om:unit_of_measure ?unit .
+}

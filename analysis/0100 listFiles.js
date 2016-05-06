@@ -1,11 +1,14 @@
 "use strict";
 /**
  * create a list of all files and their descriptions
+ *
+ * output:
+ * - "listFiles" ... information about the scripts
  */
 
 // includes
 var Q           = require( 'q' ),
-    Fs          = require( 'fs' ),    
+    Fs          = require( 'fs' ),
     Log         = require( './util/log.js' ),
     TemplStore  = require( './util/TemplStore' ),
     OntoStore   = require( './util/OntoStore' );
@@ -18,12 +21,12 @@ var localCfg = {
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
     };
-    
+
 // RegExp for data extraction
 var regexp = {
   desc: /\/\*\*(.|[\r\n])*?\*\//,
   key:  /moduleKey:\s*'(\d{4})'/,
-  name: /moduleName:\s*'([a-zA-Z0-9 _]*)'/,
+  name: /moduleName:\s*'([a-zA-Z0-9 _-]*)'/,
   loadedResults:    /OntoStore\.getResult\(\s*\'(.*?)\'\s*\)/gi,
   loadedPredefined: /OntoStore\.loadPredefinedData\(\s*\'(.*?)\'\s*\)/gi,
   loadedData:       /OntoStore\.getData\(\s*onto\s*\,\s*['"](.*?)['"]\s*\)/gi,
@@ -42,7 +45,7 @@ function listFiles(){
   // process all files
   log( 'scanning files' );
   for( var file of files ) {
-    
+
     // load file content
     var content = Fs.readFileSync( __dirname + '/' + file, 'utf8' );
 
@@ -50,7 +53,7 @@ function listFiles(){
     var desc = null,
         key = null,
         name = null;
-    
+
     // get description
     try {
       desc = content.match( regexp.desc )[0];
@@ -63,24 +66,24 @@ function listFiles(){
     } catch( e ) {
       log( '   could not extract description from ' + file, Log.ERROR );
     }
-    
+
     // get key
     try {
       key = content.match( regexp.key )[1];
     } catch( e ) {
       log( '   could not extract key from ' + file, Log.ERROR );
     }
-    
+
     // get name
     try {
       name = content.match( regexp.name )[1];
     } catch( e ) {
       log( '   could not extract name from ' + file, Log.ERROR );
     }
-    
+
     // add to result
     if( desc && name && key ) {
-      
+
       // start building desc object
       var entry = {
         desc: desc,
@@ -88,7 +91,7 @@ function listFiles(){
         name: name,
         file: file
       };
-      
+
       // get loaded results
       try{
         entry.loadedResults = getAllMatches( regexp.loadedResults, content, 1 );
@@ -96,7 +99,7 @@ function listFiles(){
         log( '   could not extract loaded result files', Log.ERROR );
         entry.loadedResults = [];
       }
-      
+
       // get used predefined files
       try{
         entry.loadedPredefined = getAllMatches( regexp.loadedPredefined, content, 1 );
@@ -104,7 +107,7 @@ function listFiles(){
         log( '   could not extract used predefined files', Log.ERROR );
         entry.loadedResults = [];
       }
-      
+
       // get loaded sparql result files
       try{
         entry.loadedData = getAllMatches( regexp.loadedData, content, 1 );
@@ -112,10 +115,10 @@ function listFiles(){
         log( '   could not extract loaded sparql result files', Log.ERROR );
         entry.loadedResults = [];
       }
-      
+
       // get exported result files
       try{
-        
+
         // result files
         entry.exportResult = getAllMatches( regexp.exportResult, content, 2 );
         entry.exportResult = entry.exportResult
@@ -126,15 +129,15 @@ function listFiles(){
                                                .replace( '+ map', '+ mapType' )
                                                .trim();
                                   });
-        
+
       } catch( e ) {
         log( '   could not extract exported result files', Log.ERROR );
         entry.loadedResults = [];
       }
-      
+
       // get exported html files
       try{
-        
+
         // result files
         entry.exportHTML = getAllMatches( regexp.exportHTML, content, 2 );
         entry.exportHTML = entry.exportHTML
@@ -146,55 +149,55 @@ function listFiles(){
                                              .trim();
                                 });
 
-        
+
       } catch( e ) {
         log( '   could not extract exported html files', Log.ERROR );
         entry.loadedResults = [];
       }
-      
+
       // add to result
       results.push( entry );
     }
-    
+
   }
 
   // create output
   var out = [];
   for( var entry of results ) {
-    
+
     // head
     out.push( '<h2>', entry.file, '</h2><dl>' );
-    
+
     // content
     out.push( '<dt>key</dt><dd>', entry.key, '</dd>' );
     out.push( '<dt>name</dt><dd>', entry.name, '</dd>' );
     out.push( '<dt>description</dt><dd>', entry.desc.replace( /\n/gi, '<br>' ), '</dd>' );
     if( entry.loadedData.length > 0 ) {
-      out.push( '<dt>loaded SPARQL datasets</dt><dd>', 
+      out.push( '<dt>loaded SPARQL datasets</dt><dd>',
                   entry.loadedData.join( '<br>' ), '</dd>' );
     }
     if( entry.loadedPredefined.length > 0 ) {
-      out.push( '<dt>loaded predefined datasets</dt><dd>', 
+      out.push( '<dt>loaded predefined datasets</dt><dd>',
                   entry.loadedPredefined.join( '<br>' ), '</dd>' );
     }
     if( entry.loadedResults.length > 0 ) {
-      out.push( '<dt>loaded (intermediate) result datasets</dt><dd>', 
+      out.push( '<dt>loaded (intermediate) result datasets</dt><dd>',
                   entry.loadedResults.join( '<br>' ), '</dd>' );
     }
     if( entry.exportResult.length > 0 ) {
-      out.push( '<dt>exported datasets</dt><dd>', 
+      out.push( '<dt>exported datasets</dt><dd>',
                   entry.exportResult.join( '<br>' ), '</dd>' );
     }
     if( entry.exportHTML.length > 0 ) {
-      out.push( '<dt>exported HTML file</dt><dd>', 
+      out.push( '<dt>exported HTML file</dt><dd>',
                   entry.exportHTML.join( '<br>' ), '</dd>' );
     }
-    
+
     // end
     out.push( '</dl>' );
-    
+
   }
-  
+
   // store results
   OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName, results );
 
@@ -209,35 +212,35 @@ function listFiles(){
   log( 'checking documentation consistency' );
   var lookup = {};
   for( var entry of results ) {
-    
+
     // description should be unique
     lookup[ entry.desc ] = lookup[ entry.desc ] || [];
     lookup[ entry.desc ].push( entry.file );
-    
+
     // key should be at the start of the file name
     if( !(entry.file.indexOf( entry.key ) == 0) ) {
       log( '   filename-key-mismatch in ' + entry.file, Log.ERROR );
     }
-    
+
   }
 
   // output the duplicate descriptions
   Object.keys( lookup )
         .forEach( (key) => {
-          
+
           // just do something, if there is more than one file with the same description
           if( lookup[ key ].length > 1 ) {
             log( '   duplicate description for: ', Log.ERROR );
-            lookup[ key ].forEach( (file) => { 
+            lookup[ key ].forEach( (file) => {
               log( '      ' + file, Log.ERROR );
             });
           }
 
         });
-  
+
   // done
-  return Q( true );    
-  
+  return Q( true );
+
 }
 
 
@@ -246,7 +249,7 @@ function listFiles(){
 * - removes some files like, e.g., .gitignore
 */
 function listFilesOfDir( path ) {
- 
+
  // RegExp to check for analysis script files
  var analysisRegexp = /^\d{4}.*\.js$/i;
 
@@ -265,7 +268,7 @@ function listFilesOfDir( path ) {
  * @returns
  */
 function getAllMatches( regexp, str, index ) {
-  
+
   var res = [];
   regexp.lastIndex = 0;
   var matches;
@@ -280,7 +283,7 @@ function getAllMatches( regexp, str, index ) {
 
 // if called directly, execute, else export
 if(require.main === module) {
-  listFiles().done(); 
-} else { 
-  module.exports = listFiles; 
+  listFiles().done();
+} else {
+  module.exports = listFiles;
 }
