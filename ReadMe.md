@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/22096/fusion-jena/unit-ontology-review.svg)](https://zenodo.org/badge/latestdoi/22096/fusion-jena/unit-ontology-review)
+
 The included scripts enable an evaluation of ontologies in the field of measurement units.
 For an general overview please refer to File and Folder Structure.
 
