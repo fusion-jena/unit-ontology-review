@@ -14,4 +14,5 @@ WHERE {
     FILTER (?quantKind != ?parent && ?parent != oboe:PhysicalCharacteristic)
   }
   FILTER (?quantKind != oboe:PhysicalCharacteristic)
+  OPTIONAL {?quantKind rdfs:label ?label.}
 }

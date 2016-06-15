@@ -4,4 +4,5 @@ PREFIX ucum: <http://purl.oclc.org/NET/muo/ucum/>
 SELECT ?quantKind ?label
 WHERE {
   ?quantKind a muo:PhysicalQuality.
+  OPTIONAL {?quantKind rdfs:label ?label.}
 }
