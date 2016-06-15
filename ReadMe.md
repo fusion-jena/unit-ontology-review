@@ -10,9 +10,17 @@ For an general overview please refer to File and Folder Structure.
 
 # Installation
 
-* Install JavaScript dependencies listed in `/analysis/packages.json` using `npm install`.
-* Create a `Native Java Store RDF Schema` repository (default name: `units`) in Sesame.
-* Create a configuration file `/analysis/config/config.js` (copy `/analysis/config/config.default.js`) and set the URL of the Sesame SPARQL endpoint.
+1. Install JavaScript dependencies listed in `/analysis/packages.json` using `npm install`.
+2. Create a `Native Java Store RDF Schema` repository (default name: `units`) in Sesame.
+3. Create a configuration file `/analysis/config/config.js` (copy `/analysis/config/config.default.js`) and set the URL of the Sesame SPARQL endpoint.
+4. Add the files of the [ontologies](#obtaining-ontology-files) into the respective folder (see [File and Folder Structure](#file-and-folder-structure))
+
+If no SPARQL endpoint is available, the results of the extraction of individuals can be used alternatively:
+
+2. Download the archive of the [precomputed results of the extraction of individuals](#precomputed-results)
+3. Extract the contents of the archive into `/res`
+
+Now the extraction scripts can be skipped and execution can start with script `1000 check - prefixUnit duplicates.js`. Further scripts do not require a SPARQL endpoint.
 
 # Running
 
@@ -36,7 +44,7 @@ Files are generally placed under the following subfolders:
 * `/data` Input data for the scripts to use. This includes the manual mapping files given as CSV.
 * `/data/[Ontology]`  Input data for a specific ontology
 * `/data/[Ontology]/src`  OWL definition files for the respective ontology
-* `/data/[Ontology]/sparql` SPARQL queries for extraction of individuals. Each in a seperate file named after the respective concept or relation.
+* `/data/[Ontology]/sparql` SPARQL queries for extraction of individuals. Each in a separate file named after the respective concept or relation.
 * `/data/[Ontology]/js` Some ontologies needed specific treatment, which is encoded in JS, that are used as hooks. Currently there is just one hook available "unit_beforeAddLabel", which is applied, before attaching a label to any object (refer to the example given in `/data/MUO/js`).
 * `/res`  Output folder for all intermediate and result files.
 
@@ -53,6 +61,7 @@ For dependencies of the scripts please run `0100 listFiles.js` and refer to the 
 * 5000 - 5999 gathering inter-ontology data and do inter-ontology checks
 * 6000 - 6999 gathering inter-ontology statistics
 * 9000 - 9999 create HTML output for review
+* a000 - a999 additional scripts to create special output for further usage, not executed by default
 
 # Obtaining Ontology files
 
@@ -65,6 +74,22 @@ For reasons of licensing we can only provide the SPARQL queries used to extract 
 * QUDT: http://www.qudt.org/
 * SWEET: http://sweet.jpl.nasa.gov/
 * UO + PATO: http://purl.obolibrary.org/obo/uo.owl + http://purl.obolibrary.org/obo/pato.owl
+
+# Adding further ontologies
+
+Further ontologies can easily be added to the evaluation by performing the following steps:
+
+1. Create the folder `/data/[Ontology]/src` and add the ontology file(s) into them.
+2. Create the folder `/data/[Ontology]/sparql` and add a SPARQL query (in a `.rq` file) for each covered concept. The concepts and their regarding attributes are defined in [`/analysis/config/structure.js`](../master/analysis/config/structure.js).
+
+The added Ontology will then be automatically involved at the next execution of the evaluation scripts. 
+
+# Precomputed Results
+
+We provide precomputed results in two ways, which can be found using the following links:
+
+* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.0.0/extracted_individuals.zip)
+* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.0.0.zip)
 
 # Acknowledgments
 
