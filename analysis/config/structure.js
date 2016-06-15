@@ -1,36 +1,39 @@
 "use strict";
 /**
- * specify the structure and the default values for the sparql results
- * 
- * null values should exist, but have no default
+ * structure definition of the SPARQL results for the extraction of individuals
  */
 module.exports = {
-    
+
+    // Field of application
     'appField': {
-      'appField': null,
-      'label': null
-    }, 
-    
-    'appFieldQuantKind': {
-      'appField': null, 
-      'quantKind': null
-    },
-    
-    'appFieldUnit': {
-      'appField': null, 
-      'unit': null
-    },
-    
-    'conversion': {
-      'unit1': null,
-      'unit2': null,
-      'convFactor': null,
-      'convOffset': null
+      'appField': REQUIRED,
+      'label':    REQUIRED
     },
 
+    // Relation between Field of application and Kind of quantity
+    'appFieldQuantKind': {
+      'appField':  REQUIRED,
+      'quantKind': REQUIRED
+    },
+
+    // Relation between Field of application and Measurement unit
+    'appFieldUnit': {
+      'appField': REQUIRED,
+      'unit':     REQUIRED
+    },
+
+    // Conversion
+    'conversion': {
+      'unit1':      REQUIRED,
+      'unit2':      REQUIRED,
+      'convFactor': OPTIONAL,
+      'convOffset': OPTIONAL
+    },
+
+    // Dimension
     'dimension': {
-      'dimension': null,
-      'label': null,
+      'dimension': REQUIRED,
+      'label':     REQUIRED,
       'dimLength': OPTIONAL,
       'dimMass':   OPTIONAL,
       'dimTime':   OPTIONAL,
@@ -39,59 +42,70 @@ module.exports = {
       'dimAmount': OPTIONAL,
       'dimLum':    OPTIONAL
     },
-    
+
+    // Relation between Dimension and Unit of Measurement
     'dimensionUnit': {
-      'dimension': null,
-      'unit': null
+      'dimension':  REQUIRED,
+      'unit':       REQUIRED
     },
-    
+
+    // Prefix
     'prefix': {
-      'prefix': null,
-      'label':  null,
+      'prefix': REQUIRED,
+      'label':  REQUIRED,
       'factor': OPTIONAL
     },
-    
+
+    // Relation between Prefix and Unit
     'prefixUnit': {
-      'unit': null,
-      'prefix': OPTIONAL,
+      'unit':     REQUIRED,
+      'prefix':   REQUIRED,
       'baseUnit': OPTIONAL
     },
 
+    // Kind of quantity
     'quantKind': {
-      'quantKind': null,
-      'label': null,
-      'parent': null
+      'quantKind':  REQUIRED,
+      'label':      REQUIRED,
+      'parent':     OPTIONAL
     },
-        
+
+    // Relation between Kind of quantity and Measurement unit
     'quantKindUnit': {
-      'quantKind': null,
-      'unit': null
+      'quantKind':  REQUIRED,
+      'unit':       REQUIRED
     },
-    
+
+    // sameAs relations
     'sameAs': {
-      'object': null,
-      'sameAs': null
+      'object': REQUIRED,
+      'sameAs': REQUIRED
     },
-    
+
+    // System of units
     'system': {
-      'system': null,
-      'label': null
+      'system': REQUIRED,
+      'label':  REQUIRED
     },
-    
+
+    // Relation between System of units and Measurement unit
     'systemUnit': {
-      'system': null,
-      'unit': null
+      'system': REQUIRED,
+      'unit':   REQUIRED
     },
-    
+
+    // Measurement unit
     'unit': {
-      'unit': null,
-      'label': null,
-      'symbol': null,
+      'unit':       REQUIRED,
+      'label':      REQUIRED,
+      'symbol':     OPTIONAL,
       'definition': OPTIONAL
     },
-    
-    // used for optional fields as a comparison
-    'OPTIONAL': OPTIONAL 
+
+    // used for classification
+    'OPTIONAL': OPTIONAL,
+    'REQUIRED': REQUIRED
 };
 
 function OPTIONAL(){}
+function REQUIRED(){}

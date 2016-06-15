@@ -39,8 +39,8 @@ function checkExtractedRelations() {
   // one row per result types' properties
   for( var type in Structure ) {
 
-    // skip OPTIONAL
-    if( type == 'OPTIONAL' ) {
+    // skip constant values (consist of just upper case letters)
+    if( type == type.toUpperCase() ) {
       continue;
     }
 
