@@ -50,7 +50,9 @@ function statisticIndividualsPerOntologyAfterMapping() {
     out.push( '<tr>' );
     for( var j=0; j<data[i].length; j++ ) {
 
-      if( (i == 0) || (j == 0) ) {
+      if( j == 0 ) {
+        out.push( '<th>', data[i][j], '</th>');
+      } else if( i == 0 ) {
         out.push( '<th><ul><li data-onto="',  data[i][j], '">',  data[i][j], '</ul></th>');
       } else {
 
