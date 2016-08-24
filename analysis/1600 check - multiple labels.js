@@ -53,24 +53,48 @@ function checkMultipleLabels() {
       // create a label lookup
       var lookup = {};
       for( var entry of data ){
+       
+        // skip those without labels
+        if( typeof entry.label == 'undefined' ) {
+          continue;
+        }
 
         // make sure the entry exists
-        lookup[ entry[ type ] ] = lookup[ entry[ type ] ] || new Set();
-
+        lookup[ entry[ type ] ] = lookup[ entry[ type ] ] || {};
+        lookup[ entry[ type ] ][ entry.labelLang ] = lookup[ entry[ type ] ][ entry.labelLang ] || new Set();
+        
         // add label
-        lookup[ entry[ type ] ].add( entry.label );
+        lookup[ entry[ type ] ][ entry.labelLang ].add( entry.label );
 
       }
 
       // filter for those with more than one label
-      var multiLabel = Object.keys( lookup )
-                             .filter( (uri) => lookup[ uri ].size > 1 )
-                             .map( (uri) => {
-                               return {
-                                 uri: uri,
-                                 labels: [ ... lookup[ uri ] ]
-                               };
-                             });
+      var multiLabel = []
+      Object.keys( lookup )
+            .forEach( (uri) => {
+              
+              // shortcut
+              var labels = lookup[ uri ];
+              
+              // check all languages
+              Object.keys( labels )
+                    .forEach( (lang) => {
+
+                      // for those with multiple labels ...
+                      if( labels[ lang ].size > 1 ) {
+                        
+                        // ... add to result 
+                        multiLabel.push({
+                          uri:    uri,
+                          lang:   lang,
+                          labels: [ ... labels[lang] ]
+                        });
+                        
+                      }
+                      
+                    })
+              
+            })
 
       // add to result
       resultsPerOntology[ onto ] = resultsPerOntology[ onto ] || {};
