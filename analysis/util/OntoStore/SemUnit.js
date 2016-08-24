@@ -50,10 +50,13 @@ SemUnit.prototype.isPrefixed = function isPrefixed( val ) {
 SemUnit.prototype.clone = function clone() {
   
   // create a copy
-  var res = new SemUnit( this.getURI(), this.getDisplayLabel() );
+  var res = new SemUnit( this.getURI() );
   
   // append all base values
   res._copy.call( this, res );
+  
+  // set display label
+  res.setDisplayLabel( this.getDisplayLabel() );
   
   return res;
 

@@ -97,6 +97,7 @@ function semObjectUnits() {
       type:       OntoStore.UNIT,
       uriProp:    'unit',
       labelProp:  'label',
+      langProp:   'labelLang',
       stopwords:  stopwords,
       replacements: replacements,
       entryCreated: function( raw, entry ) {

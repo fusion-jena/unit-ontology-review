@@ -45,60 +45,69 @@ function convertToSemObject( param ){
   // process all entries
   for( var entry of param.values ) {
     
-    // harmonize display label
-    var label = entry[ param.labelProp ];
-    if( ('beforeAddLabel' in param) && (param.beforeAddLabel instanceof Function)) {
-      label = param.beforeAddLabel( entry, label );
-    }
-    
     // get wrapper
-    var wrapper = OntoStore.getEntity( entry[ param.uriProp ], 
-                                       label,
+    var wrapper = OntoStore.getEntity( entry[ param.uriProp ],
                                        param.type,
                                        param.onto );
     
     // add labels from label property
-    var label = entry[ param.labelProp ], 
+    var label = entry[ param.labelProp ],
+        lang  = entry[ param.langProp ],
         labels = [];
     if( label ) {
-      
+
       // harmonize
       label = prepareLabel( param, label );
       
       // collect
       if( label instanceof Array ) {
-        Array.prototype.push.apply( labels, label );
+
+        Array.prototype.push.apply( labels, label.map( (l) => { return { label: l, lang: lang }; } ) );
       } else {
-        labels.push( label );
+        labels.push( { label: label, lang: lang } );
       }
 
     }
 
     // label from URI
-    label = getLabelFromUri( entry[ param.uriProp ] );
+    label = getLabelFromUri( param, entry[ param.uriProp ] );
     if( label ) {
-      
+
       // harmonize
       label = prepareLabel( param, label );
 
       // collect
       if( label instanceof Array ) {
-        Array.prototype.push.apply( labels, label );
+        Array.prototype.push.apply( labels, label.map( (l) => { return { label: l, lang: '_uri' }; } ) );
       } else {
-        labels.push( label );
+        labels.push( { label: label, lang: '_uri' } );
       }
-      
+
     }
-    
+  
     // apply event
     if( ('beforeAddLabel' in param) && (param.beforeAddLabel instanceof Function)) {
       labels = labels.map( (label) => {
-                        return param.beforeAddLabel( entry, label ); 
+                        return {
+                          label: param.beforeAddLabel( entry, label.label ),
+                          lang:  label.lang
+                        };
                       });
     }
-    
+
     // add labels
     wrapper.addLabel( labels );
+    
+    // set display label, if we have an English or unknown one
+    if( [ 'en', '' ].indexOf( entry[ param.langProp ] ) > -1 ) {
+
+      var label = entry[ param.labelProp ];
+      if( ('beforeAddLabel' in param) && (param.beforeAddLabel instanceof Function)) {
+        label = param.beforeAddLabel( entry, label );
+      }
+      wrapper.setDisplayLabel( label );
+
+    }
     
     // add raw
     if( param.addRaw ) {
@@ -121,11 +130,12 @@ function convertToSemObject( param ){
 }
 
 /**
- * extract the name part of a given uri
+ * extract the name part of a given URI
+ * @param   {Object}    param
  * @param   {String}    uri
  * @returns {String}
  */
-function getLabelFromUri( uri ) {
+function getLabelFromUri( param, uri ) {
   
   // get last occurrence of # and /
   var indSharp = uri.lastIndexOf( '#' ),
@@ -140,8 +150,13 @@ function getLabelFromUri( uri ) {
   var maxInd = Math.max( indSharp, indSlash );
   
   // extract name
-  return uri.substr( maxInd );
+  var name = uri.substr( maxInd + 1 );
+
+  // replace camelCase with space
+  name = name.replace( /([a-z])([A-Z])/g, '$1 $2' );
   
+  // return result
+  return name;
 }
 
 
@@ -151,10 +166,11 @@ function getLabelFromUri( uri ) {
  * - camel case to space
  * - special characters to space
  * - remove stopwords etc
- * - apply replacments
+ * - apply replacements
  * 
- * @param     {String}  label
- * @returns   {String}
+ * @param     {Object}          param   parameter object
+ * @param     {String}          label   label to process
+ * @returns   {Array[String]|String}
  */
 function prepareLabel( param, label ) {
 
@@ -162,12 +178,12 @@ function prepareLabel( param, label ) {
   var sepRegexp = /,|\bor\b/gi;
   if( sepRegexp.test( label ) ) {
     return label.split( sepRegexp )
-                .filter( (label) => {   
-                  return (!sepRegexp.test( label )) && (label.trim() != '') ; 
+                .filter( (entry) => {
+                  return (!sepRegexp.test( entry )) && (entry.trim() != '') ; 
                 })
                 .map( (el) => prepareLabel( param, el ) );
   }
-  
+
   // replace camelCase with space
   label = label.replace( /([a-z])([A-Z])/g, '$1 $2' );
   

@@ -49,7 +49,8 @@ function semObjectAppFields() {
       onto:       onto,
       type:       OntoStore.OBJECT,
       uriProp:    'appField',
-      labelProp:  'label'
+      labelProp:  'label',
+      langProp:   'labelLang',
     });
 
     // add to results

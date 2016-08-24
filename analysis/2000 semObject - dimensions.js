@@ -54,6 +54,7 @@ function semObjectDimensions() {
       type:       OntoStore.DIMENSION,
       uriProp:    'dimension',
       labelProp:  'label',
+      langProp:   'labelLang',
       stopwords:  stopwords,
       entryCreated: function( raw, entry ) {
 

@@ -8,7 +8,7 @@
 /**
  * @constructor
  */
-function SemObject( uri, label ) {
+function SemObject( uri, displayLabel ) {
   
   // type
   if( !('type' in this) ) {
@@ -19,15 +19,13 @@ function SemObject( uri, label ) {
   this._setVal( 'uri',      uri );
   
   // list of labels
-  this._setVal( 'labels',   new Set() );
+  this._setVal( 'labels',   {} );
   
   // list of synonyms
   this._setVal( 'synonyms', new Set() )
   
-  // set displayed label
-  if( label ) {
-    this._setVal( 'dispLabel', label );
-  }
+  // display label
+  this._setVal( 'dispLabel', displayLabel, false, true );
 
 }
 
@@ -36,10 +34,11 @@ function SemObject( uri, label ) {
  * set a particular key/value pair for this object
  * - not modifiable
  */
-SemObject.prototype._setVal = function( name, val, enumerable ) {
+SemObject.prototype._setVal = function( name, val, enumerable, writable ) {
   Object.defineProperty( this, name, {
     'value': val,
-    'enumerable': !!enumerable
+    'enumerable': !!enumerable,
+    'writable': !!writable
   });
 };
 
@@ -48,12 +47,37 @@ SemObject.prototype._setVal = function( name, val, enumerable ) {
  * get a label of this object for display
  */
 SemObject.prototype.getDisplayLabel = function getDisplayLabel() {
+  
   if( this.dispLabel ) {
+    
+    // return the set display label
     return this.dispLabel;
+    
   } else {
-    return this.labels.values().next().value;
+    
+    // grab the first label from the list of all labels, that is English, unspecified 
+    // or generated from URI (in that order)
+    var labelSet = this.labels[ 'en' ] || this.labels[ ''] || this.labels[ '_uri' ];
+    if( labelSet.size > 0 ) {
+      var label = labelSet.entries().next().value[0];
+      return label;
+    }
+    
   }
 }
+
+/**
+ * set the label of this object for display, if it has not been set
+ */
+SemObject.prototype.setDisplayLabel = function setDisplayLabel( label ) {
+  
+  // we just add a display label, if the object has not been frozen yet
+  if( !Object.isFrozen( this ) ) {
+    this.dispLabel = label;
+  }
+  
+}
+
 
 /**
  * get the URI for this wrapper
@@ -68,10 +92,58 @@ SemObject.prototype.getURI = function getURI(){
 /**
  * get the list of associated labels
  * 
+ * @param   {String*}         lang    just get labels of this language
  * @returns {Array[String]}
  */
-SemObject.prototype.getLabels = function getLabels(){
-  return [ ... this.labels];
+SemObject.prototype.getLabels = function getLabels( lang ){
+  
+  var labels;
+  
+  if( typeof lang == 'undefined' ) {
+    
+    // if no language is set, return all from English, unknown and URI-generated
+    var labelList = [];
+    if( 'en'    in this.labels ) { labelList = labelList.concat( ... this.labels['en'] );   }
+    if( ''      in this.labels ) { labelList = labelList.concat( ... this.labels[''] );     }
+    if( '_uri'  in this.labels ) { labelList = labelList.concat( ... this.labels['_uri'] ); }
+    labels = new Set( labelList );
+  
+  } else {
+    
+    // select the respective set or an empty set otherwise
+    labels = this.labels[ lang ] || new Set();
+    
+  }
+  
+  return [ ... labels ];
+  
+}
+
+
+/**
+ * get the detailed label object
+ * 
+ * @returns {Object}
+ */
+SemObject.prototype.getLabelDetails = function getLabelDetails( lang ){
+  
+  return this.labels;
+  
+}
+
+
+/**
+ * set the detailed label object; used in deserializing
+ * 
+ * @returns {Object}
+ */
+SemObject.prototype.setLabelDetails = function setLabelDetails( labels ){
+  
+  Object.keys( labels ) 
+        .forEach( (lang) => {
+          this.labels[ lang ] = labels[ lang ];
+        });
+  
 }
 
 
@@ -83,11 +155,6 @@ SemObject.prototype.getLabels = function getLabels(){
  */
 SemObject.prototype.addLabel = function addLabel( label ) {
 
-  // don't add empty labels
-  if( !label ) {
-    return this;
-  }
-  
   // take care of arrays here
   if( label instanceof Array ) {
     for( var i=0; i<label.length; i++ ) {
@@ -96,11 +163,23 @@ SemObject.prototype.addLabel = function addLabel( label ) {
     return;
   }
 
+  // don't add empty labels
+  if( !label || !label.label ) {
+    return this;
+  }
+
+  // get the entry for the respective language
+  if( !(label.lang in this.labels) ) {
+    this.labels[ label.lang ] = new Set();
+  }
+  var labelSet = this.labels[ label.lang ];
+  
   // add label itself
-  this.labels.add( '' + label );
+  labelSet.add( '' + label.label );
   
   // add label version without spaces
-  this.labels.add( label.replace( /\s/g, '' ) );
+  label.label = label.label.replace( /\s/g, '' ),
+  labelSet.add( '' + label.label );
   
   return this;
 }
@@ -153,7 +232,21 @@ SemObject.prototype.getRaw = function getRaw( raw ) {
  */
 SemObject.prototype._copy = function _copy( clone ) {
   
-  clone.addLabel( this.getLabels() );
+  // clone labels
+  Object.keys( this.labels )
+        .forEach( (lang) => {
+          
+          this.labels[ lang ]
+              .forEach( (label) => {
+                clone.addLabel({
+                  lang: lang,
+                  label: label
+                });
+              });
+          
+        });
+  
+  // copy other values
   clone.setOntology( this.getOntology() );
   var raw = this.getRaw();
   if( raw ){

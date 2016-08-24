@@ -189,12 +189,11 @@ function deserialize( obj ) {
       if( obj.dimVector.length > 0 ){ instance.setVector( obj.dimVector ); }
       if( obj.ontology ) { instance.setOntology( obj.ontology ); }
       if( obj.raw )      { instance.setRaw( raw ); }
-      for( var i=0; i<obj.labels.length; i++ ) {
-        instance.addLabel( obj.labels[i] );
-      }
+      if( obj.labels )   { instance.setLabelDetails( deserialize( obj.labels ) ); }
 
       // add to cache and return
       entityCache[ obj.uri ] = instance;
+
       return instance;
 
 
@@ -217,9 +216,7 @@ function deserialize( obj ) {
           instance.isPrefixed( obj.isPrefixed );
         }
       }
-      for( var i=0; i<obj.labels.length; i++ ) {
-        instance.addLabel( obj.labels[i] );
-      }
+      if( obj.labels )   { instance.setLabelDetails( deserialize( obj.labels ) ); }
 
       // add to cache and return
       entityCache[ obj.uri ] = instance;
@@ -238,9 +235,7 @@ function deserialize( obj ) {
       var instance = new SemObject( obj.uri, obj.dispLabel );
       if( obj.ontology ) { instance.setOntology( obj.ontology ); }
       if( obj.raw )      { instance.setRaw( raw ); }
-      for( var i=0; i<obj.labels.length; i++ ) {
-        instance.addLabel( obj.labels[i] );
-      }
+      if( obj.labels )   { instance.setLabelDetails( deserialize( obj.labels ) ); }
 
       // add to cache and return
       entityCache[ obj.uri ] = instance;
@@ -260,9 +255,8 @@ function deserialize( obj ) {
        if( obj.ontology ) { instance.setOntology( obj.ontology ); }
        if( obj.factor )   { instance.setFactor( obj.factor ); }
        if( obj.raw )      { instance.setRaw( obj.raw ); }
-       for( var i=0; i<obj.labels.length; i++ ) {
-         instance.addLabel( obj.labels[i] );
-       }
+       if( obj.labels )   { instance.setLabelDetails( deserialize( obj.labels ) ); }
+
 
        // add to cache and return
        entityCache[ obj.uri ] = instance;
@@ -340,7 +334,7 @@ function serialize( key, value ) {
         uri:        value.getURI(),
         ontology:   value.getOntology(),
         dimVector:  value.getVector(),
-        labels:     value.getLabels(),
+        labels:     value.getLabelDetails(),
         dispLabel:  value.getDisplayLabel(),
         raw:        value.getRaw()
       };
@@ -351,7 +345,7 @@ function serialize( key, value ) {
         __type: 'SemUnit',
         uri:        value.getURI(),
         ontology:   value.getOntology(),
-        labels:     value.getLabels(),
+        labels:     value.getLabelDetails(),
         dispLabel:  value.getDisplayLabel(),
         isPrefixed: value.isPrefixed(),
         raw:        value.getRaw(),
@@ -364,7 +358,7 @@ function serialize( key, value ) {
         __type: 'SemPrefix',
         uri:        value.getURI(),
         ontology:   value.getOntology(),
-        labels:     value.getLabels(),
+        labels:     value.getLabelDetails(),
         dispLabel:  value.getDisplayLabel(),
         factor:     value.getFactor(),
         raw:        value.getRaw()
@@ -376,7 +370,7 @@ function serialize( key, value ) {
         __type: 'SemObject',
         uri:        value.getURI(),
         ontology:   value.getOntology(),
-        labels:     value.getLabels(),
+        labels:     value.getLabelDetails(),
         dispLabel:  value.getDisplayLabel(),
         raw:        value.getRaw()
       };
@@ -429,15 +423,14 @@ var entityCache = {};
 
 
 /**
- * return a wrapper object for the semantic object given by uri
+ * return a wrapper object for the semantic object given by URI
  *
  * @param   {String}      uri
- * @param   {String}      label   the main label for this object / display label
  * @param   {Number}      type    the type of the object
  * @param   {String}      onto    the ontology this object belongs to
  * @returns {SemObject}
  */
-function getEntity( uri, label, type, onto ) {
+function getEntity( uri, type, onto ) {
 
   // get constructor
   var Constructor;
@@ -468,7 +461,7 @@ function getEntity( uri, label, type, onto ) {
   }
 
   // create instance
-  var instance = new Constructor( uri, label );
+  var instance = new Constructor( uri );
 
   // add name of ontology, if present
   if( onto ) {
@@ -506,7 +499,7 @@ function freeze( obj ) {
   // freeze itself
   Object.freeze( obj );
 
-  // freeze all relevenat subproperties
+  // freeze all relevant subproperties
   var keys = Object.getOwnPropertyNames( obj );
   for( var i=0; i<keys.length; i++ ) {
 

@@ -49,7 +49,8 @@ function semObjectQuantKinds() {
       onto:       onto,
       type:       OntoStore.OBJECT,
       uriProp:    'quantKind',
-      labelProp:  'label'
+      labelProp:  'label',
+      langProp:   'labelLang',
     });
 
     // add to results

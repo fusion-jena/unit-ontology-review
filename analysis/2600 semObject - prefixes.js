@@ -50,6 +50,7 @@ function semObjectPrefixes() {
       type:       OntoStore.PREFIX,
       uriProp:    'prefix',
       labelProp:  'label',
+      langProp:   'labelLang',
       addRaw:     true,
       entryCreated: function( raw, entry ) {
 

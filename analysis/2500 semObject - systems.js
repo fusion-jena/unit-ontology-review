@@ -49,7 +49,8 @@ function semObjectSystems() {
       onto:       onto,
       type:       OntoStore.OBJECT,
       uriProp:    'system',
-      labelProp:  'label'
+      labelProp:  'label',
+      langProp:   'labelLang',
     });
 
     // add to results
