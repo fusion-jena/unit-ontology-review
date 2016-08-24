@@ -121,6 +121,15 @@ SemObject.prototype.getLabels = function getLabels( lang ){
 
 
 /**
+ * get the list of languages used in labels for this object
+ * @returns {Array[String]}
+ */
+SemObject.prototype.getLabelLanguages = function getLabelLanguages(){
+  return Object.keys( this.labels );
+}
+
+
+/**
  * get the detailed label object
  * 
  * @returns {Object}
