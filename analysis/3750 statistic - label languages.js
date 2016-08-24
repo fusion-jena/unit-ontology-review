@@ -53,7 +53,7 @@ function statisticLabelLanguages() {
       
       // make sure we have a matching entry in results
       results[ onto ]         = results[ onto ] || {};
-      results[ onto ][ type ] = results[ onto ][ type ] || { _total: 0 };
+      results[ onto ][ type ] = results[ onto ][ type ] || { _total: 0, _missing: 0 };
       
       // get languages for labels in object
       var languages = obj.getLabelLanguages();
@@ -69,6 +69,11 @@ function statisticLabelLanguages() {
         }
         
       })
+      
+      // there is no (natural language) label at all 
+      if( (languages.length == 1) && (languages[0] == '_uri') ) {
+        results[ onto ][ type ]._missing += 1;
+      }
       
     }
     

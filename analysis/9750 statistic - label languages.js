@@ -22,9 +22,10 @@ var localCfg = {
       Log( localCfg.moduleName, msg, type );
     },
     renames = {
-        '_total': 'total',
-        '_uri':   null,         // not included in result
-        '':       'unknown'
+        '_total':   'total',
+        '_missing': 'missing',
+        '_uri':     null,         // not included in result
+        '':         'unknown'
     };
 
 
@@ -77,7 +78,8 @@ function statisticLabelLanguages() {
               }
               
               // we skip some entries
-              if( lang === null ) {
+              if( (lang === null) || 
+                  ((lang == 'missing') && (value == 0)) ) {
                 return;
               }
               
@@ -118,7 +120,11 @@ function statisticLabelLanguages() {
   out.push( '</table>' );
   
   // add remark
-  out.push( '<div class="comment">total is the total number of inviduals for that type and ontology</div>' );
+  out.push( '<div class="comment"> \
+                <i>total</i> is the total number of individuals for that type and ontology\
+                <br>\
+                <i>missing</i> is the number of individuals without any label\
+            </div>' );
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
