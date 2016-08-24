@@ -25,14 +25,10 @@ var localCfg = {
 
 function checkMissedUnits() {
 
-  // get unit lookup
-  var units       = OntoStore.getResult( 'unit' ),
-      unitLookup  = buildLookup( units );
-
   // get list of unrecognized prefixed units
   var missing = OntoStore.getResult( 'check - missed units' );
 
-  // get list of onotlogies
+  // get list of ontologies
   var ontos = OntoStore.getOntologies();
 
   // build output
