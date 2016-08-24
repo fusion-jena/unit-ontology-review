@@ -1,6 +1,6 @@
 {
   "name": "unit-ontology-review",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "The included scripts enable an evaluation of ontologies in the field of measurement units.",
   "main": "0000 runAllScripts.js",
   "contributors": [
