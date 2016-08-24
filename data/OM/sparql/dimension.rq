@@ -2,6 +2,7 @@ PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
 
 SELECT  ?dimension
         ?label
+        ?labelLang
         ?dimLength
         ?dimMass
         ?dimTime
@@ -20,5 +21,5 @@ WHERE {
              om:SI_amount_of_substance_dimension_exponent       ?dimAmount ;
              om:SI_luminous_intensity_dimension_exponent        ?dimLum ;
              
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
 }

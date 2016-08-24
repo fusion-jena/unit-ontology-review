@@ -1,9 +1,13 @@
 PREFIX quSchema: <http://purl.oclc.org/NET/ssnx/qu/qu#>
 PREFIX quPrefix: <http://purl.oclc.org/NET/ssnx/qu/prefix#>
 
-SELECT ?prefix ?label ?factor
+SELECT  ?prefix 
+        ?label 
+        ?labelLang
+        ?factor
 WHERE {
-  ?prefix a quSchema:Prefix;
-  	rdfs:label ?label.
+  ?prefix a           quSchema:Prefix;
+          rdfs:label  ?label.
+  BIND( LANG(?label) AS ?labelLang )
   OPTIONAL {?prefix quSchema:unitMultipleFactor ?factor.}
 }

@@ -2,7 +2,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX oboe: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#>
 PREFIX oboeStandards: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl#>
 
-SELECT DISTINCT ?unit ?label ?symbol ?definition
+SELECT DISTINCT   ?unit 
+                  ?label 
+                  ?labelLang 
+                  ?symbol 
+                  ?definition
 WHERE {
   ?unit rdfs:subClassOf oboe:Unit.
   FILTER (?unit NOT IN (oboe:Unit,oboe:BaseUnit,oboe:CompositeUnit,oboe:DerivedUnit))

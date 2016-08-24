@@ -3,6 +3,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT  ?quantKind
         ?label
+        ?labelLang
         ?parent
 WHERE {
 
@@ -15,7 +16,7 @@ WHERE {
     FILTER( ?quantKind != ?parent )
   }
   
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
   FILTER( ?quantKind != om:Quantity )
   
 }

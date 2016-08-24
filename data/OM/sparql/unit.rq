@@ -4,6 +4,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT
         ?unit
         ?label
+        ?labelLang
         ?symbol
         ?definition
 WHERE {
@@ -12,7 +13,7 @@ WHERE {
   
   OPTIONAL { 
     ?unit rdfs:label  ?label 
-    FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+    BIND( LANG(?label) AS ?labelLang )
   }
 
   OPTIONAL { ?unit om:symbol ?symbol }

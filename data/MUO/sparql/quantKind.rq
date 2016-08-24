@@ -1,8 +1,11 @@
 PREFIX muo: <http://purl.oclc.org/NET/muo/muo#>
 PREFIX ucum: <http://purl.oclc.org/NET/muo/ucum/>
 
-SELECT ?quantKind ?label
+SELECT ?quantKind ?label ?labelLang
 WHERE {
   ?quantKind a muo:PhysicalQuality.
-  OPTIONAL {?quantKind rdfs:label ?label.}
+  OPTIONAL {
+    ?quantKind rdfs:label ?label.
+    BIND( LANG(?label) AS ?labelLang )
+  }
 }

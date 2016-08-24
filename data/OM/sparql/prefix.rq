@@ -4,11 +4,12 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT  ?prefix
         ?factor
         ?label
+        ?labelLang
 WHERE {
   ?prefix a           om:Prefix ;
           om:factor   ?factor ;
           rdfs:label  ?label .
   
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
 
 }

@@ -1,7 +1,9 @@
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-SELECT ?appField ?label
+SELECT  ?appField 
+        ?label 
+        ?labelLang
 WHERE {
   ?appField rdf:type skos:Scheme.
 }

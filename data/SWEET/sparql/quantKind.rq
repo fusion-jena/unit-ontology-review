@@ -1,6 +1,9 @@
 PREFIX prop: <http://sweet.jpl.nasa.gov/2.3/prop.owl#>
 
-SELECT ?quantKind ?label ?parent
+SELECT  ?quantKind 
+        ?label
+        ?labelLang
+        ?parent
 WHERE {
 	?quantKind rdfs:subClassOf prop:Property.
 	OPTIONAL {
@@ -13,5 +16,8 @@ WHERE {
 		}
 		FILTER (?quantKind != ?parent)
 	}
-	OPTIONAL {?quantKind rdfs:label ?label.}
+	OPTIONAL {
+	 ?quantKind rdfs:label ?label.
+	 BIND( LANG(?label) AS ?labelLang )
+  }
 }

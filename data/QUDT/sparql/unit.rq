@@ -5,6 +5,7 @@ PREFIX vaem: <http://www.linkedmodel.org/schema/vaem#>
 SELECT DISTINCT
         ?unit
         ?label
+        ?labelLang
         ?symbol
         ?definition
 WHERE {
@@ -13,7 +14,7 @@ WHERE {
         
   OPTIONAL { ?unit qudt:symbol ?symbol } .
       
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
   FILTER NOT EXISTS {
     ?unit a qudt:PrefixUnit .
   } .

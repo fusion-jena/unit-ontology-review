@@ -5,6 +5,7 @@ PREFIX rdfs:            <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT  ?dimension
         ?label
+        ?labelLang
         ?dimLength
         ?dimMass
         ?dimTime
@@ -18,6 +19,7 @@ WHERE {
   
   OPTIONAL {
     ?dimension rdfs:label ?label .
+    BIND( LANG(?label) AS ?labelLang )
   }
 
   OPTIONAL {

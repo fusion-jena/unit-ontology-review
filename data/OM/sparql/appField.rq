@@ -3,9 +3,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT  ?appField
         ?label
+        ?labelLang
 WHERE {
   ?appField a          om:Application_area ;
            rdfs:label ?label .
   
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
 }

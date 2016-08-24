@@ -7,7 +7,8 @@ module.exports = {
     // Field of application
     'appField': {
       'appField': REQUIRED,
-      'label':    REQUIRED
+      'label':    REQUIRED,
+      'labelLang':REQUIRED
     },
 
     // Relation between Field of application and Kind of quantity
@@ -34,6 +35,7 @@ module.exports = {
     'dimension': {
       'dimension': REQUIRED,
       'label':     REQUIRED,
+      'labelLang': REQUIRED,
       'dimLength': OPTIONAL,
       'dimMass':   OPTIONAL,
       'dimTime':   OPTIONAL,
@@ -53,6 +55,7 @@ module.exports = {
     'prefix': {
       'prefix': REQUIRED,
       'label':  REQUIRED,
+      'labelLang': REQUIRED,
       'factor': OPTIONAL
     },
 
@@ -67,6 +70,7 @@ module.exports = {
     'quantKind': {
       'quantKind':  REQUIRED,
       'label':      REQUIRED,
+      'labelLang':  REQUIRED,
       'parent':     OPTIONAL
     },
 
@@ -85,7 +89,8 @@ module.exports = {
     // System of units
     'system': {
       'system': REQUIRED,
-      'label':  REQUIRED
+      'label':  REQUIRED,
+      'labelLang': REQUIRED,
     },
 
     // Relation between System of units and Measurement unit
@@ -98,6 +103,7 @@ module.exports = {
     'unit': {
       'unit':       REQUIRED,
       'label':      REQUIRED,
+      'labelLang':  REQUIRED,
       'symbol':     OPTIONAL,
       'definition': OPTIONAL
     },

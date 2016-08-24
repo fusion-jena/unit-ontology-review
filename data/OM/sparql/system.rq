@@ -3,9 +3,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT  ?system
         ?label
+        ?labelLang
 WHERE {
 
   ?system a          om:System_of_units ;
           rdfs:label ?label .
-  FILTER( LANG( ?label ) IN ( "en", "" ) ) .
+  BIND( LANG(?label) AS ?labelLang )
+
 }

@@ -5,7 +5,8 @@ PREFIX rdfs:            <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT  ?quantKind
         ?label
-      ?parent
+        ?labelLang
+        ?parent
 WHERE {
 
   ?quantKind a qudt:QuantityKind .
@@ -16,6 +17,7 @@ WHERE {
   
   OPTIONAL {
     ?quantKind rdfs:label ?label .
+    BIND( LANG(?label) AS ?labelLang )
   }
 
 }
