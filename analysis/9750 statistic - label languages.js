@@ -84,7 +84,7 @@ function statisticLabelLanguages() {
               }
               
               // add class
-              var klass = value >= values._total ? 'green' : 'red';
+              var klass = ((value < values._total) || (lang == 'missing')) ? 'red' : 'green';
               
               // add to cell
               cell.push( '<div class="' + klass + '">' + lang + ': ' + value + '</div>' );
