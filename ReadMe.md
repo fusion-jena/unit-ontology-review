@@ -5,7 +5,7 @@ For an general overview please refer to File and Folder Structure.
 
 # Dependencies
 
-* [NodeJS](https://nodejs.org/) at least version 5
+* [NodeJS](https://nodejs.org/) at least version 6
 * [Sesame](http://rdf4j.org/)
 
 # Installation
