@@ -20,7 +20,11 @@
  */
 
 // includes
-var OntoStore = require( './OntoStore' );
+var OntoStore = require( './OntoStore' ),
+    XRegExp = require( 'xregexp' );
+
+// regexp to eliminate non alphanumeric characters from labels
+var regexp_Alphanum = XRegExp( '[^\\pL0-9]', 'gu' );
 
 /**
  * convert given list of objects to SemObject instances
@@ -44,7 +48,7 @@ function convertToSemObject( param ){
   
   // process all entries
   for( var entry of param.values ) {
-    
+
     // get wrapper
     var wrapper = OntoStore.getEntity( entry[ param.uriProp ],
                                        param.type,
@@ -191,7 +195,7 @@ function prepareLabel( param, label ) {
   label = label.toLowerCase();
   
   // replace some characters
-  label = label.replace( /[^a-zA-Z0-9]/g, ' ' );
+  label = label.replace( regexp_Alphanum, ' ' );
   
   // apply replacements
   for( var repl of param.replacements ) {
