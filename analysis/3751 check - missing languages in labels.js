@@ -22,7 +22,7 @@ var localCfg = {
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
     },
-    skip = [ '_total', '_uri', '' ];      // skip artificially introduced "languages"
+    skip = [ '_total', '_uri', '_missing' ];      // skip artificially introduced "languages"
 
 
 function statisticMissingLanguagesInLabels() {
@@ -65,8 +65,8 @@ function statisticMissingLanguagesInLabels() {
       if( (languages.length == 1) && (languages[0] == '_uri') ) {
 
         // no (natural language) label at all
-        results[ onto ][ type ][ '' ] = results[ onto ][ type ][ '' ] || [];
-        results[ onto ][ type ][ '' ].push( obj.getURI() );
+        results[ onto ][ type ][ '_missing' ] = results[ onto ][ type ][ '_missing' ] || [];
+        results[ onto ][ type ][ '_missing' ].push( obj.getURI() );
         
       } else {
 
@@ -125,7 +125,7 @@ function getLanguagesPresent(){
                 });
           
         });
-  
+
   return result;
   
 }

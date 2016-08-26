@@ -63,15 +63,15 @@ function checkMissingLanguagesInLabels() {
               // for each language
               values.forEach( (lang) => {
                       
-                      if( lang != '' ) {
-                        out.push( '<li><h4>' + lang + '</h4><ul data-collapsible="true">' );
-                      } else {
-                        out.push( '<li><h4>No label of any language</h4><ul data-collapsible="true">' );
-                      }
-                      
                       var values = missing[ onto ][ type ][ lang ].slice( 0 );
                       values.sort();
-                      
+
+                      if( lang != '_missing' ) {
+                        out.push( '<li><h4>' + lang + ' (' + values.length + ')</h4><ul data-collapsible="true">' );
+                      } else {
+                        out.push( '<li><h4>No label of any language (' + values.length + ')</h4><ul data-collapsible="true">' );
+                      }
+                                            
                       for( var i=0; i<values.length; i++ ) {
                         out.push( '<li>' + values[i] );
                       }
