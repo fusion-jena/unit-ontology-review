@@ -88,8 +88,8 @@ The added Ontology will then be automatically involved at the next execution of 
 
 We provide precomputed results in two ways, which can be found using the following links:
 
-* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.1.0/extracted_individuals.zip)
-* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.1.0.zip)
+* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.2.0/extracted_individuals.zip)
+* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.2.0.zip)
 
 # Acknowledgments
 
