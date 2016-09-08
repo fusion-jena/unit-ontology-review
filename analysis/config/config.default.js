@@ -11,6 +11,9 @@ module.exports = {
 
     // base path to target data
     targetPath: __dirname + '/../../res/',
+    
+    // path to templates
+    templatePath: __dirname + '/../templates',
 
     // which rdfstore to use; vaild values currently just "http"
     rdfstore: 'http',
@@ -19,4 +22,9 @@ module.exports = {
     // repository will be wiped clean!
     sparqlEndpointPost: 'http://localhost:8080/openrdf-sesame/repositories/units/statements',
     sparqlEndpointGet: 'http://localhost:8080/openrdf-sesame/repositories/units',
+    
+    // keep old result files, when executing the whole stack
+    // will just change the content, but not recreate the file
+    keepResultFiles: false,
+
 };

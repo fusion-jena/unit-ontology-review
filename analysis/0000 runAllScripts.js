@@ -52,33 +52,35 @@ if( process.argv.length > 2 ) {
 }
 
 // if no startscript has been set, we execute all
-// but before, we clean the old results
-if( process.argv.length < 3 ) {
+if( (process.argv.length < 3) ) {
 
-  // clear the result directory, but leave .gitignore in place
-  // https://gist.github.com/liangzan/807712#gistcomment-1350457
-  var rmDir = function(dirPath, removeSelf) {
+  // but before, we clean the old results
+  if( !Cfg.keepResultFiles ) {
+    // clear the result directory, but leave .gitignore in place
+    // https://gist.github.com/liangzan/807712#gistcomment-1350457
+    var rmDir = function(dirPath, removeSelf) {
 
-    if (removeSelf === undefined)
-      removeSelf = true;
-    var files = Fs.readdirSync(dirPath)
-                  .filter( (file) => {
-                    return file.charAt( 0 ) != '.';
-                  });
+      if (removeSelf === undefined)
+        removeSelf = true;
+      var files = Fs.readdirSync(dirPath)
+                    .filter( (file) => {
+                      return file.charAt( 0 ) != '.';
+                    });
 
-    if (files.length > 0)
-      for (var i = 0; i < files.length; i++) {
-        var filePath = dirPath + '/' + files[i];
-        if (Fs.statSync(filePath).isFile())
-          Fs.unlinkSync(filePath);
-        else
-          rmDir(filePath);
-      }
-    if (removeSelf)
-      Fs.rmdirSync(dirPath);
-  };
-  rmDir( Cfg.targetPath, false );
-  log( '   removed all result files' );
+      if (files.length > 0)
+        for (var i = 0; i < files.length; i++) {
+          var filePath = dirPath + '/' + files[i];
+          if (Fs.statSync(filePath).isFile())
+            Fs.unlinkSync(filePath);
+          else
+            rmDir(filePath);
+        }
+      if (removeSelf)
+        Fs.rmdirSync(dirPath);
+    };
+    rmDir( Cfg.targetPath, false );
+    log( '   removed all result files' );    
+  }
 
   // run all scripts
   scripts = runScripts();

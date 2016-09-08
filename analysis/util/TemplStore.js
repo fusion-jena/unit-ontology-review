@@ -22,7 +22,7 @@ var FileStore = {};
 FileStore.writeResult = function writeResult( key, name, content ){
   
   // get template
-  var templ = Fs.readFileSync( Cfg.targetPath + '/../analysis/templates/theme.htm', 'utf8' );
+  var templ = Fs.readFileSync( Cfg.templatePath + '/theme.htm', 'utf8' );
 
   // insert title
   templ = templ.replace( '{title}', name );
@@ -59,7 +59,7 @@ FileStore._getResPath = function _getResPath( key, name ) {
 FileStore.writeFilelist = function writeFilelist( key, name, content ){
 
   // get template
-  var templ = Fs.readFileSync( Cfg.targetPath + '/../analysis/templates/filelist.htm', 'utf8' );
+  var templ = Fs.readFileSync( Cfg.templatePath + '/filelist.htm', 'utf8' );
 
   // insert title
   templ = templ.replace( '{title}', name );
