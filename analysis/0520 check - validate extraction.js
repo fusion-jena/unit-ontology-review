@@ -21,6 +21,13 @@ var localCfg = {
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
+    },
+    byUri = {
+      'appField': 'appField',
+      'dimension': 'dimension',
+      'unit': 'unit',
+      'system': 'system',
+      'quantKind': 'quantKind'
     };
 
 
@@ -55,17 +62,50 @@ function check() {
         var curStructure = Structure[ files[j] ];
 
         // collect all keys and count
-        var counts = {};
+        const counts = {},
+              total  = new Set(),
+              allKeys = new Set(),
+              uriKey = files[j] in byUri ? byUri[ files[j] ] : null;
         for (var d=0; d<data.length; d++) {
           Object.keys( data[d] )
                 .forEach( (key) => {
-                  counts[ key ] = counts[ key ] || 0;
-                  counts[ key ] += 1;
+
+                  // collect extracted keys for later checks
+                  allKeys.add( key );
+
+                  // exception for label and labelLang, which need to be combined
+                  if( 'labelLang' == key ) { return; }
+                  if( 'label'     == key ) {
+                    // build composite key
+                    if( data[d].labelLang ) {
+                      key += '@' + data[d].labelLang || '';
+                    }
+                  }
+
+                  // add to counts
+                  counts[ key ] = counts[ key ] || new Set();
+                  if( uriKey ) {
+                    // count by URI, because there might be multiple entries (different language labels)
+                    counts[ key ].add( data[d][ uriKey ] );
+                  } else {
+                    // add a placeholder as entries are uniqueID
+                    counts[ key ].add( d );
+                  }
+
                 });
+
+          // add to total
+          if( uriKey ) {
+            // count by URI, because there might be multiple entries (different language labels)
+            total.add( data[d][ uriKey ] );
+          } else {
+            // add a placeholder as entries are uniqueID
+            total.add( d );
+          }
+
         }
 
         // check for superfluous properties
-        var allKeys = new Set( Object.keys( counts ) );
         allKeys.forEach( (key) => {
           if( !(key in curStructure) ) {
             log( '   superfluous property in ' + files[j] + ': ' + key, Log.ERROR );
@@ -77,16 +117,30 @@ function check() {
         for( var k=0; k<keys.length; k++ ) {
           if( (curStructure[ keys[k] ] !== Structure['OPTIONAL'])
               && !allKeys.has(keys[k]) ) {
+
+            // log error message
             log( '   missing property in ' + files[j] + ': ' + keys[k], Log.ERROR );
+            
+            // add a zero entry for output in HTML later on
+            // labelLang is the exception as we added that already in the extended label property
+            if( 'labelLang' != keys[k] ) {
+              counts[ keys[k] ] = new Set();
+            }
+
           }
 
         }
 
+        // replace Sets by their size
+        Object.keys( counts )
+          .forEach( (key) => {
+            counts[ key ] = counts[ key ].size;
+          });
+
         // add to results
         results[ ontos[i] ] = results[ ontos[i] ] || {};
         results[ ontos[i] ][ files[j] ] = counts;
-        results[ ontos[i] ][ files[j] ]._total = data.length;
-
+        results[ ontos[i] ][ files[j] ]._total = total.size;
 
       } catch( e ){
 

@@ -10,7 +10,6 @@
 var Q           = require( 'q' ),
     Log         = require( './util/log.js' ),
     OntoStore   = require( './util/OntoStore' ),
-    Structure   = require( './config/structure.js' ),
     TemplStore  = require( './util/TemplStore' );
 
 // local settings
@@ -25,8 +24,34 @@ var localCfg = {
 
 function checkExtractedRelations() {
 
-  // get conversion mismatches
+  // get counts of extracted properties
   var counts = OntoStore.getResult( 'check - validate extraction' );
+
+  // extract list of extracted properties per type
+  const Structure = {};
+  Object.keys( counts )
+    .forEach( (onto) => {
+      
+      // shortcut
+      const data = counts[ onto ];
+      
+      // collect types
+      Object.keys( data )
+        .forEach( (type)  => {
+          
+          // init type, if necessary
+          Structure[ type ] = Structure[ type ] || new Set();
+          
+          // collect properties
+          Object.keys( data[type] )
+            .forEach( (prop) => {
+              if( prop[0] != '_' ) {
+                Structure[ type ].add( prop );
+              }
+            });
+        })
+      
+    });
 
   // prepare table header
   var out = [ '<table class="firstColHeader"><tr><th></th><th></th>' ];
@@ -37,15 +62,13 @@ function checkExtractedRelations() {
   out.push( '</tr>' );
 
   // one row per result types' properties
-  for( var type in Structure ) {
+  const types = Object.keys( Structure );
+  types.sort();
+  for( let type of types ) {
 
-    // skip constant values (consist of just upper case letters)
-    if( type == type.toUpperCase() ) {
-      continue;
-    }
-
-    // get list of properties for this type
-    var props = Object.keys( Structure[ type ] );
+    // shortcut to list of properties for this type
+    var props = [ ... Structure[ type ] ];
+    props.sort();
 
     // insert first column
     out.push( '<tr><th rowspan="', props.length + 1, '">', type, '</th>' );
@@ -65,7 +88,7 @@ function checkExtractedRelations() {
     for( var i=0; i<props.length; i++ ) {
       out.push( '<tr><td>', props[i], '</td>' );
       ontos.forEach( (onto) => {
-        if( type in counts[ onto ] ) {
+        if( (type in counts[ onto ]) && (props[i] in counts[ onto ][ type ]) ) {
           var val = counts[ onto ][ type ][ props[i] ] || 0,
               symbol = getSymbol( val, counts[ onto ][ type ]._total );
           out.push( '<td>', symbol, ' ', val, '</td>' );
