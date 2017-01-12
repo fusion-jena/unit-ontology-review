@@ -22,6 +22,14 @@ var localCfg = {
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
+    },
+    relToTypes = {
+      appFieldQuantKind:    [ 'appField', 'quantKind' ],
+      appFieldUnit:         [ 'appField', 'unit' ],
+      dimensionUnit:        [ 'dimension', 'unit' ],
+      prefixUnit:           [ 'prefix', 'unit' ],
+      quantKindUnit:        [ 'quantKind', 'unit' ],
+      systemUnit:           [ 'system', 'unit' ]
     };
 
 
@@ -81,9 +89,22 @@ function checkRelationCoverage() {
       out.push( '<tr><td><b>', rel, '</b></td>' );
       ontos.forEach( (onto) => {
         if( (type in coverage[ onto ]) && (rel in coverage[ onto ][ type ]) ) {
+          
           out.push( '<td>', getSymbol( coverage[ onto ][ type ][ rel ], counts[ onto ][ countType ] ), ' ', coverage[ onto ][ type ][ rel ], '</td>' );
+          
         } else {
-          out.push( '<td>-</td>' );
+          
+          // are both types present to this relation?
+          const typesPresent =    ( counts[ onto ][ relToTypes[rel][0] ] > 0 )
+                               && ( counts[ onto ][ relToTypes[rel][1] ] > 0 );
+
+          // different output, whether there could have been a value or note
+          if( typesPresent ) {
+            out.push( '<td>', getSymbol( 0, counts[ onto ][ countType ] ), ' 0</td>' );
+          } else {
+            out.push( '<td>-</td>' );
+          }
+
         }
       });
       out.push( '</tr>' );
