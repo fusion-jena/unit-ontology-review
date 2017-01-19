@@ -29,6 +29,8 @@ WHERE {
       wd:Q630830
       # archaeological period
       wd:Q15401633
+      # physical constants
+      wd:Q173227
     } .
     ?unit wdt:P31/wdt:P279* ?removals
   }

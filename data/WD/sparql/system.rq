@@ -12,7 +12,6 @@ WHERE {
   OPTIONAL {
     ?system rdfs:label ?label.
     BIND( LANG(?label) AS ?labelLang )
-    FILTER (?labelLang = "en")
   }
 
 }
