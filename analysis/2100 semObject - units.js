@@ -129,30 +129,6 @@ function semObjectUnits() {
   return Q( true );
 }
 
-/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Helper XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
-
-/**
- * extract the dimension vector from the given entry or null, if none
- */
-function getDimvector( dim ) {
-
-  if( ('dimLum' in dim) && ('dimTime' in dim) && ('dimLength' in dim) && ('dimMass' in dim)
-      && ('dimElec' in dim) && ('dimThermo' in dim) && ('dimAmount' in dim)) {
-    return [
-      dim.dimLength,
-      dim.dimMass,
-      dim.dimTime,
-      dim.dimElec,
-      dim.dimThermo,
-      dim.dimAmount,
-      dim.dimLum
-    ];
-  } else {
-    return null;
-  }
-
-}
-
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Export XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 // if called directly, execute, else export

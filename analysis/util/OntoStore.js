@@ -29,9 +29,8 @@ const resultTypes = Object.keys( Structure )
                                     // get respective structure entry
                                     let struc = Structure[ key ];
                                     
-                                    // semantic types have a property of the same name
-                                    // exception is sameAs
-                                    return (key in struc) && (key != 'sameAs');
+                                    // semantic types have a label
+                                    return ('label' in struc);
                                     
                                   });
 freeze( resultTypes );
@@ -534,6 +533,66 @@ function freeze( obj ) {
   return obj;
 }
 
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXX getLanguagePref XXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/**
+ * get the order of preferred languages for a given ontology
+ * preference is given by the total amount of labels in that language
+ * 
+ * @param   {String}          onto    the ontology for which to get the languages
+ * @returns {Array[String]}           languages ordered preference
+ */
+function getLanguagePref( onto ) {
+  
+  // see, if results are already present
+  let res = getResult( 'languagePref' );
+
+  // if we already got something, just return from there
+  if( res ) {
+    return res[ onto ];
+  }
+  
+  // we have no parsed data, so get the raw one
+  let source = getResult( 'statistic - label languages overall' );
+  
+  // if there is no source yet, just return a default order
+  if( !source ){
+    return [ 'en', '', '_uri' ];
+  }
+  
+  // parse it
+  res = {};
+  Object.keys( source )
+    .forEach( (onto) => {
+      
+      // compile the list
+      let list = [];
+      Object.keys( source[onto] )
+        .forEach( (lang) => {
+          list.push( { lang, count: source[onto][lang] } );
+        });
+      
+      // sort the list by label count per language
+      list.sort( (a,b) => {
+        return a.count - b.count;
+      });
+      
+      // add language order to result
+      res[ onto ] = list.map( (entry) => entry.lang );
+      
+      // English is the prefered by default
+      res[ onto ].unshift( 'en' );
+      
+    });
+
+  // store the result
+  storeResult( '0000', 'languagePref', res );
+
+  // return the preferences for the requested ontology
+  return res[ onto ];
+  
+}
+
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Export XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 module.exports = {
@@ -545,7 +604,8 @@ module.exports = {
     storeResult:      storeResult,
     getResult:        getResult,
     loadPredefinedData: loadPredefinedData,
-
+    getLanguagePref:  getLanguagePref,
+s: serialize,
     // @const
     DIMENSION:  1,
     UNIT:       2,

@@ -52,6 +52,7 @@ function checkMissingLanguagesInLabels() {
               
               // get values
               var values = Object.keys( missing[ onto ][ type ] );
+              values.sort();
               
               // skip, if no data present for ontology
               if( values.length < 1 ) {
@@ -87,7 +88,7 @@ function checkMissingLanguagesInLabels() {
       out.push( '</ul>' );
 
       // add to output
-      Array.prototype.push.apply( output, out );
+      output.push( out.join('') );
 
     });
 

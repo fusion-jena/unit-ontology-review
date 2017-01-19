@@ -42,7 +42,7 @@ function convertToSemObject( param ){
   // add default settings
   param.stopwords     = param.stopwords || [];
   param.replacements  = param.replacements || [];
-  
+    
   // prepare result list
   var result = new Set();
   
@@ -53,7 +53,7 @@ function convertToSemObject( param ){
     var wrapper = OntoStore.getEntity( entry[ param.uriProp ],
                                        param.type,
                                        param.onto );
-    
+  
     // add labels from label property
     var label = entry[ param.labelProp ],
         lang  = entry[ param.langProp ],
@@ -72,7 +72,7 @@ function convertToSemObject( param ){
       }
 
     }
-
+    
     // label from URI
     label = getLabelFromUri( param, entry[ param.uriProp ] );
     if( label ) {
@@ -101,7 +101,7 @@ function convertToSemObject( param ){
 
     // add labels
     wrapper.addLabel( labels );
-    
+
     // set display label, if we have an English or unknown one
     if( [ 'en', '' ].indexOf( entry[ param.langProp ] ) > -1 ) {
 

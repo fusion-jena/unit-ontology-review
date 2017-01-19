@@ -55,13 +55,23 @@ SemObject.prototype.getDisplayLabel = function getDisplayLabel() {
     
   } else {
     
-    // grab the first label from the list of all labels, that is English, unspecified 
-    // or generated from URI (in that order)
-    var labelSet = this.labels[ 'en' ] || this.labels[ ''] || this.labels[ '_uri' ];
-    if( labelSet.size > 0 ) {
-      var label = labelSet.entries().next().value[0];
-      return label;
+    // get language preferences for the respective ontology
+    const OntoStore = require( __dirname + '/../OntoStore' ),
+          pref      = OntoStore.getLanguagePref( this.getOntology() );
+
+    // return a label in the first language that's present
+    for( let i=0; i<pref.length; i++ ) {
+      if( pref[i] in this.labels ) {
+        let labelSet = this.labels[ pref[i] ];
+        if( labelSet.size > 0 ) {
+          var label = labelSet.entries().next().value[0];
+          return label;
+        }        
+      }
     }
+    
+    // if nothing was found until yet: return uri label
+    return this.labels[ '_uri' ].entries().next().value[0];
     
   }
 }
@@ -182,7 +192,6 @@ SemObject.prototype.addLabel = function addLabel( label ) {
     
     // object should not be frozen at this stage, but make sure
     if( Object.isFrozen( this.labels ) ) {
-      console.log( this.toString() );
       throw new Error( 'Object already frozen for ' + this.getURI() + ' - present in multiple types?' );
     } else {
       this.labels[ label.lang ] = new Set();
