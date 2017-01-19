@@ -20,11 +20,22 @@ var Fs        = require( 'fs' ),
 
 
 // files to check
-var resultTypes = Object.keys( Structure )
-                  .filter( function( el ){
-                    return el !== el.toUpperCase();
-                  });
+const resultTypes = Object.keys( Structure )
+                          .filter( function( el ){
+                            return el !== el.toUpperCase();
+                          }),
+      semanticTypes = resultTypes.filter( (key) => {
+                                    
+                                    // get respective structure entry
+                                    let struc = Structure[ key ];
+                                    
+                                    // semantic types have a property of the same name
+                                    // exception is sameAs
+                                    return (key in struc) && (key != 'sameAs');
+                                    
+                                  });
 freeze( resultTypes );
+freeze( semanticTypes );
 
 /**
  * returns a list of all result files directly created from the ontologies
@@ -32,6 +43,16 @@ freeze( resultTypes );
  */
 function getResultTypes() {
   return resultTypes;
+}
+
+
+/**
+ * return a list of all semantic types used
+ * basically like getResultTypes() but without the relations
+ * @returns
+ */
+function getSemanticTypes() {
+  return semanticTypes;
 }
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX getData XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -516,12 +537,13 @@ function freeze( obj ) {
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Export XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 module.exports = {
-    getData:        getData,
-    getOntologies:  getOntologies,
-    getResultTypes: getResultTypes,
-    getEntity:      getEntity,
-    storeResult:    storeResult,
-    getResult:      getResult,
+    getData:          getData,
+    getOntologies:    getOntologies,
+    getResultTypes:   getResultTypes,
+    getSemanticTypes: getSemanticTypes,
+    getEntity:        getEntity,
+    storeResult:      storeResult,
+    getResult:        getResult,
     loadPredefinedData: loadPredefinedData,
 
     // @const

@@ -179,7 +179,14 @@ SemObject.prototype.addLabel = function addLabel( label ) {
 
   // get the entry for the respective language
   if( !(label.lang in this.labels) ) {
-    this.labels[ label.lang ] = new Set();
+    
+    // object should not be frozen at this stage, but make sure
+    if( Object.isFrozen( this.labels ) ) {
+      console.log( this.toString() );
+      throw new Error( 'Object already frozen for ' + this.getURI() + ' - present in multiple types?' );
+    } else {
+      this.labels[ label.lang ] = new Set();
+    }
   }
   var labelSet = this.labels[ label.lang ];
   
