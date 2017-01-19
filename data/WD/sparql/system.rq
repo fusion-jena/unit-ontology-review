@@ -1,0 +1,18 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?system
+        ?label
+        ?labelLang
+WHERE {
+
+  # find systems
+  ?system  wdt:P31/wdt:P279* wd:Q932268 .
+
+  # labels
+  OPTIONAL {
+    ?system rdfs:label ?label.
+    BIND( LANG(?label) AS ?labelLang )
+    FILTER (?labelLang = "en")
+  }
+
+}

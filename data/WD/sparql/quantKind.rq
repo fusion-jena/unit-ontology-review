@@ -1,0 +1,46 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT
+        ?quantKind
+        ?label
+        ?labelLang
+        ?parent
+WHERE {
+
+  # find quantities
+  ?quantKind wdt:P279*|wdt:P31/wdt:P279* wd:Q107715.
+  
+  # remove some instance classes
+  FILTER NOT EXISTS {
+    VALUES ?removals { 
+      # day 
+      wd:Q573
+      # index number
+      wd:Q1738991
+      # calendar
+      wd:Q12132
+      # criterion of similarity
+      wd:Q7250271
+      # Orders of magnitude 
+      wd:Q855630
+      # track gauge
+      wd:Q214519
+    } .
+    ?quantKind wdt:P279+|wdt:P31|wdt:P31/wdt:P279+ ?removals
+  }
+  
+  OPTIONAL { 
+    ?parent    wdt:P279+ wd:Q107715.
+    ?quantKind wdt:P279 ?parent .
+    FILTER( ?quantKind != ?parent )
+  }
+  
+  # labels
+  OPTIONAL {
+    ?quantKind rdfs:label ?label.
+    BIND( LANG(?label) AS ?labelLang )
+    FILTER (?labelLang = "en")
+  }
+  
+}
+ORDER BY ASC(?label)

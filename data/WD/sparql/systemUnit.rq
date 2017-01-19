@@ -1,0 +1,13 @@
+SELECT  ?system
+        ?unit
+WHERE {
+  
+  # find systems
+  ?system wdt:P31/wdt:P279* wd:Q932268 .
+  
+  # find units
+  ?unit wdt:P31/wdt:P279* wd:Q47574 .
+  
+  # connect them
+  ?unit wdt:P361 ?system .
+}

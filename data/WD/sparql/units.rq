@@ -1,0 +1,48 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT
+        ?unit
+        ?label
+        ?symbol
+        ?definition
+WHERE {
+
+  # find units
+  ?unit  wdt:P31/wdt:P279* wd:Q47574 .
+  
+  # remove some instance classes
+  FILTER NOT EXISTS {
+    VALUES ?removals { 
+      # day 
+      wd:Q573
+      # months
+      wd:Q5151
+      # years
+      wd:Q577
+      # decades
+      wd:Q39911
+      # events
+      wd:Q1190554
+      # geological age
+      wd:Q568683
+      # gelocial era
+      wd:Q630830
+      # archaeological period
+      wd:Q15401633
+    } .
+    ?unit wdt:P31/wdt:P279* ?removals
+  }
+
+  
+  # labels
+  OPTIONAL {
+    ?unit rdfs:label ?label.
+    BIND( LANG(?label) AS ?labelLang )
+  }
+
+  # symbol from latin alphabet
+  OPTIONAL { 
+    ?unit p:P558 [ ps:P558 ?symbol; pq:P282 wd:Q8229 ] .
+  }
+
+}
