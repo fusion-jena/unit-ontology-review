@@ -1,4 +1,22 @@
 SELECT  DISTINCT ?unit1 ?unit2 ?convFactor ?convOffset
 WHERE {
+
+  # units
+  ?unit1  wdt:P31/wdt:P279* wd:Q47574 .
+  ?unit2  wdt:P31/wdt:P279* wd:Q47574 .
+  
+  # grab conversions
   ?unit1 p:P2370|p:P2442 [psv:P2370|psv:P2442 [wikibase:quantityUnit ?unit2]; ps:P2370|ps:P2442 ?convFactor] .
+
+  # remove some instance classes
+  # month names
+  FILTER NOT EXISTS { ?unit1 wdt:P361/wdt:P31/wdt:P279 wd:Q12132 . }
+  FILTER NOT EXISTS { ?unit2 wdt:P361/wdt:P31/wdt:P279 wd:Q12132 . }
+  # physical constants
+  FILTER NOT EXISTS { ?unit1 wdt:P31 wd:Q173227 . }
+  FILTER NOT EXISTS { ?unit2 wdt:P31 wd:Q173227 . }
+  # orders of magnitude
+  FILTER NOT EXISTS { ?unit1 wdt:P31 wd:Q855630 . }
+  FILTER NOT EXISTS { ?unit2 wdt:P31 wd:Q855630 . }
+  
 }

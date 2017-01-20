@@ -34,7 +34,7 @@ function calculationConversionTransitiveClosure() {
 
   // get list of ontologies
   var ontos = OntoStore.getOntologies();
-
+ontos = [ 'WD' ]
   // prepare results
   var resultsAll = [],
       resultsPerOntology = {};
@@ -67,6 +67,11 @@ function calculationConversionTransitiveClosure() {
 
       // we use a clone to be able to attach new properties
       var conv = clone( srcConv );
+
+      // skip conversions to itself
+      if( conv.unit1 == conv.unit2 ) { 
+        continue;
+      }
 
       // link to ontology
       conv.onto = onto;
@@ -305,7 +310,7 @@ function calculationConversionTransitiveClosure() {
   OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName, resultsAll );
 
   // log
-  log( '   total conversions after compoutation:' + resultsAll.length );
+  log( '   total conversions after computation:' + resultsAll.length );
 
   // done
   return Q( true );
