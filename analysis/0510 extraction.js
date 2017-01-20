@@ -87,7 +87,7 @@ function processOnto( onto ) {
 
           // get file list
           var ontoFiles = listFiles( ontoSrcPath );
-          
+
           // if empty list, log and continue
           if( ontoFiles.length < 1 ) {
             log( '      skipped' );
@@ -157,14 +157,14 @@ function processOnto( onto ) {
 
 /**
  * list of files in a given path
- * - removes some files like, e.g., .gitignore
+ * - removes some files like, e.g., .gitignore or .js files
  *
  * @param {String}  path
  */
 function listFiles( path ) {
   return Fs.readdirSync( path )
            .filter( function( file ){
-             return file.endsWith( '.rq');
+             return !file.endsWith( '.js' ) && !file.endsWith( '.gitignore' );
            });
 }
 
