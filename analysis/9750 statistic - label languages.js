@@ -67,6 +67,7 @@ function statisticLabelLanguages() {
       // add values to cell
       var cell = [];
       Object.keys( values )
+            .sort()
             .forEach( (lang) => {
               
               // get value
