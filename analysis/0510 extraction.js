@@ -14,6 +14,7 @@ var Fs       = require( 'fs' ),
     Log      = require( './util/log.js' ),
     Cfg      = require( './config/config.js' ),
     RDFStore = require( './util/RDFStore.' + Cfg.rdfstore + '.js' ),
+    RDFStore_ext = require( './util/RDFStore.http-ext.js' ),
     OntoStore= require( './util/OntoStore' );
 
 // local settings
@@ -33,7 +34,7 @@ function extract() {
 
   // get a list of ontologies
   var ontos = OntoStore.getOntologies();
-  log( 'Found ' + ontos.length + ' ontologies: ' + ontos.join( ', ' ) );
+  log( 'Found  ontologies (' + ontos.length + '): ' + ontos.join( ', ' ) );
 
   // process all queries (waterfall of ontology promises)
   return processInSequence( ontos, function( onto ){
@@ -55,13 +56,26 @@ function processOnto( onto ) {
   var ontoBasePath    = Cfg.dataPath + onto,
       ontoSrcPath     = ontoBasePath + '/src/',
       ontoSparqlPath  = ontoBasePath + '/sparql/';
+  
+  // check, whether there is an endpoint file present
+  let endpoint;
+  try{
+    endpoint = require( ontoSrcPath + 'endpoint.js' );
+  } catch(e){}
 
   // link store
-  var store = new RDFStore();
+  let store;
+  if( endpoint ) { 
+    // pass logger along
+    endpoint.log = log;
+    store = new RDFStore_ext();
+  } else {
+    store = new RDFStore();
+  }
 
   log( 'Processing ontology: ' + onto );
 
-  return store.create()
+  return store.create( endpoint )
        .then(function(){
          log( '   truncate RDF-Store' );
          return store.truncate();
@@ -73,6 +87,12 @@ function processOnto( onto ) {
 
           // get file list
           var ontoFiles = listFiles( ontoSrcPath );
+          
+          // if empty list, log and continue
+          if( ontoFiles.length < 1 ) {
+            log( '      skipped' );
+            return;
+          }
 
           // get all ontology files and add to store
           return processInSequence( ontoFiles, function( filename ){
@@ -144,7 +164,7 @@ function processOnto( onto ) {
 function listFiles( path ) {
   return Fs.readdirSync( path )
            .filter( function( file ){
-             return file[0] != '.';
+             return file.endsWith( '.rq');
            });
 }
 
