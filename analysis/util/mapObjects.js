@@ -147,9 +147,9 @@ function mapObjects( param, log ) {
         if( log ) {
 
           if( !syn1 ) {
-            log( '   unknown URL: ' + mapping[0], Log.ERROR );
+            log( '   unknown URL in sameAs: ' + mapping[0], Log.ERROR );
           } else {
-            log( '   unknown URL: ' + mapping[1], Log.ERROR );
+            log( '   unknown URL in sameAs: ' + mapping[1], Log.ERROR );
           }
         }
         continue;
