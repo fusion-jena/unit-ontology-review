@@ -15,7 +15,8 @@ var Fs       = require( 'fs' ),
     Cfg      = require( './config/config.js' ),
     RDFStore = require( './util/RDFStore.' + Cfg.rdfstore + '.js' ),
     RDFStore_ext = require( './util/RDFStore.http-ext.js' ),
-    OntoStore= require( './util/OntoStore' );
+    OntoStore= require( './util/OntoStore' ),
+    FileStore= require( './util/TemplStore' );
 
 // local settings
 var localCfg = {
@@ -132,12 +133,23 @@ function processOnto( onto ) {
                     return store.execQuery( content )
                             .then( function( result ){
 
+                              // flatten result
+                              result = flatten( result );
+                              
+                              // try to load after extraction event processor
+                              var afterExtraction = FileStore.getEventProcessor( onto, 'sameAs', 'afterExtraction' );
+                              
+                              // apply event
+                              if( afterExtraction ) {
+                                result = result.map( afterExtraction );
+                              }
+
                               // create file name
                               var filename = queryFile.replace( '.rq', '.json' )
 
                               // write to file
                               Fs.writeFileSync( savePath + filename,
-                                                JSON.stringify( flatten( result ), null, '  ' ) );
+                                                JSON.stringify( result, null, 2 ) );
                               
                               // relay count
                               return result.length;

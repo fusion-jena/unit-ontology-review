@@ -1,0 +1,30 @@
+SELECT DISTINCT ?object ?sameAs ?formatter
+WHERE {
+  
+  # definitions of sameAs
+  VALUES ( ?sameAsProp ?sameAsStmtEntity ) {
+    #  QUDT unit ID
+    ( wdt:P2968 wd:P2968 )
+    # wurvoc.org measure ID (OM)
+    ( wdt:P3328 wd:P3328 )
+  }
+  
+  # base classes
+  VALUES ?base {
+    # units
+    wd:Q47574
+    # systems
+    wd:Q932268
+    # quantity kinds
+    wd:Q107715
+  }
+  
+  # object needs to be one of our types
+  ?object wdt:P279*|wdt:P31/wdt:P279* ?base .
+  
+  # and needs to be connected to something
+  ?object ?sameAsProp ?sameAs .
+
+  # get formatter str
+  ?sameAsStmtEntity p:P1630 [ ps:P1630 ?formatter ]
+}
