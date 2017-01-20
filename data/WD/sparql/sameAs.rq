@@ -1,4 +1,4 @@
-SELECT DISTINCT ?object ?sameAs ?formatter
+SELECT DISTINCT ?object ?sameAs
 WHERE {
   
   # definitions of sameAs
@@ -23,8 +23,10 @@ WHERE {
   ?object wdt:P279*|wdt:P31/wdt:P279* ?base .
   
   # and needs to be connected to something
-  ?object ?sameAsProp ?sameAs .
+  ?object ?sameAsProp ?sameAsID .
 
   # get formatter str
-  ?sameAsStmtEntity p:P1630 [ ps:P1630 ?formatter ]
+  ?sameAsStmtEntity wdt:P1630 ?formatter
+                    
+  BIND(REPLACE(?formatter, "\\$1", ?sameAsID) AS ?sameAs)
 }
