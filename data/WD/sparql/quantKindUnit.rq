@@ -10,4 +10,9 @@ WHERE {
   
   # connect them
   ?unit wdt:P111 ?quantKind .
+  
+  # filter some instances
+  # physical constants
+  FILTER NOT EXISTS { ?unit wdt:P31 wd:Q173227 }.
+
 }
