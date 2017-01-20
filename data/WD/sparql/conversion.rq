@@ -1,4 +1,4 @@
-SELECT  DISTINCT ?unit1, ?unit2, ?convFactor, ?convOffset
+SELECT  DISTINCT ?unit1 ?unit2 ?convFactor ?convOffset
 WHERE {
   ?unit1 p:P2370|p:P2442 [psv:P2370|psv:P2442 [wikibase:quantityUnit ?unit2]; ps:P2370|ps:P2442 ?convFactor] .
 }
