@@ -34,7 +34,6 @@ function calculationConversionTransitiveClosure() {
 
   // get list of ontologies
   var ontos = OntoStore.getOntologies();
-ontos = [ 'WD' ]
   // prepare results
   var resultsAll = [],
       resultsPerOntology = {};
