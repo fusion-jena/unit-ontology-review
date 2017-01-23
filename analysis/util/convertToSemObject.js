@@ -24,7 +24,7 @@ var OntoStore = require( './OntoStore' ),
     XRegExp = require( 'xregexp' );
 
 // regexp to eliminate non alphanumeric characters from labels
-var regexp_Alphanum = XRegExp( '[^\\pL0-9]', 'gu' );
+var regexp_Alphanum = XRegExp( '[^\\pL0-9-]|(-(?!\\d))', 'gu' );
 
 /**
  * convert given list of objects to SemObject instances
