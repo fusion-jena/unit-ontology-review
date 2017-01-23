@@ -33,8 +33,11 @@ function semObjectUnits() {
   log( 'parsing units' );
 
   // list of used stopwords
-  var stopwords = [ 'unit', 'at' ]
-                    .map( (word) => (new RegExp( '\\b' + word + '\\b', 'gi' )) );
+  var stopwords = [ 'unit' // EN
+                    , 'at'
+                    , 'jednotka' // "unit"@CS 
+                    , 'einheit' // "unit"@DE
+                  ].map( (word) => (new RegExp( '\\b' + word + '\\b', 'gi' )) );
 
   // list of replacements
   var replacements = [
