@@ -19,16 +19,16 @@ var Fs  = require( 'fs' ),
 
 var sameAs = [],
     ontos = OntoStore.getOntologies();
-for( var onto of ontos ) {
-  
+ontos.forEach( (onto) => {
+
   // get sameAs list
   var list = OntoStore.getData( onto, 'sameAs' )
                       .map( (entry)  => [ entry.object, entry.sameAs ] );
   
   // add all entries
   Array.prototype.push.apply( sameAs, list );
-  
-}
+
+});
 
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mapping XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -48,11 +48,24 @@ function mapObjects( param, log ) {
   var lookup = {};
   
   // process all items
-  for( var entry of param.values ) {
+  let entry;
+  for( let i=0; i<param.values.length; i++ ) {
+    
+    // shortcut
+    entry = param.values[i];
+
+    // log progress
+    if( i % 500 == 0 ) {
+      log( '   processed ' + (i / param.values.length).toFixed(2) + '%' );
+    }
     
     // try to find matches
-    var matches = [];
-    for( var possMatch of result  ) {
+    let matches = [],
+        possMatch;
+    for( let i=0; i<result.length; i++ ) {
+      
+      // shortcut
+      possMatch = result[i];
       
       // check for equality
       if( belongsToSet( entry, possMatch ) ) {
@@ -136,7 +149,11 @@ function mapObjects( param, log ) {
     }
 
     // apply all rules
-    for( var mapping of manualMappings ) {
+    let mapping;
+    for( let i=0; i<manualMappings.length; i++ ) {
+      
+      // shortcut
+      mapping = manualMappings[i];
 
       // get both syn sets
       var syn1 = lookup[ mapping[0] ],
@@ -174,7 +191,10 @@ function mapObjects( param, log ) {
   }
   
   // use the sameAs mappings
-  for( var mapping of sameAs ) {
+  for( let i=0; i<sameAs.length; i++ ) {
+    
+    // shortcut
+    mapping = sameAs[i];
     
     // get both syn sets
     var syn1 = lookup[ mapping[0] ],
@@ -220,9 +240,13 @@ function mapObjects( param, log ) {
 function belongsToSet( value, synset ) {
   
   // check all labels
-  var labels = value.getLabels();
-  for( var label of labels ) {
+  var labels = value.getLabels(),
+      label;
+  for( let i=0; i<labels.length; i++ ) {
 
+    // shortcut
+    label = labels[i];
+    
     // compare labels directly
     if( synset.hasLabel( label ) ) {
       return true;
