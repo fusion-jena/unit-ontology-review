@@ -8,9 +8,7 @@
 
 // includes
 var Fs       = require( 'fs' ),
-    Cfg      = require( __dirname + '/../config/config.js' ),
-    Posthtml = require( 'posthtml' ),
-    Beautify = require( 'posthtml-beautify' );
+    Cfg      = require( __dirname + '/../config/config.js' );
 
 var FileStore = {};
 
@@ -31,17 +29,12 @@ FileStore.writeResult = function writeResult( key, name, content ){
   
   // insert output
   templ = templ.replace( '{content}', content.content );
-  
-  // pretty print result
-  templ = Posthtml()
-          .use( Beautify({rules: {indent: 2 }}) )
-          .process( templ, { sync: true } )
-          .html;
 
   // write results to file
   Fs.writeFileSync( this._getResPath( key, name ), templ );
+  
+};
 
-}
 
 /**
  * remove the referenced output file
