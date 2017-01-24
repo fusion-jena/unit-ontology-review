@@ -191,6 +191,7 @@ function mapObjects( param, log ) {
   }
   
   // use the sameAs mappings
+  let mapping;
   for( let i=0; i<sameAs.length; i++ ) {
     
     // shortcut
