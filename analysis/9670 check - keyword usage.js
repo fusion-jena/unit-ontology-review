@@ -34,7 +34,7 @@ function checkKeywordUsage() {
   var out = [];
   for( var onto in results ) {
 
-    out.push( '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2><ul>' );
+    out.push( '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2><ul>' );
 
     for( var serComb in results[ onto ] ) {
 
@@ -52,7 +52,7 @@ function checkKeywordUsage() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
   log( 'written output for statistics' );
 
@@ -63,7 +63,7 @@ function checkKeywordUsage() {
   var out = [];
   for( var onto in results ) {
 
-    out.push( '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2><ul>' );
+    out.push( '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2><ul>' );
 
     for( var serComb in results[ onto ] ) {
 
@@ -77,7 +77,7 @@ function checkKeywordUsage() {
       // add to output
       out.push( '<li>', keywords.join( ', ' ), ': <ul data-collapsible="true">' );
       uris.forEach( (uri) => {
-            out.push( '<li><a href="', uri, '">', uri, '</a>' );
+            out.push( '<li><a href="' + uri + '">', uri, '</a>' );
           });
       out.push( '</ul>' );
 
@@ -89,7 +89,7 @@ function checkKeywordUsage() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName + ' details', {
-    content: out.join('')
+    content: out.join('\n')
   });
   log( 'written output for details' );
 

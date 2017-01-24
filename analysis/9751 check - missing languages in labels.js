@@ -44,7 +44,7 @@ function checkMissingLanguagesInLabels() {
       }
 
       // collect output parts
-      var out = [ '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2><ul>' ];
+      var out = [ '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2><ul>' ];
 
       // for each type
       Object.keys( missing[ onto ] )
@@ -88,13 +88,13 @@ function checkMissingLanguagesInLabels() {
       out.push( '</ul>' );
 
       // add to output
-      output.push( out.join('') );
+      output.push( out.join('\n') );
 
     });
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: output.join('')
+    content: output.join('\n')
   });
 
   // log

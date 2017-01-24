@@ -47,7 +47,7 @@ function checkMissedUnits() {
           });
 
           // collect output parts
-          var out = [ '<h2><ul><li data-onto="', onto, '">', onto, ' (', data.length, ')</ul></h2><ul>' ];
+          var out = [ '<h2><ul><li data-onto="' + onto + '">', onto, ' (', data.length, ')</ul></h2><ul>' ];
           for( var obj of data ) {
             out.push( '<li>', obj );
           }
@@ -60,7 +60,7 @@ function checkMissedUnits() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: output.join('')
+    content: output.join('\n')
   });
 
   // log

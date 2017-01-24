@@ -48,7 +48,7 @@ function checkMappedDuplicates() {
       out.push( '<b>', dup.label, '</b>' );
       out.push( '<ul>' );
       for( var obj of dup.objs ) {
-        out.push( '<li data-onto="', dup.onto, '"><a href="', obj, '">', obj, '</a>' );
+        out.push( '<li data-onto="' + dup.onto + '"><a href="' + obj + '">', obj, '</a>' );
       }
       out.push( '</ul>' );
 
@@ -58,7 +58,7 @@ function checkMappedDuplicates() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // log

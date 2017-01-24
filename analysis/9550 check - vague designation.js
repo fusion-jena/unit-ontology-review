@@ -45,11 +45,11 @@ function checkVagueDesignation() {
     out.push( '<ul>' );
     for( var synset of set.units ) {
 
-      out.push( '<li><b>', synset.getDisplayLabel() , '</b><ul data-collapsible="true">' );
+      out.push( '<li><b>' + synset.getDisplayLabel() + '</b>', '<ul data-collapsible="true">' );
 
       // add all synonyms of that SynSet
       for( var syn of synset.getSynonyms() ) {
-        out.push( '<li data-onto="', syn.getOntology(), '"><a href="', syn.getURI(), '">', syn.getDisplayLabel(), '<br>(', syn.getURI(), ')</a>' );
+        out.push( '<li data-onto="' + syn.getOntology() + '"><a href="' + syn.getURI() + '">' + syn.getDisplayLabel() + '<br>(' + syn.getURI() + ')</a>' );
       }
 
       out.push( '</ul>' );
@@ -61,7 +61,7 @@ function checkVagueDesignation() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done

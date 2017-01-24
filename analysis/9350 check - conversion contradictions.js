@@ -100,10 +100,10 @@ function printToHTML( mismatches, filename, unitLookup ) {
         label2 = unit2.getDisplayLabel();
 
     // add unit cell
-    out.push( '<tr><th rowspan="', entry.length, '">', label1, ' &harr; ', label2, '</th>' );
+    out.push( '<tr><th rowspan="' + entry.length + '">', label1, ' &harr; ', label2, '</th>' );
 
     // add first conversions
-    out.push( '<td><ul><li data-onto="', conv.onto, '">', conv.onto, '</ul></td>',
+    out.push( '<td><ul><li data-onto="' + conv.onto + '">', conv.onto, '</ul></td>',
               '<td style="font-size: 200%;">', conv.reverse ? ' &larr; ' : ' &rarr; ', '</td>',
               '<td>', printNumber( conv.convFactor, true ), '</td>',
               '<td>', printNumber( conv.convOffset ), '</td>',
@@ -114,7 +114,7 @@ function printToHTML( mismatches, filename, unitLookup ) {
     for( var i=1; i<entry.length; i++ ) {
 
       out.push( '<tr>',
-                  '<td><ul><li data-onto="', entry[i].onto, '">', entry[i].onto, '</ul></td>',
+                  '<td><ul><li data-onto="' + entry[i].onto + '">', entry[i].onto, '</ul></td>',
                   '<td style="font-size: 200%;">', entry[i].reverse ? ' &larr; ' : ' &rarr; ', '</td>',
                   '<td>', printNumber( entry[i].convFactor, true ), '</td>',
                   '<td>', printNumber( entry[i].convOffset ), '</td>',
@@ -127,7 +127,7 @@ function printToHTML( mismatches, filename, unitLookup ) {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, filename, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // log
@@ -159,7 +159,7 @@ function printInvolved( unitLookup, involved ) {
   }
   out.push( '</ul></div></span></div>' );
 
-  return out.join('');
+  return out.join('\n');
 }
 
 /**

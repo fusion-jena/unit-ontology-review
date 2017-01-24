@@ -93,7 +93,7 @@ function statisticLabelLanguages() {
             });
       
       // add cell to row
-      row.push( cell.join( '' ) );
+      row.push( cell.join('\n') );
     }
     
     // add row
@@ -110,7 +110,7 @@ function statisticLabelLanguages() {
       if( j == 0 ) {
         out.push( '<th>', data[i][j], '</th>');
       } else if( i == 0 ) {
-        out.push( '<th><ul><li data-onto="',  data[i][j], '">',  data[i][j], '</ul></th>');
+        out.push( '<th><ul><li data-onto="' +  data[i][j] + '">',  data[i][j], '</ul></th>');
       } else {
         out.push( '<td>', data[i][j], '</td>' );
       }
@@ -129,7 +129,7 @@ function statisticLabelLanguages() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join( '' )
+    content: out.join('\n')
   });
 
   // log

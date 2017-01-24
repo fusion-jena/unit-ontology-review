@@ -135,7 +135,7 @@ function checkUnitPerDimensionAfterMapping() {
     for( var dimObj of dimSynset.objs ) {
 
       // list dimension object
-      row.push( '<li data-onto="', dimObj.onto, '"><a href="', dimObj.uri, '">', dimObj.label, '<br>(', dimObj.uri, ')</a>' );
+      row.push( '<li data-onto="' + dimObj.onto + '"><a href="' + dimObj.uri + '">', dimObj.label, '<br>(', dimObj.uri, ')</a>' );
 
       // create unit uri to syn set mapper function
       var unitUriToSnySetMapper = function(unitUri){
@@ -212,7 +212,7 @@ function checkUnitPerDimensionAfterMapping() {
         for (var unitObj of unitSynSet.objs) {
 
           // list unit object
-          row.push( '<li data-onto="', unitObj.onto, '"><a href="', unitObj.uri, '">', unitObj.label, '<br>(', unitObj.uri, ')</a>' );
+          row.push( '<li data-onto="' + unitObj.onto + '"><a href="' + unitObj.uri + '">', unitObj.label, '<br>(', unitObj.uri, ')</a>' );
 
         }
 
@@ -226,7 +226,7 @@ function checkUnitPerDimensionAfterMapping() {
     row.push( '</ul></td></tr>' );
 
     // connect all parts
-    return row.join( '' );
+    return row.join('\n');
 
   }));
 
@@ -234,7 +234,7 @@ function checkUnitPerDimensionAfterMapping() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: table.join('')
+    content: table.join('\n')
   });
 
   // done

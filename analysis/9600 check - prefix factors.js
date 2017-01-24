@@ -55,10 +55,10 @@ function checkPrefixFactors() {
     var syns = entry.getSynonyms();
 
     // add prefix cell
-    out.push( '<tr><th rowspan="', syns.length, '">', entry.getDisplayLabel(), '</th>' );
+    out.push( '<tr><th rowspan="' + syns.length + '">', entry.getDisplayLabel(), '</th>' );
 
     // add first row
-    out.push( '<td><ul><li data-onto="', syns[0].getOntology(), '">', syns[0].getOntology(), '</ul></td>',
+    out.push( '<td><ul><li data-onto="' + syns[0].getOntology() + '">', syns[0].getOntology(), '</ul></td>',
               '<td>', syns[0].getFactor(), '</td>',
               '<td>', syns[0].getRaw().factor, '</td>',
               '<td>', (syns[0].getFactor() < Number.MAX_SAFE_INTEGER) ? '&#10003;' : '&#10007;', '</td>',
@@ -68,7 +68,7 @@ function checkPrefixFactors() {
     for( var i=1; i<syns.length; i++ ) {
 
       out.push( '<tr>',
-                '<td><ul><li data-onto="', syns[i].getOntology(), '">', syns[i].getOntology(), '</ul></td>',
+                '<td><ul><li data-onto="' + syns[i].getOntology() + '">', syns[i].getOntology(), '</ul></td>',
                 '<td>', syns[i].getFactor(), '</td>',
                 '<td>', syns[i].getRaw().factor, '</td>',
                 '<td>', (syns[i].getFactor() < Number.MAX_SAFE_INTEGER) ? '&#10003;' : '&#10007;', '</td>',
@@ -81,7 +81,7 @@ function checkPrefixFactors() {
   // write results to file
   log( 'written output' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done
@@ -113,7 +113,7 @@ function printInvolved( unitLookup, involved ) {
   }
   out.push( '</ul></div></span></div>' );
 
-  return out.join('');
+  return out.join('\n');
 }
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Export XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */

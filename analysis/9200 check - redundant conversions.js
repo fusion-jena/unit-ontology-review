@@ -41,7 +41,7 @@ function checkRedundantConversions() {
       continue;
     }
 
-    out.push( '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2><ul>' );
+    out.push( '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2><ul>' );
 
     for( var entry of results[ onto ] ) {
 
@@ -50,7 +50,7 @@ function checkRedundantConversions() {
           toUnit   = entry[0].unit2;
 
       // entry header
-      out.push( '<li data-onto="', onto, '">',
+      out.push( '<li data-onto="' + onto + '">',
                   unitLookup[ fromUnit ].getDisplayLabel(), ' ( ', fromUnit, ' )',
                   '<br>&harr;<br>',
                   unitLookup[ toUnit ].getDisplayLabel(), '( ', toUnit, ' )',
@@ -80,7 +80,7 @@ function checkRedundantConversions() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
   log( 'written output' );
 

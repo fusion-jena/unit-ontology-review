@@ -54,12 +54,12 @@ function checkDimensionVector() {
     var label = dimLookup[ entry[0].uri ].getDisplayLabel();
 
     // add dimension cell
-    out.push( '<tr><th rowspan="', entry.length, '">', label, '</th>' );
+    out.push( '<tr><th rowspan="' + entry.length + '">', label, '</th>' );
 
     // add first conversions
     var dim = entry[0];
-    out.push( '<td><ul><li data-onto="', dim.onto, '">', dim.onto, '</ul></td>',
-               '<td><a href="', dim.uri, '">', dim.uri, '</a></td>' );
+    out.push( '<td><ul><li data-onto="' + dim.onto + '">', dim.onto, '</ul></td>',
+               '<td><a href="' + dim.uri + '">', dim.uri, '</a></td>' );
     for( var j=0; j<dim.vector.length; j++ ) {
       out.push( '<td>', dim.vector[j], '</td>' );
     }
@@ -72,8 +72,8 @@ function checkDimensionVector() {
       dim = entry[i];
 
       // output
-      out.push( '<tr><td><ul><li data-onto="', dim.onto, '">', dim.onto, '</ul></td>',
-                '<td><a href="', dim.uri, '">', dim.uri, '</a></td>' );
+      out.push( '<tr><td><ul><li data-onto="' + dim.onto + '">', dim.onto, '</ul></td>',
+                '<td><a href="' + dim.uri + '">', dim.uri, '</a></td>' );
       for( var j=0; j<dim.vector.length; j++ ) {
         out.push( '<td>', dim.vector[j], '</td>' );
       }
@@ -84,7 +84,7 @@ function checkDimensionVector() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
   log( 'written output' );
 

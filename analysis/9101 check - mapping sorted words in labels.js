@@ -86,19 +86,19 @@ function mappingSortedWordsInLabels() {
       // all involved objects
       for( var obj of entry.objs ) {
 
-        out.push( '<li data-onto="', obj.onto, '"><a href="', obj.uri, '">', obj.label, '<br>(', obj.uri, ')</a>' );
+        out.push( '<li data-onto="' + obj.onto + '"><a href="' + obj.uri + '">', obj.label, '<br>(', obj.uri, ')</a>' );
 
       }
       out.push( '</ul>' );
 
       // connect all parts
-      return out.join( '' );
+      return out.join('\n');
 
     });
 
     // write results to file
     TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName + ' - ' + types[ type ] , {
-      content: html.join('')
+      content: html.join('\n')
     });
 
     // log

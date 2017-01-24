@@ -59,7 +59,7 @@ function checkMissedPrefixRelation() {
           // collect output parts
           var out = [ '<h2>', onto, ' (', data.length, ')</h2><ul>' ];
           for( var obj of data ) {
-            out.push( '<li data-onto="', onto, '"><a href="', obj.uri, '">', obj.label, '<br>(', obj.uri, ')</a>' );
+            out.push( '<li data-onto="' + onto + '"><a href="' + obj.uri + '">', obj.label, '<br>(', obj.uri, ')</a>' );
           }
           out.push( '</ul>' );
 
@@ -70,7 +70,7 @@ function checkMissedPrefixRelation() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: output.join('')
+    content: output.join('\n')
   });
 
   // log

@@ -34,7 +34,7 @@ function checkMultipleLabels() {
   for( var onto in multipleLabels ) {
 
     // output
-    out.push( '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2>' );
+    out.push( '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2>' );
 
     // walk all types
     for( var type in multipleLabels[ onto ] ) {
@@ -49,7 +49,7 @@ function checkMultipleLabels() {
 
         for( var entry of entries ) {
 
-          out.push( '<li><a href="', entry.uri, '">', entry.uri, '</a><ul>' );
+          out.push( '<li><a href="' + entry.uri + '">', entry.uri, '</a><ul>' );
 
           for( var label of entry.labels ) {
             out.push( '<li>', label );
@@ -70,7 +70,7 @@ function checkMultipleLabels() {
   // write results to file
   log( 'written output' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done

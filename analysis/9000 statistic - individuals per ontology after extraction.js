@@ -52,12 +52,12 @@ function statisticIndividualsPerOntologyAfterExtraction() {
       if( j == 0 ) {
         out.push( '<th>', data[i][j], '</th>');
       } else if( i == 0 ) {
-        out.push( '<th><ul><li data-onto="',  data[i][j], '">',  data[i][j], '</ul></th>');
+        out.push( '<th><ul><li data-onto="' +  data[i][j] + '">',  data[i][j], '</ul></th>');
       } else {
 
         var klass = data[i][j] > 0 ? 'green' : 'red';
 
-        out.push( '<td class="', klass, '">', data[i][j], '</td>' );
+        out.push( '<td class="' + klass + '">', data[i][j], '</td>' );
       }
 
     }
@@ -67,7 +67,7 @@ function statisticIndividualsPerOntologyAfterExtraction() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join( '' )
+    content: out.join('\n')
   });
 
   // done

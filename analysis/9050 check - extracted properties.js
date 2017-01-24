@@ -57,7 +57,7 @@ function checkExtractedRelations() {
   var out = [ '<table class="firstColHeader"><tr><th></th><th></th>' ];
   var ontos = Object.keys( counts );
   ontos.forEach( (onto) => {
-          out.push( '<th><ul><li data-onto="', onto, '">', onto, '</ul></th>' );
+          out.push( '<th><ul><li data-onto="' + onto + '">', onto, '</ul></th>' );
         });
   out.push( '</tr>' );
 
@@ -71,7 +71,7 @@ function checkExtractedRelations() {
     props.sort();
 
     // insert first column
-    out.push( '<tr><th rowspan="', props.length + 1, '">', type, '</th>' );
+    out.push( '<tr><th rowspan="' + (props.length + 1) + '">', type, '</th>' );
 
     // add total count
     out.push( '<td>total</td>' );
@@ -105,7 +105,7 @@ function checkExtractedRelations() {
   // write results to file
   log( 'written output' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done

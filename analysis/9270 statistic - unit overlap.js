@@ -40,11 +40,11 @@ function statisticUnitOverlap() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName + ' total', {
-    content: out_total.join('')
+    content: out_total.join('\n')
   });
   log( 'written output for unit overlap (total)' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName + ' noPrefix', {
-    content: out_noPrefix.join('')
+    content: out_noPrefix.join('\n')
   });
   log( 'written output for unit overlap (no prefix)' );
 
@@ -64,14 +64,14 @@ function createTable( ontos, counts, countType, overlap ) {
   // prep table header
   var out = [ '<table><tr><td></td>' ];
   for( var onto of ontos ) {
-    out.push( '<th><ul><li data-onto="', onto, '">', onto, '</ul></th>');
+    out.push( '<th><ul><li data-onto="' + onto + '">', onto, '</ul></th>');
   }
   out.push( '<tr>' );
 
   // fill table
   for( var onto1 of ontos ) {
 
-    out.push( '<th><ul><li data-onto="', onto1, '">', onto1, '</ul></th>');
+    out.push( '<th><ul><li data-onto="' + onto1 + '">', onto1, '</ul></th>');
 
     for( var onto2 of ontos ) {
 

@@ -66,7 +66,7 @@ function checkRelationCoverage() {
   var out = [ '<table class="firstColHeader"><tr><th></th><th></th>' ];
   var ontos = Object.keys( coverage );
   ontos.forEach( (onto) => {
-          out.push( '<th><ul><li data-onto="', onto, '">', onto, '</ul></th>' );
+          out.push( '<th><ul><li data-onto="' + onto + '">', onto, '</ul></th>' );
         });
   out.push( '</tr>' );
 
@@ -77,7 +77,7 @@ function checkRelationCoverage() {
     var countType = type;
 
     // first row
-    out.push( '<tr><th rowspan="', relations.size + 1, '">', type, '</th><td><b>total</b></td>' );
+    out.push( '<tr><th rowspan="' + (relations.size + 1) + '">', type, '</th><td><b>total</b></td>' );
     ontos.forEach( (onto) => {
       out.push( '<td>', counts[ onto ][ countType ], '</td>' );
     });
@@ -118,7 +118,7 @@ function checkRelationCoverage() {
   // write results to file
   log( 'written output: statistics' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Details XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -131,7 +131,7 @@ function checkRelationCoverage() {
   Object.keys( missing)
     .forEach( (onto) => {
 
-      out.push( '<h2><ul><li data-onto="', onto, '">', onto, '</ul></h2><ul>' );
+      out.push( '<h2><ul><li data-onto="' + onto + '">', onto, '</ul></h2><ul>' );
 
       Object.keys( missing[ onto ] )
         .forEach( (type) => {
@@ -156,7 +156,7 @@ function checkRelationCoverage() {
               out.push( '<li><h4>', relation, ' ( ', list.length, ' / ', counts[ onto ][ countType ], ' )</h4><ul data-collapsible="true">' );
 
               list.forEach( (uri) => {
-                out.push( '<li><a href="', uri, '">', uri, '</a>' );
+                out.push( '<li><a href="' + uri + '">', uri, '</a>' );
               });
 
               out.push( '</ul>' );
@@ -174,7 +174,7 @@ function checkRelationCoverage() {
   // write results to file
   log( 'written output: details' );
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName + ' missing', {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done

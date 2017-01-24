@@ -46,7 +46,7 @@ function checkDimensionPerUnitAfterMapping() {
 
     // list all involved entities
     for( var syn of syns ) {
-      out.push( '<li data-onto="', syn.getOntology(), '"><a href="', syn.getURI(), '">', syn.getURI(), '</a>' );
+      out.push( '<li data-onto="' + syn.getOntology() + '"><a href="' + syn.getURI() + '">', syn.getURI(), '</a>' );
     }
 
     out.push( '</ul></td><td><ul>' );
@@ -62,7 +62,7 @@ function checkDimensionPerUnitAfterMapping() {
 
       // list all involved dimensions
       dims.forEach( (dim) => {
-             out.push( '<li data-onto="', dim.getOntology(), '"><a href="', dim.getURI(), '">', dim.getURI(), '</a>' );
+             out.push( '<li data-onto="' + dim.getOntology() + '"><a href="' + dim.getURI() + '">', dim.getURI(), '</a>' );
            });
 
       // close list
@@ -75,7 +75,7 @@ function checkDimensionPerUnitAfterMapping() {
 
   // write results to file
   TemplStore.writeResult( localCfg.moduleKey, localCfg.moduleName, {
-    content: out.join('')
+    content: out.join('\n')
   });
 
   // done
