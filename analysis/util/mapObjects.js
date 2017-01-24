@@ -56,7 +56,7 @@ function mapObjects( param, log ) {
 
     // log progress
     if( i % 500 == 0 ) {
-      log( '   processed ' + (i / param.values.length).toFixed(2) + '%' );
+      log( '   processed ' + (100 * i / param.values.length).toFixed(2) + '%' );
     }
     
     // try to find matches
