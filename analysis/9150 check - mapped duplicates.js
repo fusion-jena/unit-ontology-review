@@ -33,11 +33,28 @@ function checkMappedDuplicates() {
 
     // get list of duplicates
     var data = OntoStore.getResult( 'check - mapped duplicates_' + type );
-
+    
     // if empty, skip
     if( data.length < 1 ){
       continue;
     }
+
+    // sort by ontology and alphabetically
+    data = data
+            .slice(0)
+            .sort( (a,b) => {
+              
+              // compare ontologies
+              const compOnto = a.onto.localeCompare( b.onto );
+              
+              // if ontos are equal, compare labels
+              if( compOnto == 0 ) {
+                return a.label.localeCompare( b.onto );
+              } else {
+                return compOnto;
+              }
+              
+            });
 
     // add header for type
     out.push( '<h2>' + type + '</h2>' );
