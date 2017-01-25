@@ -155,10 +155,23 @@ function processOnto( onto ) {
                               return result.length;
 
                             });
+                  })
+                  .then( () => {
+                              
+                    // if this was an external extraction, 
+                    // place a file in results containing the timestamp
+                    if( endpoint ) {
+                      Fs.writeFileSync( savePath + 'extractionMetadata.txt',
+                                        JSON.stringify( {
+                                          date: new Date()
+                                        }, null, 2 ) );
+                    }
+
                   });
 
         })
-        .then(function(){
+        .then(function(){         
+          // log
           log( '   truncate RDF-Store' );
           return store.truncate();
         });
