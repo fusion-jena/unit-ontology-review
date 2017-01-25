@@ -27,7 +27,7 @@ module.exports = {
     // will just change the content, but not recreate the file
     keepResultFiles: false,
 
-    // restrict mapping languages to Englisch and neutral
+    // restrict mapping languages to English and neutral
     restrictMappingLanguage: true,
 
 };
