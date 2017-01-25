@@ -8,11 +8,15 @@
  * ? manual       ... (complete) file name of the additional manual mappings
  */
 
-//includes
-var Fs  = require( 'fs' ),
-    OntoStore= require( './OntoStore' ),
-    SynSet = require( './OntoStore/SynSet' ),
-    Log = require( './Log' );
+// includes
+var Fs            = require( 'fs' ),
+    Cfg           = require( '../config/config' ),
+    OntoStore     = require( './OntoStore' ),
+    SynSet        = require( './OntoStore/SynSet' ),
+    Log           = require( './Log' ),
+    belongsToSet  = Cfg.restrictMappingLanguage 
+                      ? require( './mapObjects/belongsToSet.en' )
+                      : require( './mapObjects/belongsToSet.all' );
 
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Prep: Read sameAs XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -226,44 +230,6 @@ function mapObjects( param, log ) {
   return result;
   
 }
-
-
-
-/**
- * check, whether the given SemObject should belong in the given SynSet
- * 
- * currently checks for a match between the respective label sets
- * 
- * @param   {SemObject}   value
- * @param   {SynSet}      synset
- * @returns {Boolean}
- */
-function belongsToSet( value, synset ) {
-  
-  // check all labels
-  var labels = value.getLabels(),
-      label;
-  for( let i=0; i<labels.length; i++ ) {
-
-    // shortcut
-    label = labels[i];
-    
-    // compare labels directly
-    if( synset.hasLabel( label ) ) {
-      return true;
-    }
-    
-    // compare labels with spaces removed
-    if( synset.hasLabel( label.replace( /\s/g, '' ) ) ) {
-      return true;
-    } 
-  }
-  
-  // no hit, so the value does not belong to the synset
-  return false;
-}
-
-
 
 // export
 module.exports = mapObjects;

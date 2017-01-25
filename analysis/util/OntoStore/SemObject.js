@@ -102,29 +102,33 @@ SemObject.prototype.getURI = function getURI(){
 /**
  * get the list of associated labels
  * 
- * @param   {String*}         lang    just get labels of this language
+ * @param   {String*}         lang          just get labels of this language
+ * @param   {Boolean*}        useNeutral    also include values without language and extracted from URI
  * @returns {Array[String]}
  */
-SemObject.prototype.getLabels = function getLabels( lang ){
+SemObject.prototype.getLabels = function getLabels( lang, useNeutral ){
   
   var labels;
   
   if( typeof lang == 'undefined' ) {
     
-    // if no language is set, return all from English, unknown and URI-generated
-    var labelList = [];
-    if( 'en'    in this.labels ) { labelList = labelList.concat( ... this.labels['en'] );   }
-    if( ''      in this.labels ) { labelList = labelList.concat( ... this.labels[''] );     }
-    if( '_uri'  in this.labels ) { labelList = labelList.concat( ... this.labels['_uri'] ); }
+    // if no language is set, return all
+    let labelList = Object.keys( this.labels )
+                      .reduce( (all, lang) => all.concat( ... this.labels[ lang ] ), [] );
     labels = new Set( labelList );
   
   } else {
     
     // select the respective set or an empty set otherwise
     labels = this.labels[ lang ] || new Set();
-    
+
+    // maybe add labels with unknown languages
+    if( useNeutral ) {
+      if( ''      in this.labels ) { this.labels[''].forEach( (l) => labels.add( l ) );     }
+      if( '_uri'  in this.labels ) { this.labels['_uri'].forEach( (l) => labels.add( l ) ); }
+    }
   }
-  
+
   return [ ... labels ];
   
 }

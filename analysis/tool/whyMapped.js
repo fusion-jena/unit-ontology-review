@@ -11,8 +11,8 @@
  */
 
 // set input
-const TYPE = 'Unit',
-      URI  = 'http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#kelvin',
+const TYPE = 'System',
+      URI  = 'http://www.wikidata.org/entity/Q16782623',
       ONTO = false;
 
 // includes
