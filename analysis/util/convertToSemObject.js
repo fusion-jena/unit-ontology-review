@@ -65,7 +65,6 @@ function convertToSemObject( param ){
       
       // collect
       if( label instanceof Array ) {
-
         Array.prototype.push.apply( labels, label.map( (l) => { return { label: l, lang: lang }; } ) );
       } else {
         labels.push( { label: label, lang: lang } );
@@ -172,6 +171,9 @@ function getLabelFromUri( param, uri ) {
  * - remove stopwords etc
  * - apply replacements
  * 
+ * if the label is just a stopword, it passes (ex: http://purl.oclc.org/NET/muo/ucum/unit/catalytic-activity/Unit)
+ * if the label is an array, remove all array entries, that are stopwords (ex: BE @ http://www.wikidata.org/entity/Q11579)
+ * 
  * @param     {Object}          param   parameter object
  * @param     {String}          label   label to process
  * @returns   {Array[String]|String}
@@ -181,11 +183,21 @@ function prepareLabel( param, label ) {
   // check for comma or "or" separated values
   var sepRegexp = /,|\bor\b/gi;
   if( sepRegexp.test( label ) ) {
+                // split entries
     return label.split( sepRegexp )
+                // use only no empty, valid entries
                 .filter( (entry) => {
                   return (!sepRegexp.test( entry )) && (entry.trim() != '') ; 
                 })
-                .map( (el) => prepareLabel( param, el ) );
+                // run through preparation again
+                .map( (el) => prepareLabel( param, el ) )
+                // remove all those, that are only stopwords
+                .filter( (label) => {
+                  return !param.stopwords
+                               .some( (stopword) =>{     
+                                 return label.replace( stopword, '' ).trim() == '';
+                               });
+                });
   }
 
   // replace camelCase with space

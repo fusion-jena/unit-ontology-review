@@ -7,11 +7,13 @@
  * input is 
  * - TYPE ... type of the SynSet
  * - URI  ... one URI represented in the SynSet
+ * - ONTO ... limit the comparisons to a specific ontology
  */
 
 // set input
 const TYPE = 'Unit',
-      URI  = 'http://www.wurvoc.org/vocabularies/om-1.8/kilotonne';
+      URI  = 'http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#kelvin',
+      ONTO = false;
 
 // includes
 const OntoStore = require( './../util/OntoStore' );
@@ -28,7 +30,10 @@ const synset = data.find( (synset) => {
 });
 
 // get synonyms ordered by ontology
-const syns = synset.getSynonyms().sort( (a,b) => a.getOntology().localeCompare( b.getOntology() ) );
+const syns = synset
+              .getSynonyms()
+              .filter( (entry) => ONTO ? (entry.getOntology() == ONTO) : true )
+              .sort( (a,b) => a.getOntology().localeCompare( b.getOntology() ) );
 
 // compute mapp matrix
 let matrix = [];

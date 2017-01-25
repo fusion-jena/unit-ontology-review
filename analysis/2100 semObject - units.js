@@ -35,9 +35,11 @@ function semObjectUnits() {
   // list of used stopwords
   var stopwords = [ 'unit' // EN
                     , 'at'
-                    , 'jednotka' // "unit"@CS 
-                    , 'einheit' // "unit"@DE
-                  ].map( (word) => (new RegExp( '\\b' + word + '\\b', 'gi' )) );
+                    , 'jednotka'            // "unit"@CS 
+                    , 'einheit'             // "unit"@DE
+                    , 'адзінка вымярэння'   // "unit"@BE
+                  // http://stackoverflow.com/q/10590098/1169798
+                  ].map( (word) => (new RegExp( '(?:^|\\s|$)' + word + '(?:^|\\s|$)', 'gui' )) );
 
   // list of replacements
   var replacements = [
