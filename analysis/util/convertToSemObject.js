@@ -24,7 +24,9 @@ var OntoStore = require( './OntoStore' ),
     XRegExp = require( 'xregexp' );
 
 // regexp to eliminate non alphanumeric characters from labels
-var regexp_Alphanum = XRegExp( '[^\\pL0-9-]|(-(?!\\d))', 'gu' );
+// as this is not easily extendable to all Unicode symbols, 
+// we just restrict the ASCII part and leave the rest be
+var regexp_Alphanum =  XRegExp( '[^\\pL0-9-\u00FF-\uFFFF]', 'gu' );
 
 /**
  * convert given list of objects to SemObject instances
@@ -181,7 +183,7 @@ function getLabelFromUri( param, uri ) {
 function prepareLabel( param, label ) {
 
   // check for comma or "or" separated values
-  var sepRegexp = /,|\bor\b/gi;
+  var sepRegexp = /,|(?:^|\\s|$)or(?:^|\\s|$)/gui;
   if( sepRegexp.test( label ) ) {
                 // split entries
     return label.split( sepRegexp )
@@ -199,16 +201,16 @@ function prepareLabel( param, label ) {
                                });
                 });
   }
-
+  
   // replace camelCase with space
   label = label.replace( /([a-z])([A-Z])/g, '$1 $2' );
   
   // to lower case
   label = label.toLowerCase();
-  
+
   // replace some characters
   label = label.replace( regexp_Alphanum, ' ' );
-  
+
   // apply replacements
   for( var repl of param.replacements ) {
     label = label.replace( repl[0], repl[1] );
@@ -230,6 +232,5 @@ function prepareLabel( param, label ) {
   
   return label;
 }
-
 
 module.exports = convertToSemObject;
