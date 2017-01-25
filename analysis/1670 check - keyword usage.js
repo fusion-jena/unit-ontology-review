@@ -53,6 +53,9 @@ function checkKeywordUsage() {
 
     // test all units
     units.forEach( (entry) => {
+      
+            // limit to english labels and those without language tag
+            if( ![ '', 'en' ].includes( entry.labelLang ) );
 
             // shortcut
             var label = entry.label;
