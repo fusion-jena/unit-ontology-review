@@ -135,7 +135,7 @@ function mapObjects( param, log ) {
     
   }
   
-  
+
   // use the manual mappings, if present
   if( 'manual' in param ) {
     
@@ -175,7 +175,7 @@ function mapObjects( param, log ) {
         }
         continue;
       }
-      
+
       if( syn1 !== syn2 ) {
         
         // add all entries from second to first

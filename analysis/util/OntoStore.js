@@ -412,10 +412,11 @@ function serialize( key, value ) {
 function loadPredefinedData( name ) {
 
   // create path
-  var path = Cfg.targetPath + '/../data/' + name;
+  var path = Cfg.dataPath + '/' + name;
 
   // does the file exist at all?
   if( !fileExists( path ) ){
+    console.log( path )
     return [];
   }
 
