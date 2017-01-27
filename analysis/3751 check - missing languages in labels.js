@@ -1,7 +1,8 @@
 "use strict";
 /**
  * find individuals, that are lacking a label in a specific language, 
- * even though that language is specified for that type and ontology
+ * even though that language is specified for that type and ontology for over 30% of the individuals
+ * (otherwise we get flooded by individuals from WD)
  * 
  * output:
  * - 'check - missing languages in labels'
@@ -15,14 +16,15 @@ var Q        = require( 'q' ),
     Structure= require( './config/structure' );
 
 // local settings
-var localCfg = {
-      moduleName: 'check - missing languages in labels',
-      moduleKey:  '3751'
-    },
-    log = function( msg, type ) {
-      Log( localCfg.moduleName, msg, type );
-    },
-    skip = [ '_total', '_uri', '_missing' ];      // skip artificially introduced "languages"
+const localCfg = {
+        moduleName: 'check - missing languages in labels',
+        moduleKey:  '3751'
+      },
+      log = function( msg, type ) {
+        Log( localCfg.moduleName, msg, type );
+      },
+      skip = [ '_total', '_uri', '_missing' ],      // skip artificially introduced "languages"
+      OCC_THRESHOLD = 0.3;
 
 
 function statisticMissingLanguagesInLabels() {
@@ -86,9 +88,6 @@ function statisticMissingLanguagesInLabels() {
           });
 
       }
-
-      
-
       
     }
     
@@ -109,10 +108,10 @@ function statisticMissingLanguagesInLabels() {
 function getLanguagesPresent(){
 
   // get language distribution
-  var langDistr = OntoStore.getResult( 'statistic - label languages' );
+  const langDistr = OntoStore.getResult( 'statistic - label languages' );
 
   // convert to form "onto -> type -> [ languages ]"
-  var result = {};
+  const result = {};
   Object.keys( langDistr )
         .forEach( (onto) => {
           
@@ -125,7 +124,30 @@ function getLanguagesPresent(){
                 });
           
         });
-
+  
+  // only keep languages, that are present in over X% of the individuals of that type
+  Object.keys( result )
+        .forEach( (onto) => {
+          
+          Object.keys( result[onto] )
+                .forEach( (type) => {
+                  
+                  // get total individuals in for that onto/type
+                  const total = langDistr[ onto ][ type ]._total;
+                  
+                  // filter the languages
+                  result[ onto ][ type ] = result[ onto ][ type ]
+                                            .filter( (lang) => {
+                                                      // include special values
+                                              return  lang.startsWith( '_' )
+                                                      // as well as languages which occur often enough
+                                                      || langDistr[ onto ][ type ][ lang ] / total >= OCC_THRESHOLD;
+                                            });
+                })  
+          
+        })
+  //OCC_THRESHOLD
+  
   return result;
   
 }
