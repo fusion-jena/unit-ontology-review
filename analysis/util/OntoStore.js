@@ -552,15 +552,15 @@ function getLanguagePref( onto ) {
   if( res ) {
     return res[ onto ];
   }
-  
+
   // we have no parsed data, so get the raw one
   let source = getResult( 'statistic - label languages overall' );
-  
+
   // if there is no source yet, just return a default order
   if( !source ){
     return [ 'en', '', '_uri' ];
   }
-  
+
   // parse it
   res = {};
   Object.keys( source )
@@ -575,7 +575,7 @@ function getLanguagePref( onto ) {
       
       // sort the list by label count per language
       list.sort( (a,b) => {
-        return a.count - b.count;
+        return b.count - a.count;
       });
       
       // add language order to result
