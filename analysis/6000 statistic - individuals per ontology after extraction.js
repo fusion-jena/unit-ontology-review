@@ -20,11 +20,12 @@ var localCfg = {
       Log( localCfg.moduleName, msg, type );
     },
     byUri = {
-      'appField': 'appField',
-      'dimension': 'dimension',
-      'unit': 'unit',
-      'system': 'system',
-      'quantKind': 'quantKind'
+      'appField':   'appField',
+      'dimension':  'dimension',
+      'prefix':     'prefix',
+      'quantKind':  'quantKind',
+      'system':     'system',
+      'unit':       'unit',
     };
 
 
