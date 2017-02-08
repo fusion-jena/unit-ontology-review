@@ -8,7 +8,15 @@ SELECT DISTINCT
 WHERE {
 
   # find quantities
-  ?quantKind wdt:P279*|wdt:P31/wdt:P279* wd:Q107715.
+  {
+    # descendants of "physical quantity"
+    ?quantKind wdt:P279*|wdt:P31/wdt:P279* wd:Q107715.
+  }
+  UNION
+  {
+    # anything listed as "measured physical quantity"
+    ?unitOf wdt:P111 ?quantKind .
+  }
   
   # remove some instance classes
   FILTER NOT EXISTS {
@@ -25,9 +33,12 @@ WHERE {
       wd:Q855630
       # track gauge
       wd:Q214519
+      # archaeology 
+      wd:Q23498
     } .
-    ?quantKind wdt:P279+|wdt:P31|wdt:P31/wdt:P279+ ?removals
+    ?quantKind wdt:P279*|wdt:P31|wdt:P31/wdt:P279* ?removals
   }
+  FILTER( !isBlank( ?quantKind ) )
   
   OPTIONAL { 
     ?parent    wdt:P279+ wd:Q107715.
@@ -42,4 +53,3 @@ WHERE {
   }
   
 }
-ORDER BY ASC(?label)

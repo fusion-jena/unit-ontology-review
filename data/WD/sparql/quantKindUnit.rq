@@ -1,18 +1,62 @@
-SELECT  ?quantKind
+SELECT DISTINCT
+		?quantKind
         ?unit
 WHERE {
   
   # find quantities
-  ?quantKind wdt:P279*|wdt:P31/wdt:P279* wd:Q107715.
+  {
+    # descendants of "physical quantity"
+    ?quantKind wdt:P279*|wdt:P31/wdt:P279* wd:Q107715.
+  }
+  UNION
+  {
+    # anything listed as "measured physical quantity"
+    ?unitOf wdt:P111 ?quantKind .
+  }
+  UNION
+  {
+    # currency
+    ?quantKind wdt:P279 wd:Q11105360 .
+  }
   
   # find units
   ?unit wdt:P31/wdt:P279* wd:Q47574 .
   
   # connect them
-  ?unit wdt:P111 ?quantKind .
+  {
+    # directly
+    ?unit wdt:P111|wdt:P31 ?quantKind .
+  }
+  UNION
+  {
+    # or via "unit of ..." links
+    ?unit wdt:P31/wdt:P111 ?quantKind .
+  }
   
   # filter some instances
-  # physical constants
-  FILTER NOT EXISTS { ?unit wdt:P31 wd:Q173227 }.
+  FILTER NOT EXISTS {
+    VALUES ?removals { 
+      # day 
+      wd:Q573
+      # months
+      wd:Q5151
+      # years
+      wd:Q577
+      # decades
+      wd:Q39911
+      # events
+      wd:Q1190554
+      # geological age
+      wd:Q568683
+      # geological era
+      wd:Q630830
+      # archaeological period
+      wd:Q15401633
+      # physical constants
+      wd:Q173227
+    } .
+    ?unit wdt:P31/wdt:P279* ?removals
+  }
+  FILTER( !isBlank( ?quantKind ) )
 
 }
