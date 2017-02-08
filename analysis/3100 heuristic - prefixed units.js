@@ -10,7 +10,8 @@
 // includes
 var Q        = require( 'q' ),
     Log      = require( './util/log.js' ),
-    OntoStore= require( './util/OntoStore' );
+    OntoStore= require( './util/OntoStore' ),
+    Cfg      = require( './config/config' );
 
 // local settings
 var localCfg = {
@@ -78,10 +79,11 @@ function heuristicPrefixedUnits() {
     var unit = data[i];
 
     // does any label contain a prefix?
-    var isPrefixed = unit.getLabels()
-                         .reduce( ( isPrefixed, label ) => {
-                           return isPrefixed || containsPrefix( label );
-                         }, false);
+    let labels = Cfg.restrictMappingLanguage
+                  ? unit.getLabels( 'en', true )
+                  : unit.getLabels();
+    var isPrefixed = labels
+                         .some( (label) => containsPrefix( label ) );
 
     // we are just concerned with non prefixed
     if( !unit.isPrefixed() && isPrefixed ) {
