@@ -14,7 +14,8 @@
 // includes
 var Q        = require( 'q' ),
     Log      = require( './util/log.js' ),
-    OntoStore= require( './util/OntoStore' );
+    OntoStore= require( './util/OntoStore' ),
+    Cfg      = require( './config/config' );
 
 // local settings
 var localCfg = {
@@ -27,9 +28,30 @@ var localCfg = {
 
 
 function statisticUnitOverlap() {
-
+  
   // log
   log( 'counting unit overlap' );
+  
+  // run with all ontologies
+  log( '   unfiltered' );
+  doCalc( [] );
+  
+  // if there are filters set, run again
+  if( ('filteredOntologies' in Cfg) && (Cfg.filteredOntologies.length > 0) ) {
+    log( '   filtered' );
+    doCalc( Cfg.filteredOntologies );
+  }
+
+  // done
+  return Q( true );
+
+}
+
+/**
+ * actual calculation of unit overlaps
+ * @param     {Array[String]}   excludes      ontologies to exclude from the counting
+ */
+function doCalc( excludes ) {
 
   // cache results
   var shared_total = {},
@@ -46,7 +68,10 @@ function statisticUnitOverlap() {
     var syns = synset.getSynonyms();
 
     // get involved ontologies
-    var ontos = new Set( syns.map( (syn) => syn.getOntology() ) );
+    var ontos = new Set( 
+                  syns.map( (syn) => syn.getOntology() )
+                      .filter( (onto) => !excludes.includes( onto ) )
+                );
 
     // count shared units
     shared_total[ ontos.size ] = shared_total[ ontos.size ] || [];
@@ -107,17 +132,18 @@ function statisticUnitOverlap() {
 
         });
 
+  // filtered or unfiltered?
+  const filtered = excludes.length > 0 ? ' filtered' : ''; 
+      
   // persist results
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - shared noPrefix', shared_noPrefix );
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - shared total', shared_total );
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - sharedCounts noPrefix', sharedCounts_noPrefix );
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - sharedCounts total', sharedCounts_total );
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - overlap noPrefix', overlap_noPrefix );
-  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - overlap total', overlap_total );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - shared noPrefix' + filtered,       shared_noPrefix );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - shared total' + filtered,          shared_total );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - sharedCounts noPrefix' + filtered, sharedCounts_noPrefix );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - sharedCounts total' + filtered,    sharedCounts_total );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - overlap noPrefix' + filtered,      overlap_noPrefix );
+  OntoStore.storeResult( localCfg.moduleKey, localCfg.moduleName + ' - overlap total' + filtered,         overlap_total );
 
-  // done
-  return Q( true );
-
+  
 }
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Export XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */

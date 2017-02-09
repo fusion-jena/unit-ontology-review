@@ -29,5 +29,11 @@ module.exports = {
 
     // restrict mapping languages to English and neutral
     restrictMappingLanguage: true,
+    
+    // for some calculations it might be helpful to exclude some ontologies
+    // list the excluded ontologies
+    // note that the respective calculations will be done for both all ontologies 
+    // and the reduced set of ontologies
+    filteredOntologies: [ 'WD' ],
 
 };
