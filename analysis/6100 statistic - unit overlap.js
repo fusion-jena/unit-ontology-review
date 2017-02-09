@@ -69,9 +69,16 @@ function doCalc( excludes ) {
 
     // get involved ontologies
     var ontos = new Set( 
+                  // get all involved ontologies
                   syns.map( (syn) => syn.getOntology() )
+                  // remove excluded ones
                       .filter( (onto) => !excludes.includes( onto ) )
                 );
+    
+    // skip, if no ontologies remain
+    if( ontos.size < 1 ) {
+      continue;
+    }
 
     // count shared units
     shared_total[ ontos.size ] = shared_total[ ontos.size ] || [];
@@ -128,7 +135,6 @@ function doCalc( excludes ) {
           shared_noPrefix[ key ] = shared_noPrefix[ key ].map( (syns) => {
             return syns.map( (syn) => syn.getURI() );
           });
-
 
         });
 
