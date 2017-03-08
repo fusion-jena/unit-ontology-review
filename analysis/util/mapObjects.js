@@ -162,15 +162,15 @@ function mapObjects( param, log ) {
       // get both syn sets
       var syn1 = lookup[ mapping[0] ],
           syn2 = lookup[ mapping[1] ];
-      
+
       // just make sure, there is no invalid object referenced here
       if( !syn1 || !syn2 ) {
         if( log ) {
 
           if( !syn1 ) {
-            log( '   unknown URL in sameAs: ' + mapping[0], Log.ERROR );
+            log( '   manual mapping - unknown URL in sameAs: ' + mapping[0], Log.ERROR );
           } else {
-            log( '   unknown URL in sameAs: ' + mapping[1], Log.ERROR );
+            log( '   manual mapping - unknown URL in sameAs: ' + mapping[1], Log.ERROR );
           }
         }
         continue;
@@ -207,6 +207,16 @@ function mapObjects( param, log ) {
     
     // make sure we just use URIs of the involved ontologies
     if( !syn1 || !syn2 ) {
+      if( log ) {
+
+        // make sure we know at least one URL
+        // removes errors caused by sameAs from another type
+        if( !syn1 && syn2 ) {
+          log( '   sameAs - unknown URL in sameAs (0): ' + JSON.stringify( mapping ), Log.ERROR );
+        } else if( syn1 && !syn2 ){
+          log( '   sameAs - unknown URL in sameAs (1): ' + JSON.stringify( mapping ), Log.ERROR );
+        }
+      }
       continue;
     }
     
