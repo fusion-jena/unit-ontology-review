@@ -260,6 +260,7 @@ function getMime( filename ) {
   switch( ext ) {
     case 'ttl': return 'text/turtle';
 
+    case 'rdf':
     case 'xml':
     case 'owl': return 'application/rdf+xml';
 
