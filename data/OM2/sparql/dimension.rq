@@ -1,0 +1,25 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT  ?dimension
+        ?label
+        ?labelLang
+        ?dimLength
+        ?dimMass
+        ?dimTime
+        ?dimElec
+        ?dimThermo
+        ?dimAmount
+        ?dimLum
+WHERE {
+  ?dimension a                                                  om:Dimension ;
+             rdfs:label                                         ?label ;
+             om:hasSILengthDimensionExponent                    ?dimLength ;
+             om:hasSIMassDimensionExponent                      ?dimMass ;
+             om:hasSITimeDimensionExponent                      ?dimTime ;
+             om:hasSIElectricCurrentDimensionExponent           ?dimElec ;
+             om:hasSIThermodynamicTemperatureDimensionExponent  ?dimThermo ;
+             om:hasSIAmountOfSubstanceDimensionExponent         ?dimAmount ;
+             om:hasSILuminousIntensityDimensionExponent         ?dimLum ;
+             
+  BIND( LANG(?label) AS ?labelLang )
+}

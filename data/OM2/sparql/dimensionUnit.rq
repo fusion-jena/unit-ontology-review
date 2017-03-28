@@ -1,0 +1,9 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT  ?dimension
+        ?unit
+WHERE {
+  ?dimension  a                 om:Dimension .  
+  ?unit       a                 om:Unit ;
+              om:hasDimension   ?dimension .
+}

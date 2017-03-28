@@ -1,0 +1,11 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT DISTINCT
+       ?appField
+       ?quantKind
+WHERE {
+  ?appField   a                 om:ApplicationArea .
+  ?quantKind  rdfs:subClassOf|a om:Quantity .
+  
+  ?appField om:usesQuantity ?quantKind .
+}

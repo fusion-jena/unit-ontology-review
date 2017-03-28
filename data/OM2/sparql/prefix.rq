@@ -1,0 +1,18 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?prefix
+        ?factor
+        ?label
+        ?labelLang
+WHERE {
+  ?prefix a             om:Prefix ;
+          om:hasFactor  ?factor ;
+          rdfs:label    ?label .
+  
+  FILTER NOT EXISTS { ?prefix a om:Unit . }
+  FILTER NOT EXISTS { ?prefix a om:Scale . }
+
+  BIND( LANG(?label) AS ?labelLang )
+
+}

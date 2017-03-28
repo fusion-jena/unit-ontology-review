@@ -1,0 +1,8 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT  ?appField
+        ?unit
+WHERE {
+  ?appField a           om:ApplicationArea ;
+            om:usesUnit ?unit .
+}

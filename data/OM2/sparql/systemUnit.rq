@@ -1,0 +1,12 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?system
+        ?unit
+WHERE {
+  
+  ?unit   a          om:Unit .
+  ?system a          om:SystemOfUnits ;
+         (om:hasBaseUnit|om:hasDerivedUnit) ?unit .
+
+}

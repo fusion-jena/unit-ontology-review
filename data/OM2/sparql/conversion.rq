@@ -1,0 +1,46 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT  ?unit1
+        ?unit2
+        ?convFactor
+        ?convOffset
+WHERE {
+
+  ?unit1 a om:Unit .
+  ?unit2 a om:Unit .
+  
+# conversion by prefix
+  {
+    ?unit1  om:hasUnit    ?unit2 .
+    ?unit1  om:hasPrefix/om:hasFactor ?convFactor .
+    BIND( 0 AS ?convOffset ) .
+  }
+
+  UNION
+  
+# direct conversion
+  {
+    ?unit1  om:hasUnit   ?unit2 ;
+            om:hasFactor ?convFactor .
+    BIND( 0 AS ?convOffset ) .
+    FILTER NOT EXISTS {
+      ?scale  a om:Scale ;
+              om:hasUnit ?unit1 .
+    }
+  }
+
+  UNION 
+  
+# conversion by scale
+  {
+    ?scale1 a           om:Scale ;
+            om:hasUnit  ?unit1 .
+    ?scale2 a           om:Scale ;
+            om:hasUnit  ?unit2 .
+            
+    ?scale2 om:hasFactor  ?convFactor ;
+            om:hasOff-Set ?convOffset ;
+            om:hasScale   ?scale1 .
+  }
+
+}

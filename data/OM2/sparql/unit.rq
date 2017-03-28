@@ -1,0 +1,22 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT
+        ?unit
+        ?label
+        ?labelLang
+        ?symbol
+        ?definition
+WHERE {
+
+  ?unit a om:Unit ;
+  
+  OPTIONAL { 
+    ?unit rdfs:label  ?label 
+    BIND( LANG(?label) AS ?labelLang )
+  }
+
+  OPTIONAL { ?unit om:symbol ?symbol }
+  OPTIONAL { ?unit rdfs:comment ?definition }
+
+}

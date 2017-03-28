@@ -1,0 +1,27 @@
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+SELECT DISTINCT
+        ?unit
+        ?prefix
+        ?baseUnit
+WHERE {
+
+# prefixed singular units
+  {
+    ?unit a             om:Unit ;
+          om:hasPrefix  ?prefix ;
+          om:hasUnit    ?baseUnit .
+  }
+  UNION
+  
+# prefix compound units
+  {
+    ?unit a om:Unit ;
+        (om:hasTerm1|om:hasTerm2|om:hasDenominator|om:hasNnumerator|om:hasBase)+     ?compound .
+  
+    FILTER EXISTS { 
+      ?compound a om:PrefixedUnit .
+    }
+    
+  }
+}
