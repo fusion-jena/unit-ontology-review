@@ -517,6 +517,14 @@ function fileExists( path ) {
  */
 function freeze( obj ) {
 
+  /*
+   *  currently disabled as some Wikidata entities belong to mulitple types, 
+   *  which results in an error at a later stage
+   *  
+   *  => trying to create the object once for unit and once for quantity
+   */
+  return obj;
+  
   // freeze itself
   Object.freeze( obj );
 
