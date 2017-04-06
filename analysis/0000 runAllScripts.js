@@ -23,6 +23,11 @@ var localCfg = {
       Log( localCfg.moduleName, msg, type );
     };
 
+// clear log file, if is set
+if( Cfg.logToFile ) {
+  require( 'fs' ).truncateSync( Cfg.logToFile );
+}
+
 // set up the script run
 var scripts;
 

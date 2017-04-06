@@ -1,9 +1,17 @@
 "use strict";
+
+// includes
+const Cfg = require( '../config/config' ),
+      Fs  = require( 'fs' );
+
 /**
  * unified logging schema including date and source
  */
 
 function log( src, msg, type ){
+  
+  // variables
+  let cmsg = msg;   // colored msg
   
   // format date
   var now = new Date().toISOString();
@@ -17,10 +25,32 @@ function log( src, msg, type ){
       case log.MESSAGE: 
       default:          color = 'normal'; break;
     }
-    msg = colored( msg, color );
+    cmsg = colored( msg, color );
   }
   
-  console.log( now, colored( '[' + src + ']', 'bold' ), msg );
+  // log to file, if enabled
+  if( Cfg.logToFile ) {
+    
+    // build log String
+    const entry = '<div style="white-space: pre; font-family: monospace;' 
+                    + (
+                        color 
+                          ? 'background-color: ' + color + ';'
+                          : ''
+                      )
+                    + '">'
+                    + now
+                    + ' [' + src + '] '
+                    + msg
+                    + '</div>\n';
+    
+    // append to log file
+    Fs.appendFileSync( Cfg.logToFile, entry );
+    
+  }
+  
+  // log to console
+  console.log( now, colored( '[' + src + ']', 'bold' ), cmsg );
   
 };
 

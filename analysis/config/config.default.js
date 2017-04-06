@@ -36,4 +36,8 @@ module.exports = {
     // and the reduced set of ontologies
     filteredOntologies: [ 'WD' ],
 
+    // store a copy of the log in a HTML-file
+    // false deactivates logging to file
+    // other values are interpreted as paths
+    logToFile: false,
 };
