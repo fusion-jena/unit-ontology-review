@@ -25,7 +25,7 @@ var localCfg = {
 
 // clear log file, if is set
 if( Cfg.logToFile ) {
-  require( 'fs' ).truncateSync( Cfg.logToFile );
+  Fs.writeFileSync( Cfg.logToFile, '' );
 }
 
 // set up the script run
