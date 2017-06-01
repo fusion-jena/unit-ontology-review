@@ -1,6 +1,5 @@
 "http://www.wurvoc.org/vocabularies/om-1.8/electric_potential-dimension";"http://qudt.org/vocab/quantity#EnergyPerElectricCharge";"see https://en.wikipedia.org/wiki/Electric_potential 'electric potential is [...] equal to the electric potential energy of any charged particle at any location divided by the charge of that particle'"
 "http://www.wurvoc.org/vocabularies/om-1.8/electrical_resistance-dimension";"http://qudt.org/vocab/quantity#Resistance"
-"http://www.wurvoc.org/vocabularies/om-1.8/magnetic_flux_density-dimension";"http://qudt.org/vocab/quantity#MagneticField";"see https://en.wikipedia.org/wiki/Magnetic_field#Definitions.2C_units.2C_and_measurement"
 "http://www.wurvoc.org/vocabularies/om-1.8/illuminance-dimension";"http://qudt.org/vocab/quantity#LuminousFluxPerArea";"see https://en.wikipedia.org/wiki/Illuminance"
 "http://www.wurvoc.org/vocabularies/om-1.8/surface_tension-dimension";"http://qudt.org/vocab/quantity#ForcePerLength";"see https://en.wikipedia.org/wiki/Surface_tension 'Surface tension has the dimension of force per unit length [...]'"
 "http://www.wurvoc.org/vocabularies/om-1.8/mass_flow-dimension";"http://qudt.org/vocab/quantity#MassPerTime";"see https://en.wikipedia.org/wiki/Mass_flow_rate '[...] mass flow rate is the mass of a substance which passes per unit of time '"
