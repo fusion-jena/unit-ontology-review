@@ -60,8 +60,8 @@ function checkDuplicatedDimVector() {
 
       // if we have a hash at all, put in the lookup
       if( hashSet ) {
-        lookup[ hash ] = lookup[ hash ] || [];
-        lookup[ hash ].push( dims[j].dimension );
+        lookup[ hash ] = lookup[ hash ] || new Set();
+        lookup[ hash ].add( dims[j].dimension );
       }
 
     }
@@ -69,9 +69,9 @@ function checkDuplicatedDimVector() {
     // check the lookup for duplicates
     var keys = Object.keys( lookup );
     for( var j=0; j<keys.length; j++ ) {
-      if( lookup[ keys[j] ].length > 1 ) {
+      if( lookup[ keys[j] ].size > 1 ) {
         dups.push( lookup[ keys[j] ] )
-        log( '   found possible duplicate(s): ' + JSON.stringify( lookup[ keys[j] ] ), Log.WARNING );
+        log( '   found possible duplicate(s): ' + JSON.stringify( [ ... lookup[ keys[j] ] ] ), Log.WARNING );
       }
     }
 
