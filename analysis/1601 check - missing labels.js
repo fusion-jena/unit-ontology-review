@@ -1,9 +1,9 @@
 "use strict";
 /**
- * list all individuals, which have multiple labels
+ * list all individuals, which have no labels
  *
  * output
- * - "check - multiple labels" ... list per ontology of individuals with multiple labels
+ * - "check - missing labels" ... list per ontology of individuals with no labels
  */
 
 // includes
@@ -14,8 +14,8 @@ var Q        = require( 'q' ),
 
 // local settings
 var localCfg = {
-      moduleName: 'check - multiple labels',
-      moduleKey:  '1600'
+      moduleName: 'check - missing labels',
+      moduleKey:  '1601'
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
@@ -24,7 +24,7 @@ var localCfg = {
 
 function checkMultipleLabels() {
 
-  log( 'searching for individuals with multiple labels' );
+  log( 'searching for individuals with no labels' );
 
   // find datasets with labels
   log( '   searching for datasets with labels' );
@@ -54,54 +54,35 @@ function checkMultipleLabels() {
       var lookup = {};
       for( var entry of data ){
 
-        // skip those without labels
-        if( typeof entry.label == 'undefined' ) {
-          continue;
-        }
-
-        // make sure the entry exists
-        lookup[ entry[ type ] ] = lookup[ entry[ type ] ] || {};
-        lookup[ entry[ type ] ][ entry.labelLang ] = lookup[ entry[ type ] ][ entry.labelLang ] || new Set();
+        // make sure entry is present
+        lookup[ entry[ type ] ] = lookup[ entry[ type ] ] || new Set();
 
         // add label
-        lookup[ entry[ type ] ][ entry.labelLang ].add( entry.label );
+        lookup[ entry[ type ] ].add( entry.label );
 
       }
 
       // filter for those with more than one label
-      var multiLabel = []
+      var missingLabel = []
       Object.keys( lookup )
             .forEach( (uri) => {
 
               // shortcut
               var labels = lookup[ uri ];
 
-              // check all languages
-              Object.keys( labels )
-                    .forEach( (lang) => {
+              // only one entry, which is "undefined" => missing label
+              if( (labels.size == 1) && labels.has() ) {
+                missingLabel.push( uri );
+              }
 
-                      // for those with multiple labels ...
-                      if( labels[ lang ].size > 1 ) {
-
-                        // ... add to result
-                        multiLabel.push({
-                          uri:    uri,
-                          lang:   lang,
-                          labels: [ ... labels[lang] ]
-                        });
-
-                      }
-
-                    })
-
-            })
+            });
 
       // add to result
       resultsPerOntology[ onto ] = resultsPerOntology[ onto ] || {};
-      resultsPerOntology[ onto ][ type ] = multiLabel;
+      resultsPerOntology[ onto ][ type ] = missingLabel;
 
       // log
-      log( '      ' + type + ': ' + multiLabel.length, multiLabel.length > 0 ? Log.WARNING : Log.MESSAGE );
+      log( '      ' + type + ': ' + missingLabel.length, missingLabel.length > 0 ? Log.WARNING : Log.MESSAGE );
     }
 
   }
