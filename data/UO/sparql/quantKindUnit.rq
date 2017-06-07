@@ -7,7 +7,7 @@ PREFIX pato: <http://purl.obolibrary.org/obo/pato#>
 SELECT DISTINCT ?quantKind ?unit
 WHERE {
   {?unit oboInOwl:inSubset uo:unit_slim.
-    FILTER (?unit NOT IN (obo:UO_0000310, obo:UO_0000312, obo:UO_0000313, obo:UO_0000314))}
+    FILTER (?unit NOT IN (obo:UO_0000180, obo:UO_0000237, obo:UO_0000238, obo:UO_0000260, obo:UO_0000310, obo:UO_0000312, obo:UO_0000313, obo:UO_0000314))}
   UNION
   {VALUES ?unit {obo:UO_0000315 obo:UO_0000316 obo:UO_0000317 obo:UO_0000318 obo:UO_0000320 obo:UO_0000322 obo:UO_0000323 obo:UO_0000324 obo:UO_0000328 obo:UO_0000331 obo:UO_0000332 obo:UO_0000277 obo:UO_0000278}}.
   ?unit rdfs:subClassOf ?assignment.  

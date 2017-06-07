@@ -1,9 +1,13 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX hrela: <http://sweet.jpl.nasa.gov/2.3/relaHuman.owl#>
+PREFIX doma: <http://sweet.jpl.nasa.gov/2.3/humanKnowledgeDomain.owl#>
+PREFIX prop: <http://sweet.jpl.nasa.gov/2.3/prop.owl#>
 
 SELECT DISTINCT ?appField ?quantKind
 WHERE {
+  ?appField rdfs:subClassOf doma:KnowledgeDomain.
+  ?quantKind rdfs:subClassOf prop:Property.
   ?assignment owl:onProperty hrela:studyOf.
   {?assignment  owl:allValuesFrom ?appField.}
   UNION
