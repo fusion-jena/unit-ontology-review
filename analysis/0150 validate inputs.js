@@ -137,5 +137,5 @@ function testExistance( path ) {
 if(require.main === module) {
   validateInputs().done();
 } else {
-  module.validateInputs = extract;
+  module.exports = validateInputs;
 }
