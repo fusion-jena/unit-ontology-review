@@ -5,7 +5,7 @@ For an general overview please refer to File and Folder Structure.
 
 # Dependencies
 
-* [NodeJS](https://nodejs.org/) at least version 6
+* [NodeJS](https://nodejs.org/) at least version 7
 * [Sesame](http://rdf4j.org/)
 
 # Installation
@@ -68,28 +68,32 @@ For dependencies of the scripts please run `0100 listFiles.js` and refer to the 
 For reasons of licensing we can only provide the SPARQL queries used to extract the individuals, but not the ontology files themselves. Please refer to the respective ontologies to obtain the required files:
 
 * MUO: http://idi.fundacionctic.org/muo/
-* OBOE: https://semtools.ecoinformatics.org/oboe
+* OBOE:  https://code.ecoinformatics.org/code/semtools/trunk/dev/oboe/
 * OM: http://www.wurvoc.org/vocabularies/om-1.8/
+* OM2:  https://github.com/HajoRijgersberg/OM
 * QU: https://www.w3.org/2005/Incubator/ssn/ssnx/qu/
 * QUDT: http://www.qudt.org/
 * SWEET: http://sweet.jpl.nasa.gov/
 * UO + PATO: http://purl.obolibrary.org/obo/uo.owl + http://purl.obolibrary.org/obo/pato.owl
+* Wikidata: https://query.wikidata.org/ (public SPARQL endpoint)
 
 # Adding further ontologies
 
-Further ontologies can easily be added to the evaluation by performing the following steps:
+Further ontologies can easily be added by either providing suitable ontology files or a supporting SPARQL endpoint. Adhere to the following steps and choose in step 2 between source files and SPARQL endpoint.
 
-1. Create the folder `/data/[Ontology]/src` and add the ontology file(s) into them.
-2. Create the folder `/data/[Ontology]/sparql` and add a SPARQL query (in a `.rq` file) for each covered concept. The concepts and their regarding attributes are defined in [`/analysis/config/structure.js`](../master/analysis/config/structure.js).
+1. Create the folder `/data/[Ontology]/sparql` and add a SPARQL query (in a `.rq` file) for each covered concept. The concepts and their attributes are defined in [`/analysis/config/structure.js`](../master/analysis/config/structure.js).
+2. Create the folder `/data/[Ontology]/src`. Choose one of the following:
+    a. Source Files: Add the ontology file(s).
+    b. SPARQL Endpoint: Add a file `endpoint.js` that includes the required connection details. An example can be found in `data/WD/src/endpoint.js`.
 
-The added Ontology will then be automatically involved at the next execution of the evaluation scripts. 
+The added ontology will then be automatically involved at the next execution of the evaluation scripts. 
 
 # Precomputed Results
 
 We provide precomputed results in two ways, which can be found using the following links:
 
-* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.2.0/extracted_individuals.zip)
-* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.2.0.zip)
+* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.3.0/extracted_individuals.zip)
+* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.3.0.zip)
 
 # Acknowledgments
 
