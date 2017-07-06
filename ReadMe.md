@@ -83,7 +83,9 @@ Further ontologies can easily be added by either providing suitable ontology fil
 
 1. Create the folder `/data/[Ontology]/sparql` and add a SPARQL query (in a `.rq` file) for each covered concept. The concepts and their attributes are defined in [`/analysis/config/structure.js`](../master/analysis/config/structure.js).
 2. Create the folder `/data/[Ontology]/src`. Choose one of the following:
+
     a. Source Files: Add the ontology file(s).
+    
     b. SPARQL Endpoint: Add a file `endpoint.js` that includes the required connection details. An example can be found in `data/WD/src/endpoint.js`.
 
 The added ontology will then be automatically involved at the next execution of the evaluation scripts. 
