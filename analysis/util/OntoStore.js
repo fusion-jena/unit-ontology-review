@@ -557,7 +557,7 @@ function getLanguagePref( onto ) {
   let res = getResult( 'languagePref' );
 
   // if we already got something, just return from there
-  if( res ) {
+  if( res && (onto in res)) {
     return res[ onto ];
   }
 

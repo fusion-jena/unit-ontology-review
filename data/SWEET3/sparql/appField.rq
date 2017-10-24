@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX doma: <http://sweetontology.net/humanKnowledgeDomain/>
+
+SELECT  ?appField 
+        ?label
+        ?labelLang
+WHERE {
+	?appField rdfs:subClassOf doma:KnowledgeDomain
+}

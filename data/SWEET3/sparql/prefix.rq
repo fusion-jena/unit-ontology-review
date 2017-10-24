@@ -1,0 +1,12 @@
+PREFIX relaSci: <http://sweetontology.net/relaSci/>
+PREFIX units: <http://sweetontology.net/reprSciUnits/>
+
+SELECT  ?prefix 
+        ?factor 
+        ?label
+        ?labelLang
+WHERE {
+  ?prefix a units:Prefix.
+#  OPTIONAL { ?prefix relaSci:hasSymbol ?label }
+  OPTIONAL { ?prefix relaSci:hasNumericValue ?factor }
+}
