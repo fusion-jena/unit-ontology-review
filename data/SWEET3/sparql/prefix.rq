@@ -1,5 +1,5 @@
-PREFIX relaSci: <http://sweet.jpl.nasa.gov/2.3/relaSci.owl#>
-PREFIX units: <http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#>
+PREFIX relaSci: <http://sweetontology.net/relaSci/>
+PREFIX units: <http://sweetontology.net/reprSciUnits/>
 
 SELECT  ?prefix 
         ?factor 
