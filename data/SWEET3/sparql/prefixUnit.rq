@@ -1,0 +1,10 @@
+prefix sweetUnits: <http://sweetontology.net/reprSciUnits/>
+prefix sweetSci: <http://sweetontology.net/relaSci/>
+
+SELECT ?unit
+       ?prefix
+       ?baseUnit
+WHERE {
+  ?unit sweetSci:hasPrefix ?prefix
+  OPTIONAL {?unit sweetSci:hasBaseUnit ?baseUnit}
+}

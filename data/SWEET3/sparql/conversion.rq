@@ -1,0 +1,18 @@
+prefix sweetUnits: <http://sweetontology.net/reprSciUnits/>
+prefix sweetMath: <http://sweetontology.net/relaMath/>
+prefix sweetSci: <http://sweetontology.net/relaSci/>
+
+SELECT DISTINCT ?unit1 
+                ?convFactor (-1*?convOffsetValue*IF(BOUND(?convFactor),?convFactor,1) AS ?convOffset)
+                ?unit2
+WHERE {
+  {
+    ?unit1 sweetMath:hasScalingNumber ?convFactor
+  	OPTIONAL {?unit1 sweetMath:hasShiftingNumber ?convOffsetValue}
+    OPTIONAL {?unit1 sweetSci:hasBaseUnit ?unit2}
+  } UNION {
+  	?unit1 sweetMath:hasShiftingNumber ?convOffsetValue
+    OPTIONAL {?unit1 sweetMath:hasScalingNumber ?convFactor}
+    OPTIONAL {?unit1 sweetSci:hasBaseUnit ?unit2}
+  }
+}

@@ -1,0 +1,14 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX units: <http://sweetontology.net/reprSciUnits/>
+
+SELECT ?object ?sameAs
+WHERE {
+  {?object owl:equivalentClass ?sameAs.}
+  UNION
+  {?object owl:sameAs ?sameAs.}
+  
+  FILTER( !isBlank( ?object ) )
+  FILTER( !isBlank( ?sameAs ) )  
+  FILTER( ?object != units:hertz && ?sameAs != units:hertz || ?sameAs = units:perSecond && ?object = units:perSecond )  # remove 'units:hertz owl:sameAs units:perSecond'
+  FILTER( ?object != units:FTU && ?sameAs != units:FTU || ?sameAs = units:FNU && ?object = units:FNU )  # remove 'units:FTU owl:sameAs units:FNU'
+}

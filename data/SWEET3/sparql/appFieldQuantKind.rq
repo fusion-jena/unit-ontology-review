@@ -1,0 +1,18 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX hrela: <http://sweetontology.net/relaHuman/>
+PREFIX doma: <http://sweetontology.net/humanKnowledgeDomain/>
+PREFIX prop: <http://sweetontology.net/prop/>
+
+SELECT DISTINCT ?appField
+                ?quantKind
+WHERE {
+  ?appField rdfs:subClassOf doma:KnowledgeDomain.
+  ?quantKind rdfs:subClassOf prop:Property.
+  ?assignment owl:onProperty hrela:studyOf.
+  {?assignment  owl:allValuesFrom ?appField.}
+  UNION
+  {?assignment  owl:someValuesFrom ?appField.}
+  ?quantKind rdfs:subClassOf ?assignment.
+  FILTER (?quantKind != ?assignment)
+}

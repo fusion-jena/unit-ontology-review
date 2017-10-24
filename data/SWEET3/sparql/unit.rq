@@ -1,0 +1,15 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX units: <http://sweetontology.net/reprSciUnits/>
+PREFIX relaSci: <http://sweetontology.net/relaSci/>
+
+SELECT DISTINCT   ?unit 
+                  ?label
+                  ?labelLang
+                  ?symbol
+WHERE {
+  ?unit a/rdfs:subClassOf units:Unit.
+	OPTIONAL {
+	 ?unit relaSci:hasSymbol ?symbol.
+	 BIND( LANG(?label) AS ?labelLang )
+  }
+}

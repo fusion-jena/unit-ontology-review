@@ -1,0 +1,12 @@
+PREFIX relaSci: <http://sweet.jpl.nasa.gov/2.3/relaSci.owl#>
+PREFIX units: <http://sweet.jpl.nasa.gov/2.3/reprSciUnits.owl#>
+
+SELECT  ?prefix 
+        ?factor 
+        ?label
+        ?labelLang
+WHERE {
+  ?prefix a units:Prefix.
+#  OPTIONAL { ?prefix relaSci:hasSymbol ?label }
+  OPTIONAL { ?prefix relaSci:hasNumericValue ?factor }
+}
