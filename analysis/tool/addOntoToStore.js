@@ -20,8 +20,8 @@ var localCfg = {
       repo:       'sweet3',
       store:      'http://localhost:8079/openrdf-sesame/repositories/',
     },
-    log = function( msg ) {
-      Log( localCfg.moduleName, msg );
+    log = function( msg, type ) {
+      Log( localCfg.moduleName, msg, type );
     };
 
 
@@ -105,7 +105,10 @@ function processOnto( onto ) {
                     var content = Fs.readFileSync( ontoSrcPath + filename, 'utf8' );
 
                     // add
-                    return store.addTriples( getMime( filename ), content );
+                    return store.addTriples( getMime( filename ), content )
+                                .catch( (e) => {
+                                  log('     Error: ' + e, Log.ERROR );
+                                });
 
                   })
 

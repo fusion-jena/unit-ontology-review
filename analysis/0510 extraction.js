@@ -105,7 +105,10 @@ function processOnto( onto ) {
                     var content = Fs.readFileSync( ontoSrcPath + filename, 'utf8' );
 
                     // add
-                    return store.addTriples( getMime( filename ), content );
+                    return store.addTriples( getMime( filename ), content )
+                                .catch( (e) => {
+                                  log('     Error: ' + e, Log.ERROR );
+                                });
 
                   })
 

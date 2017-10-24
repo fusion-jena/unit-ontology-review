@@ -24,28 +24,34 @@ RDFStore.prototype.create = function(){
 RDFStore.prototype.truncate = function(){
   // pre result
   var result = Q.defer();
-  
+
   // assemble options
   var args = {
       'uri':    Cfg.sparqlEndpointPost,
       'method': 'DELETE',
   };
-  
+
   // run the request
   Request( args, function( err, response, body ){
-    
+
     // error handling
     if( err ) {
       result.reject( err );
       return;
     }
-    
+
+    // handle HTTP errors
+    if( response.statusCode >= 400 ) {
+      result.reject( body );
+      return;
+    }
+
     // relay result
     result.resolve( true );
-    
+
   });
-  
-  // return 
+
+  // return
   return result.promise;
 };
 
@@ -56,10 +62,10 @@ RDFStore.prototype.truncate = function(){
  * @returns {Number}            the amount of added triples
  */
 RDFStore.prototype.addTriples = function( mime, content ){
-  
+
   // pre result
   var result = Q.defer();
-  
+
   // assemble options
   var args = {
       'uri':    Cfg.sparqlEndpointPost,
@@ -69,25 +75,31 @@ RDFStore.prototype.addTriples = function( mime, content ){
       },
       'body': content
   };
-  
+
   // run the request
   Request( args, function( err, response, body ){
-    
+
     // error handling
     if( err ) {
       result.reject( err );
       return;
     }
-    
+
+    // handle HTTP errors
+    if( response.statusCode >= 400 ) {
+      result.reject( body );
+      return;
+    }
+
     // relay result
     // TODO
     result.resolve( 123 );
-    
+
   });
-  
-  // return 
+
+  // return
   return result.promise;
-  
+
 };
 
 /**
@@ -96,10 +108,10 @@ RDFStore.prototype.addTriples = function( mime, content ){
  * @returns {Array}           the result
  */
 RDFStore.prototype.execQuery = function( query ) {
-  
+
   // pre result
   var result = Q.defer();
-  
+
   // assemble options
   var args = {
       'uri':    Cfg.sparqlEndpointGet,
@@ -112,16 +124,22 @@ RDFStore.prototype.execQuery = function( query ) {
         'output': 'json'
       }
   };
-  
+
   // run the request
   Request( args, function( err, response, body ){
-    
+
     // error handling
     if( err ) {
       result.reject( err );
       return;
     }
-    
+
+    // handle HTTP errors
+    if( response.statusCode >= 400 ) {
+      result.reject( body );
+      return;
+    }
+
     // parse result object
     var resObj;
     try {
@@ -130,18 +148,18 @@ RDFStore.prototype.execQuery = function( query ) {
       result.reject( e );
       return;
     }
-    
+
     // relay result (and filter empty bindings)
     result.resolve( resObj['results']['bindings'].filter( function( el ){
       var keys = Object.keys( el );
       return keys.length > 0;
     }));
-    
+
   });
-  
-  // return 
+
+  // return
   return result.promise;
-  
+
 }
 
 module.exports = RDFStore;
