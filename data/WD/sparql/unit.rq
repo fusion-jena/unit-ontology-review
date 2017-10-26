@@ -22,8 +22,6 @@ WHERE {
       wd:Q577
       # decades
       wd:Q39911
-      # events
-      wd:Q1190554
       # geological age
       wd:Q568683
       # geological era
