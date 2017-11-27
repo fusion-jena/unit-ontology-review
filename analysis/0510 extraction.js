@@ -150,6 +150,19 @@ function processOnto( onto ) {
                               // create file name
                               var filename = queryFile.replace( '.rq', '.json' )
 
+                              // sort results
+                              if( result.length > 0 ) {
+                                const sortKeys = Object.keys( result[0] );
+                                result.sort( (a,b) => {
+                                  for( let i=0; i<sortKeys.length; i++ ) {
+                                    if( a[sortKeys[i]] != b[sortKeys[i]] ){
+                                      return ('' + a[sortKeys[i]]).localeCompare( '' + b[sortKeys[i]] );
+                                    }
+                                  }
+                                  return 0;
+                                });
+                              }
+
                               // write to file
                               Fs.writeFileSync( savePath + filename,
                                                 JSON.stringify( result, null, 2 ) );
