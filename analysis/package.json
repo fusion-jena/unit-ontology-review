@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "mathjs": "^2.7.0",
+    "mathjs": "^3.7.0",
     "mkdirp": "^0.5.1",
     "q": "^1.4.1",
     "request": "^2.67.0",
