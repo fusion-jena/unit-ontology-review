@@ -73,7 +73,8 @@ For reasons of licensing we can only provide the SPARQL queries used to extract 
 * OM2:  https://github.com/HajoRijgersberg/OM
 * QU: https://www.w3.org/2005/Incubator/ssn/ssnx/qu/
 * QUDT: http://www.qudt.org/
-* SWEET: http://sweet.jpl.nasa.gov/
+* SWEET2: http://sweet.jpl.nasa.gov/
+* SWEET3: https://github.com/ESIPFed/sweet
 * UO + PATO: http://purl.obolibrary.org/obo/uo.owl + http://purl.obolibrary.org/obo/pato.owl
 * Wikidata: https://query.wikidata.org/ (public SPARQL endpoint)
 
@@ -94,8 +95,8 @@ The added ontology will then be automatically involved at the next execution of 
 
 We provide precomputed results in two ways, which can be found using the following links:
 
-* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.3.0/extracted_individuals.zip)
-* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.3.0.zip)
+* [Result files of the extraction of individuals](https://github.com/fusion-jena/unit-ontology-review-results/releases/download/v1.4.0/extracted_individuals.zip)
+* [Result files of analysis](https://github.com/fusion-jena/unit-ontology-review-results/archive/v1.4.0.zip)
 
 # Acknowledgments
 
