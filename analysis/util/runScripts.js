@@ -1,13 +1,13 @@
 "use strict";
 /**
  * run all scripts
- * 
+ *
  * param:
  * - filter     ... function to filter the complete script list upon
  * - filterAll  ... get the complete script list and filter upon that
  *                  the return value is than used as new script list
  * - log        ... callback for logging
- * 
+ *
  */
 
 //includes
@@ -18,7 +18,7 @@ var Fs  = require( 'fs' ),
 
 
 module.exports = function runScripts( param ){
-  
+
   // get list of analysis scripts
   var scripts = listFiles( __dirname + '/../' ).sort();
 
@@ -36,12 +36,11 @@ module.exports = function runScripts( param ){
     scripts = param.filterAll( scripts );
   }
 
-  
   // if param is set, filter accordingly
   if( param && ('filter' in param) ) {
     scripts = scripts.filter( param.filter );
   }
-  
+
   // run remaining scripts in waterfall
   return scripts.reduce( function( prevTask, script ){
     return prevTask.then(function(){
@@ -49,8 +48,8 @@ module.exports = function runScripts( param ){
                       return module();
                     });
   }, Q(true) );
-  
-  
+
+
 };
 
 
@@ -59,9 +58,9 @@ module.exports = function runScripts( param ){
 * - removes some files like, e.g., .gitignore
 */
 function listFiles( path ) {
- 
+
  // RegExp to check for analysis script files
- var analysisRegexp = /^\d{4}.*\.js$/i;
+ var analysisRegexp = /^[a0-9]\d{3}.*\.js$/i;
 
  // list all files and filter
  return Fs.readdirSync( path )
