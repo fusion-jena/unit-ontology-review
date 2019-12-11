@@ -30,9 +30,9 @@ To actually run the scripts, there are a few different options:
 2. `0000 runAllScripts.js` will run all the scripts in their required order. As this included the extraction of individuals, please make sure a Sesame store is available and configured in `/analysis/config/config.js `
 3. If a certain number of scripts at the start should be skipped, please use `0010 runFromScript.js` and as a parameter add the (number of the) first script to run.
 To skip just the extraction of individuals, please use
-`node 0010 runFromScript.js 1000`
+`node "0010 runFromScript.js" 1000`
 4. If only a specific sequence of scripts should be run, use `0020 runScripts.js` and add as parameters the numbers for all scripts to be run. Note, that this will not check for any dependencies, so managing them is up to the user. An example refreshing the mapping units and their output to HTML might look like
-`node 0020 runScripts.js 4100 9100 9101`
+`node "0020 runScripts.js" 4100 9100 9101`
 
 # File and Folder Structure
 

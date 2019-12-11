@@ -24,7 +24,8 @@ var localCfg = {
     fixes = { // custom fixes to reduce false positives
         'milli': 'milli(?!on\\b)',
         'micro': 'micro(?!n\\b)',
-        'deci':  'deci(?!mal\\b)'
+        'deci':  'deci(?!mal\\b)',
+        'hecto': 'hecto|hectare\\b',
     };
 
 function heuristicPrefixedUnits() {

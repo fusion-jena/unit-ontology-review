@@ -11,7 +11,7 @@ var Fs          = require( 'fs' ),
     Q           = require( 'q' ),
     Log         = require( './util/log.js' ),
     runScripts  = require( './util/runScripts' );
-    
+
 // local settings
 var localCfg = {
       moduleName: 'runScripts',
@@ -19,14 +19,14 @@ var localCfg = {
     },
     log = function( msg, type ) {
       Log( localCfg.moduleName, msg, type );
-    };  
+    };
 
 // if no scripts have been set, end here
 if( process.argv.length < 3 ) {
-  
+
   log( 'no scripts given to execute', Log.ERROR );
   process.exit();
-  
+
 }
 
 // get list of scripts to be executed
@@ -38,14 +38,14 @@ var scripts = runScripts({
 
     // get number of script
     var number = script.substr( 0, 4 );
-    
+
     // compare against the given list
     if( requestedScripts.indexOf( number ) > -1 ){
       return true;
     } else {
       return false;
     }
-    
+
   }
 });
 
